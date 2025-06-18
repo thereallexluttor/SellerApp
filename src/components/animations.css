@@ -217,14 +217,134 @@
   .animate-bounceIn,
   .animate-scaleIn,
   .animate-smoothExpand,
+  .animate-selectItem,
+  .animate-slideInIndicator {
+    animation: none;
+  }
+  
   .transition-optimized,
   .transition-smooth,
-  .transition-bounce,
-  .hover-lift,
-  .sidebar-expand,
-  .icon-container,
-  .menu-item-enter {
-    animation: none;
+  .transition-bounce {
     transition: none;
   }
+  
+  .sidebar-expand {
+    transition: width 0.15s ease;
+  }
+}
+
+/* Apple-style Scrollbar - White Theme */
+.apple-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.6) rgba(255, 255, 255, 0.1);
+}
+
+.apple-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.apple-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  margin: 4px 0;
+}
+
+.apple-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.apple-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.apple-scrollbar::-webkit-scrollbar-thumb:active {
+  background: rgba(255, 255, 255, 1);
+}
+
+.apple-scrollbar::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Alternative dark apple scrollbar for contrast */
+.apple-scrollbar-dark {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.6) rgba(156, 163, 175, 0.1);
+}
+
+.apple-scrollbar-dark::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.apple-scrollbar-dark::-webkit-scrollbar-track {
+  background: rgba(156, 163, 175, 0.05);
+  border-radius: 4px;
+  margin: 4px 0;
+}
+
+.apple-scrollbar-dark::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.4);
+  border-radius: 4px;
+  border: 1px solid rgba(156, 163, 175, 0.1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.apple-scrollbar-dark::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.6);
+  border: 1px solid rgba(156, 163, 175, 0.2);
+  transform: scale(1.1);
+}
+
+.apple-scrollbar-dark::-webkit-scrollbar-thumb:active {
+  background: rgba(156, 163, 175, 0.8);
+}
+
+.apple-scrollbar-dark::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Kitchen section specific scrollbar styling */
+.kitchen-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.8) rgba(255, 255, 255, 0.1);
+}
+
+.kitchen-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.kitchen-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  margin: 2px 0;
+}
+
+.kitchen-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+  border-radius: 3px;
+  border: 0.5px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.kitchen-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.9) 100%);
+  border: 0.5px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.kitchen-scrollbar::-webkit-scrollbar-thumb:active {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+}
+
+.kitchen-scrollbar::-webkit-scrollbar-corner {
+  background: transparent;
 } 
