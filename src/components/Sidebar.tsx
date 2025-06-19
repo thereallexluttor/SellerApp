@@ -33,12 +33,26 @@ export function Sidebar({ className = '' }: SidebarProps) {
   const [isExpanded, setIsExpanded] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false)
   const [activeItem, setActiveItem] = useState('dashboard')
+  const [contentVisible, setContentVisible] = useState(false)
 
-  // Animation handling
+  // Enhanced animation handling
   useEffect(() => {
     setIsAnimating(true)
-    const timer = setTimeout(() => setIsAnimating(false), 300)
-    return () => clearTimeout(timer)
+    
+    if (isExpanded) {
+      // Delay content visibility for expand animation
+      const contentTimer = setTimeout(() => setContentVisible(true), 200)
+      const animationTimer = setTimeout(() => setIsAnimating(false), 400)
+      return () => {
+        clearTimeout(contentTimer)
+        clearTimeout(animationTimer)
+      }
+    } else {
+      // Hide content immediately for collapse animation
+      setContentVisible(false)
+      const timer = setTimeout(() => setIsAnimating(false), 300)
+      return () => clearTimeout(timer)
+    }
   }, [isExpanded])
 
   // Reordenamos los items del menú en grupos lógicos
@@ -148,9 +162,9 @@ export function Sidebar({ className = '' }: SidebarProps) {
         {/* Container for icon and badge */}
         <div className="relative">
           {/* Icon container */}
-          <div className={`w-12 h-12 flex items-center justify-center transition-all duration-200 flex-shrink-0 ${
+          <div className={`w-12 h-12 flex items-center justify-center flex-shrink-0 icon-modern ${
             activeItem === item.id 
-              ? 'text-white' 
+              ? 'text-white animate-iconFloat' 
               : 'group-hover:text-black'
           }`}>
             {item.icon}
@@ -158,15 +172,15 @@ export function Sidebar({ className = '' }: SidebarProps) {
 
           {/* Badge - now positioned to overlap the icon */}
           {!isExpanded && item.badge && (
-            <div className="absolute -top-0 right-[-8px] bg-black text-white text-xs font-medium px-1.5 py-0.5 rounded-full min-w-[18px] h-[18px] flex items-center justify-center leading-none shadow-sm border border-white z-50 animate-scaleIn transform -translate-y-1">
+            <div className="absolute -top-0 right-[-8px] bg-black text-white text-xs font-medium px-1.5 py-0.5 rounded-full min-w-[18px] h-[18px] flex items-center justify-center leading-none shadow-sm border border-white z-50 badge-modern transform -translate-y-1">
               {item.badge}
             </div>
           )}
         </div>
 
         {/* Expanded content */}
-        {isExpanded && (
-          <div className="ml-2 flex-1 min-w-0 animate-fadeInSlide flex items-center">
+        {isExpanded && contentVisible && (
+          <div className="ml-2 flex-1 min-w-0 animate-contentFadeIn flex items-center content-smooth">
             <div className="text-left">
               <p className={`font-medium text-sm tracking-normal truncate ${
                 activeItem === item.id ? 'text-white' : 'text-black'
@@ -182,7 +196,7 @@ export function Sidebar({ className = '' }: SidebarProps) {
             {/* Badge for expanded state - adjusted position */}
             {item.badge && (
               <div className="relative ml-auto mr-1">
-                <div className="absolute -top-2 right-[-0px] bg-black text-white text-xs font-medium px-1.5 py-0.5 rounded-full min-w-[18px] h-[18px] flex items-center justify-center leading-none shadow-sm border border-white z-50 animate-scaleIn">
+                <div className="absolute -top-2 right-[-0px] bg-black text-white text-xs font-medium px-1.5 py-0.5 rounded-full min-w-[18px] h-[18px] flex items-center justify-center leading-none shadow-sm border border-white z-50 badge-modern">
                   {item.badge}
                 </div>
               </div>
@@ -193,7 +207,7 @@ export function Sidebar({ className = '' }: SidebarProps) {
 
       {/* Tooltip for collapsed state */}
       {!isExpanded && (
-        <div className="absolute left-16 top-1/2 transform -translate-y-1/2 bg-black text-white px-3 py-2 rounded text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-30 shadow-lg">
+        <div className="absolute left-14 top-1/2 transform -translate-y-1/2 bg-black text-white px-3 py-2 rounded text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-30 shadow-lg">
           <div className="font-medium">{item.title}</div>
           <div className="text-xs text-gray-300">{item.description}</div>
           <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 border-2 border-transparent border-r-black"></div>
@@ -206,13 +220,15 @@ export function Sidebar({ className = '' }: SidebarProps) {
     <>
       {/* Main Sidebar Container */}
       <div 
-        className={`fixed top-0 left-0 h-full bg-white shadow-lg z-50 sidebar-expand backdrop-blur-sm gpu-accelerated border-r border-gray-100 overflow-hidden ${
-          isExpanded ? 'w-72' : 'w-18'
-        } ${isAnimating ? 'transition-smooth' : ''} ${className}`}
+        className={`fixed top-0 left-0 h-full bg-white shadow-lg z-50 backdrop-blur-sm gpu-accelerated border-r border-gray-100 overflow-hidden sidebar-modern ${
+          isExpanded ? 'w-60 animate-sidebarGlow' : 'w-16'
+        } ${isAnimating ? (isExpanded ? 'animate-sidebarExpand' : 'animate-sidebarCollapse') : ''} ${className}`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         style={{
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.02)',
+          boxShadow: isExpanded 
+            ? '0 20px 40px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.04)'
+            : '0 8px 32px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.02)',
           fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif'
         }}
       >
@@ -228,8 +244,8 @@ export function Sidebar({ className = '' }: SidebarProps) {
               </div>
               <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-black rounded-full border border-white"></div>
             </div>
-            {isExpanded && (
-              <div className="ml-3 animate-slideInRight">
+            {isExpanded && contentVisible && (
+              <div className="ml-3 animate-contentFadeIn">
                 <h3 className="text-black font-semibold text-base tracking-tight">Restaurant POS</h3>
                 <p className="text-gray-500 text-xs font-medium">Sistema de Ventas</p>
               </div>
@@ -237,7 +253,7 @@ export function Sidebar({ className = '' }: SidebarProps) {
           </div>
 
           {/* Main Navigation */}
-          <nav className={`flex-1 py-8 px-2 space-y-1 overflow-visible transition-all duration-300 flex flex-col justify-center ${
+          <nav className={`flex-1 py-8 px-2 space-y-1 overflow-visible content-smooth flex flex-col justify-center ${
             isExpanded ? 'opacity-100' : 'opacity-90'
           }`}>
             {/* Grupo 1: Dashboard y Notificaciones */}
@@ -257,7 +273,7 @@ export function Sidebar({ className = '' }: SidebarProps) {
           </nav>
 
           {/* Bottom Section */}
-          <div className={`p-2 space-y-1 transition-all duration-300 ${
+          <div className={`p-2 space-y-1 content-smooth ${
             isExpanded ? 'opacity-100 translate-y-0' : 'opacity-90 translate-y-1'
                     }`}>
             {bottomItems.map((item) => renderMenuItem(item, 0, 6))}
@@ -269,14 +285,14 @@ export function Sidebar({ className = '' }: SidebarProps) {
                   <div className="w-12 h-12 flex items-center justify-center transition-all duration-200 flex-shrink-0">
                     <HelpCircleIcon size={20} />
                   </div>
-                  {isExpanded && (
-                    <span className="ml-2 font-medium text-sm animate-fadeInSlide text-black truncate flex-1 text-left">
+                  {isExpanded && contentVisible && (
+                    <span className="ml-2 font-medium text-sm animate-contentFadeIn text-black truncate flex-1 text-left">
                       Ayuda
                     </span>
                   )}
                 </button>
                 {!isExpanded && (
-                  <div className="absolute left-16 top-1/2 transform -translate-y-1/2 bg-black text-white px-3 py-2 rounded text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-30 shadow-lg">
+                  <div className="absolute left-14 top-1/2 transform -translate-y-1/2 bg-black text-white px-3 py-2 rounded text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-30 shadow-lg">
                     Ayuda y Soporte
                     <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 border-2 border-transparent border-r-black"></div>
                   </div>
@@ -288,14 +304,14 @@ export function Sidebar({ className = '' }: SidebarProps) {
                   <div className="w-12 h-12 flex items-center justify-center transition-all duration-200 flex-shrink-0">
                     <LogOutIcon size={20} />
                   </div>
-                  {isExpanded && (
-                    <span className="ml-2 font-medium text-sm animate-fadeInSlide truncate flex-1 text-left">
+                  {isExpanded && contentVisible && (
+                    <span className="ml-2 font-medium text-sm animate-contentFadeIn truncate flex-1 text-left">
                       Cerrar Sesión
                     </span>
                   )}
                 </button>
                 {!isExpanded && (
-                  <div className="absolute left-16 top-1/2 transform -translate-y-1/2 bg-black text-white px-3 py-2 rounded text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-30 shadow-lg">
+                  <div className="absolute left-14 top-1/2 transform -translate-y-1/2 bg-black text-white px-3 py-2 rounded text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-30 shadow-lg">
                     Cerrar Sesión
                     <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 border-2 border-transparent border-r-black"></div>
                   </div>
