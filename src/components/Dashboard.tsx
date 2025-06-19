@@ -10,6 +10,13 @@ import {
   UserIcon
 } from './icons'
 
+interface OrderItem {
+  name: string
+  quantity: number
+  price: number
+  notes?: string
+}
+
 interface Order {
   id: string
   tableNumber: number
@@ -19,6 +26,8 @@ interface Order {
   priority: 'high' | 'medium' | 'low'
   guests?: number
   capacity?: number
+  orderDetails: OrderItem[]
+  total: number
 }
 
 interface Table {
@@ -28,6 +37,7 @@ interface Table {
   capacity: number
   orderTotal?: number
   timeOccupied?: string
+  orderDetails?: OrderItem[]
 }
 
 // Componente para el ícono de check personalizado
@@ -85,27 +95,353 @@ export function Dashboard() {
   }, [])
 
   // Mock data - En producción esto vendría de tu API
-  const ordersReady: Order[] = [
-    { id: '1', tableNumber: 12, items: 4, time: '2m', status: 'ready', priority: 'high', guests: 4, capacity: 4 },
-    { id: '2', tableNumber: 8, items: 2, time: '1m', status: 'ready', priority: 'high', guests: 2, capacity: 4 },
-    { id: '3', tableNumber: 15, items: 3, time: '3m', status: 'ready', priority: 'medium', guests: 3, capacity: 6 }
-  ]
+  const [ordersReady, setOrdersReady] = useState<Order[]>([
+    { 
+      id: '1', tableNumber: 12, items: 4, time: '2m', status: 'ready', priority: 'high', guests: 4, capacity: 4,
+      total: 125.50,
+      orderDetails: [
+        { name: 'Paella Valenciana', quantity: 2, price: 28.90 },
+        { name: 'Sangría', quantity: 1, price: 18.50 },
+        { name: 'Crema Catalana', quantity: 2, price: 12.90 },
+        { name: 'Pan de Ajo', quantity: 3, price: 8.50 }
+      ]
+    },
+    { 
+      id: '2', tableNumber: 8, items: 2, time: '1m', status: 'ready', priority: 'high', guests: 2, capacity: 4,
+      total: 67.80,
+      orderDetails: [
+        { name: 'Salmón a la Plancha', quantity: 1, price: 32.90 },
+        { name: 'Ensalada César', quantity: 1, price: 16.90, notes: 'Sin crutones' },
+        { name: 'Agua Mineral', quantity: 2, price: 4.50 }
+      ]
+    },
+    { 
+      id: '3', tableNumber: 15, items: 3, time: '3m', status: 'ready', priority: 'medium', guests: 3, capacity: 6,
+      total: 89.70,
+      orderDetails: [
+        { name: 'Pizza Margherita', quantity: 1, price: 24.90 },
+        { name: 'Lasaña Boloñesa', quantity: 1, price: 26.90 },
+        { name: 'Tiramisú', quantity: 1, price: 14.90 },
+        { name: 'Vino Tinto', quantity: 1, price: 22.90 }
+      ]
+    },
+    { 
+      id: '9', tableNumber: 23, items: 6, time: '4m', status: 'ready', priority: 'high', guests: 6, capacity: 6,
+      total: 187.40,
+      orderDetails: [
+        { name: 'Chuletón Ibérico', quantity: 2, price: 45.90 },
+        { name: 'Patatas Bravas', quantity: 2, price: 12.90 },
+        { name: 'Ensalada Mixta', quantity: 1, price: 14.90 },
+        { name: 'Flan Casero', quantity: 3, price: 8.90 },
+        { name: 'Cerveza', quantity: 4, price: 6.50 }
+      ]
+    },
+    { 
+      id: '10', tableNumber: 17, items: 1, time: '30s', status: 'ready', priority: 'medium', guests: 1, capacity: 2,
+      total: 19.90,
+      orderDetails: [
+        { name: 'Café Americano', quantity: 1, price: 3.90 },
+        { name: 'Tarta de Queso', quantity: 1, price: 15.90 }
+      ]
+    },
+    { 
+      id: '11', tableNumber: 31, items: 8, time: '5m', status: 'ready', priority: 'high', guests: 8, capacity: 8,
+      total: 298.60,
+      orderDetails: [
+        { name: 'Jamón Ibérico', quantity: 2, price: 34.90 },
+        { name: 'Pulpo a la Gallega', quantity: 1, price: 28.90 },
+        { name: 'Tortilla Española', quantity: 2, price: 16.90 },
+        { name: 'Gazpacho', quantity: 3, price: 9.90 },
+        { name: 'Croquetas Caseras', quantity: 2, price: 14.90 },
+        { name: 'Vino Blanco', quantity: 2, price: 25.90 },
+        { name: 'Agua con Gas', quantity: 4, price: 4.50 }
+      ]
+    },
+    { 
+      id: '12', tableNumber: 6, items: 3, time: '2m', status: 'ready', priority: 'medium', guests: 3, capacity: 4,
+      total: 76.70,
+      orderDetails: [
+        { name: 'Risotto de Setas', quantity: 1, price: 22.90 },
+        { name: 'Pescado del Día', quantity: 1, price: 29.90, notes: 'Punto medio' },
+        { name: 'Helado Artesanal', quantity: 2, price: 11.90 }
+      ]
+    },
+    { 
+      id: '13', tableNumber: 28, items: 2, time: '1m', status: 'ready', priority: 'low', guests: 2, capacity: 4,
+      total: 45.80,
+      orderDetails: [
+        { name: 'Hamburguesa Gourmet', quantity: 2, price: 18.90 },
+        { name: 'Patatas Fritas', quantity: 1, price: 7.90 }
+      ]
+    },
+    { 
+      id: '14', tableNumber: 35, items: 5, time: '3m', status: 'ready', priority: 'high', guests: 4, capacity: 6,
+      total: 134.50,
+      orderDetails: [
+        { name: 'Entrecot de Ternera', quantity: 2, price: 38.90 },
+        { name: 'Verduras a la Parrilla', quantity: 1, price: 16.90 },
+        { name: 'Sopa de Tomate', quantity: 2, price: 12.90 },
+        { name: 'Brownie con Helado', quantity: 2, price: 13.90 }
+      ]
+    }
+  ])
 
-  const ordersCooking: Order[] = [
-    { id: '4', tableNumber: 5, items: 2, time: '8m', status: 'cooking', priority: 'medium' },
-    { id: '5', tableNumber: 18, items: 1, time: '12m', status: 'cooking', priority: 'low' },
-    { id: '6', tableNumber: 7, items: 5, time: '6m', status: 'cooking', priority: 'high' }
-  ]
+  const [ordersCooking, setOrdersCooking] = useState<Order[]>([
+    { 
+      id: '4', tableNumber: 5, items: 2, time: '8m', status: 'cooking', priority: 'medium',
+      total: 43.80,
+      orderDetails: [
+        { name: 'Pollo al Curry', quantity: 1, price: 24.90 },
+        { name: 'Arroz Basmati', quantity: 1, price: 8.90 },
+        { name: 'Lassi de Mango', quantity: 1, price: 9.90 }
+      ]
+    },
+    { 
+      id: '5', tableNumber: 18, items: 1, time: '12m', status: 'cooking', priority: 'low',
+      total: 32.90,
+      orderDetails: [
+        { name: 'Lenguado a la Plancha', quantity: 1, price: 32.90, notes: 'Con limón' }
+      ]
+    },
+    { 
+      id: '6', tableNumber: 7, items: 5, time: '6m', status: 'cooking', priority: 'high',
+      total: 156.70,
+      orderDetails: [
+        { name: 'Cochinillo Asado', quantity: 1, price: 48.90 },
+        { name: 'Cordero Lechal', quantity: 1, price: 52.90 },
+        { name: 'Ensalada de Temporada', quantity: 2, price: 14.90 },
+        { name: 'Vino Reserva', quantity: 1, price: 45.90 }
+      ]
+    },
+    { 
+      id: '15', tableNumber: 25, items: 3, time: '15m', status: 'cooking', priority: 'medium',
+      total: 67.70,
+      orderDetails: [
+        { name: 'Sopa de Cebolla', quantity: 2, price: 11.90 },
+        { name: 'Quiche Lorraine', quantity: 1, price: 18.90 },
+        { name: 'Café con Leche', quantity: 2, price: 4.50 }
+      ]
+    },
+    { 
+      id: '16', tableNumber: 33, items: 7, time: '9m', status: 'cooking', priority: 'high',
+      total: 234.30,
+      orderDetails: [
+        { name: 'Mariscada', quantity: 1, price: 78.90 },
+        { name: 'Rape a la Plancha', quantity: 2, price: 34.90 },
+        { name: 'Verduras al Vapor', quantity: 1, price: 12.90 },
+        { name: 'Pan Tostado', quantity: 4, price: 3.50 },
+        { name: 'Vino Albariño', quantity: 1, price: 28.90 }
+      ]
+    },
+    { 
+      id: '17', tableNumber: 11, items: 4, time: '18m', status: 'cooking', priority: 'low',
+      total: 98.60,
+      orderDetails: [
+        { name: 'Fabada Asturiana', quantity: 2, price: 19.90 },
+        { name: 'Chorizo a la Sidra', quantity: 1, price: 16.90 },
+        { name: 'Sidra Natural', quantity: 2, price: 8.90 },
+        { name: 'Flan de Huevo', quantity: 2, price: 7.90 }
+      ]
+    },
+    { 
+      id: '18', tableNumber: 29, items: 2, time: '7m', status: 'cooking', priority: 'medium',
+      total: 54.80,
+      orderDetails: [
+        { name: 'Bacalao al Pil Pil', quantity: 1, price: 29.90 },
+        { name: 'Pimientos del Piquillo', quantity: 1, price: 14.90 },
+        { name: 'Txakoli', quantity: 1, price: 19.90 }
+      ]
+    },
+    { 
+      id: '19', tableNumber: 21, items: 6, time: '11m', status: 'cooking', priority: 'high',
+      total: 178.40,
+      orderDetails: [
+        { name: 'Lubina a la Sal', quantity: 1, price: 42.90 },
+        { name: 'Dorada al Horno', quantity: 1, price: 38.90 },
+        { name: 'Patatas Nuevas', quantity: 2, price: 8.90 },
+        { name: 'Ali Oli', quantity: 1, price: 4.90 },
+        { name: 'Vino Blanco Joven', quantity: 2, price: 16.90 }
+      ]
+    },
+    { 
+      id: '20', tableNumber: 37, items: 1, time: '5m', status: 'cooking', priority: 'low',
+      total: 14.90,
+      orderDetails: [
+        { name: 'Crema de Calabaza', quantity: 1, price: 14.90, notes: 'Sin nata' }
+      ]
+    },
+    { 
+      id: '21', tableNumber: 42, items: 4, time: '13m', status: 'cooking', priority: 'medium',
+      total: 123.60,
+      orderDetails: [
+        { name: 'Paletilla de Cordero', quantity: 1, price: 46.90 },
+        { name: 'Pisto Manchego', quantity: 2, price: 12.90 },
+        { name: 'Queso Manchego', quantity: 1, price: 18.90 },
+        { name: 'Vino Tinto Crianza', quantity: 1, price: 32.90 }
+      ]
+    },
+    { 
+      id: '22', tableNumber: 16, items: 3, time: '8m', status: 'cooking', priority: 'high',
+      total: 76.70,
+      orderDetails: [
+        { name: 'Secreto Ibérico', quantity: 1, price: 28.90 },
+        { name: 'Huevos Rotos', quantity: 1, price: 16.90 },
+        { name: 'Cerveza Artesanal', quantity: 2, price: 8.90 }
+      ]
+    }
+  ])
 
-  const ordersPending: Order[] = [
-    { id: '7', tableNumber: 22, items: 3, time: '1m', status: 'pending', priority: 'high' },
-    { id: '8', tableNumber: 4, items: 2, time: '30s', status: 'pending', priority: 'high' }
-  ]
+  const [ordersPending, setOrdersPending] = useState<Order[]>([
+    { 
+      id: '7', tableNumber: 22, items: 3, time: '1m', status: 'pending', priority: 'high',
+      total: 87.70,
+      orderDetails: [
+        { name: 'Caldo Gallego', quantity: 1, price: 16.90 },
+        { name: 'Empanada de Atún', quantity: 2, price: 12.90 },
+        { name: 'Vino de la Casa', quantity: 1, price: 14.90 }
+      ]
+    },
+    { 
+      id: '8', tableNumber: 4, items: 2, time: '30s', status: 'pending', priority: 'high',
+      total: 34.80,
+      orderDetails: [
+        { name: 'Tabla de Quesos', quantity: 1, price: 24.90 },
+        { name: 'Copa de Cava', quantity: 1, price: 9.90 }
+      ]
+    },
+    { 
+      id: '23', tableNumber: 38, items: 5, time: '45s', status: 'pending', priority: 'high',
+      total: 167.50,
+      orderDetails: [
+        { name: 'Rodaballo a la Plancha', quantity: 2, price: 42.90 },
+        { name: 'Almejas a la Marinera', quantity: 1, price: 24.90 },
+        { name: 'Ensalada Verde', quantity: 1, price: 11.90 },
+        { name: 'Pan Artesano', quantity: 2, price: 3.50 },
+        { name: 'Agua Mineral', quantity: 3, price: 4.50 }
+      ]
+    },
+    { 
+      id: '24', tableNumber: 14, items: 1, time: '2m', status: 'pending', priority: 'medium',
+      total: 12.90,
+      orderDetails: [
+        { name: 'Té Verde', quantity: 1, price: 4.90 },
+        { name: 'Pastel de Manzana', quantity: 1, price: 7.90 }
+      ]
+    },
+    { 
+      id: '25', tableNumber: 26, items: 4, time: '1m', status: 'pending', priority: 'high',
+      total: 112.60,
+      orderDetails: [
+        { name: 'Arroz con Bogavante', quantity: 1, price: 56.90 },
+        { name: 'Gambas al Ajillo', quantity: 1, price: 18.90 },
+        { name: 'Alioli Casero', quantity: 1, price: 4.90 },
+        { name: 'Albariño', quantity: 1, price: 31.90 }
+      ]
+    },
+    { 
+      id: '26', tableNumber: 39, items: 6, time: '3m', status: 'pending', priority: 'medium',
+      total: 198.40,
+      orderDetails: [
+        { name: 'Cocido Madrileño', quantity: 2, price: 28.90 },
+        { name: 'Morcilla de Burgos', quantity: 1, price: 16.90 },
+        { name: 'Chorizo Español', quantity: 1, price: 14.90 },
+        { name: 'Garbanzos de la Abuela', quantity: 2, price: 9.90 },
+        { name: 'Vino Tinto Reserva', quantity: 1, price: 38.90 }
+      ]
+    },
+    { 
+      id: '27', tableNumber: 41, items: 2, time: '30s', status: 'pending', priority: 'high',
+      total: 45.80,
+      orderDetails: [
+        { name: 'Merluza en Salsa Verde', quantity: 1, price: 29.90 },
+        { name: 'Patatas Panadera', quantity: 1, price: 8.90 },
+        { name: 'Zumo Natural', quantity: 1, price: 6.90 }
+      ]
+    },
+    { 
+      id: '28', tableNumber: 13, items: 3, time: '1m', status: 'pending', priority: 'medium',
+      total: 67.70,
+      orderDetails: [
+        { name: 'Milanesa de Pollo', quantity: 1, price: 22.90 },
+        { name: 'Ensalada Rusa', quantity: 1, price: 12.90 },
+        { name: 'Flan Napolitano', quantity: 1, price: 8.90 },
+        { name: 'Refresco', quantity: 2, price: 3.50 }
+      ]
+    }
+  ])
 
-  const paymentPending: Table[] = [
-    { number: 9, status: 'payment_pending', guests: 4, capacity: 4, orderTotal: 125.50, timeOccupied: '1h 30m' },
-    { number: 14, status: 'payment_pending', guests: 2, capacity: 4, orderTotal: 87.25, timeOccupied: '45m' }
-  ]
+  const [paymentPending, setPaymentPending] = useState<Table[]>([
+    { 
+      number: 9, status: 'payment_pending', guests: 4, capacity: 4, orderTotal: 125.50, timeOccupied: '1h 30m',
+      orderDetails: [
+        { name: 'Paella Mixta', quantity: 1, price: 34.90 },
+        { name: 'Calamares Fritos', quantity: 1, price: 18.90 },
+        { name: 'Sangría', quantity: 2, price: 18.50 },
+        { name: 'Helado Variado', quantity: 4, price: 11.90 }
+      ]
+    },
+    { 
+      number: 14, status: 'payment_pending', guests: 2, capacity: 4, orderTotal: 87.25, timeOccupied: '45m',
+      orderDetails: [
+        { name: 'Lubina a la Sal', quantity: 1, price: 42.90 },
+        { name: 'Ensalada Mixta', quantity: 1, price: 14.90 },
+        { name: 'Vino Blanco', quantity: 1, price: 24.90 },
+        { name: 'Café Solo', quantity: 2, price: 4.50 }
+      ]
+    },
+    { 
+      number: 32, status: 'payment_pending', guests: 6, capacity: 6, orderTotal: 245.75, timeOccupied: '2h 15m',
+      orderDetails: [
+        { name: 'Chuletón de Buey', quantity: 2, price: 65.90 },
+        { name: 'Cordero Asado', quantity: 1, price: 48.90 },
+        { name: 'Patatas Panadera', quantity: 2, price: 12.90 },
+        { name: 'Verduras Asadas', quantity: 1, price: 16.90 },
+        { name: 'Vino Tinto Reserva', quantity: 2, price: 45.90 },
+        { name: 'Postre Variado', quantity: 4, price: 8.90 }
+      ]
+    },
+    { 
+      number: 27, status: 'payment_pending', guests: 3, capacity: 4, orderTotal: 156.80, timeOccupied: '1h 45m',
+      orderDetails: [
+        { name: 'Mariscada del Chef', quantity: 1, price: 78.90 },
+        { name: 'Pan con Tomate', quantity: 3, price: 6.90 },
+        { name: 'Albariño', quantity: 1, price: 32.90 },
+        { name: 'Crema Catalana', quantity: 3, price: 12.90 }
+      ]
+    },
+    { 
+      number: 40, status: 'payment_pending', guests: 8, capacity: 8, orderTotal: 398.60, timeOccupied: '2h 30m',
+      orderDetails: [
+        { name: 'Jamón Ibérico Bellota', quantity: 2, price: 45.90 },
+        { name: 'Pulpo a la Gallega', quantity: 1, price: 28.90 },
+        { name: 'Arroz Negro', quantity: 2, price: 32.90 },
+        { name: 'Secreto Ibérico', quantity: 2, price: 29.90 },
+        { name: 'Ensaladas Variadas', quantity: 3, price: 14.90 },
+        { name: 'Vinos Selección', quantity: 3, price: 28.90 },
+        { name: 'Postres del Chef', quantity: 6, price: 12.90 }
+      ]
+    },
+    { 
+      number: 24, status: 'payment_pending', guests: 2, capacity: 2, orderTotal: 68.90, timeOccupied: '1h 10m',
+      orderDetails: [
+        { name: 'Salmón Noruego', quantity: 1, price: 32.90 },
+        { name: 'Risotto de Setas', quantity: 1, price: 22.90 },
+        { name: 'Agua con Gas', quantity: 2, price: 4.50 },
+        { name: 'Tiramisú', quantity: 1, price: 8.50 }
+      ]
+    },
+    { 
+      number: 36, status: 'payment_pending', guests: 5, capacity: 6, orderTotal: 287.40, timeOccupied: '1h 55m',
+      orderDetails: [
+        { name: 'Cochinillo Segoviano', quantity: 1, price: 89.90 },
+        { name: 'Judías del Barco', quantity: 2, price: 16.90 },
+        { name: 'Morcilla de Burgos', quantity: 1, price: 18.90 },
+        { name: 'Lechazo Asado', quantity: 1, price: 52.90 },
+        { name: 'Vino Ribera del Duero', quantity: 2, price: 38.90 },
+        { name: 'Ponche Segoviano', quantity: 3, price: 11.90 }
+      ]
+    }
+  ])
 
   const availableTables: Table[] = [
     { number: 1, status: 'available', guests: 0, capacity: 2 },
@@ -113,12 +449,52 @@ export function Dashboard() {
     { number: 6, status: 'available', guests: 0, capacity: 6 },
     { number: 11, status: 'available', guests: 0, capacity: 4 },
     { number: 16, status: 'available', guests: 0, capacity: 2 },
-    { number: 19, status: 'available', guests: 0, capacity: 8 }
+    { number: 19, status: 'available', guests: 0, capacity: 8 },
+    { number: 2, status: 'available', guests: 0, capacity: 2 },
+    { number: 10, status: 'available', guests: 0, capacity: 4 },
+    { number: 20, status: 'available', guests: 0, capacity: 6 },
+    { number: 30, status: 'available', guests: 0, capacity: 4 },
+    { number: 34, status: 'available', guests: 0, capacity: 2 },
+    { number: 43, status: 'available', guests: 0, capacity: 8 },
+    { number: 44, status: 'available', guests: 0, capacity: 4 },
+    { number: 45, status: 'available', guests: 0, capacity: 6 },
+    { number: 46, status: 'available', guests: 0, capacity: 2 },
+    { number: 47, status: 'available', guests: 0, capacity: 4 },
+    { number: 48, status: 'available', guests: 0, capacity: 8 }
   ]
 
-  const occupiedTables = 8
+  const occupiedTables = 25
   const totalTables = occupiedTables + availableTables.length
   const occupancyRate = Math.round((occupiedTables / totalTables) * 100)
+
+  // Función para manejar cuando una orden es servida
+  const handleServed = (orderId: string) => {
+    const orderToServe = ordersReady.find(order => order.id === orderId)
+    if (!orderToServe) return
+
+    // Convertir la orden a una mesa de pago pendiente
+    const newTable: Table = {
+      number: orderToServe.tableNumber,
+      status: 'payment_pending',
+      guests: orderToServe.guests || 0,
+      capacity: orderToServe.capacity || 4,
+      orderTotal: orderToServe.total,
+      timeOccupied: '5m', // Tiempo desde que fue servida
+      orderDetails: orderToServe.orderDetails
+    }
+
+    // Remover de órdenes listas
+    setOrdersReady(prev => prev.filter(order => order.id !== orderId))
+    
+    // Agregar a mesas por pagar
+    setPaymentPending(prev => [...prev, newTable])
+  }
+
+  // Función para manejar cuando se procesa un pago
+  const handlePaymentProcessed = (tableNumber: number) => {
+    // Remover de mesas por pagar
+    setPaymentPending(prev => prev.filter(table => table.number !== tableNumber))
+  }
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -221,6 +597,45 @@ export function Dashboard() {
             </div>
           </div>
         )}
+
+        {/* Order Details */}
+        <div className="mt-2 pt-2 border-t border-gray-200/50">
+          <div className="flex items-center justify-between mb-1">
+            <span className="text-[10px] font-medium text-gray-700">Detalle de la Orden</span>
+          </div>
+          <div className="space-y-0.5 max-h-16 overflow-y-auto">
+            {order.orderDetails.slice(0, 3).map((item, idx) => (
+              <div key={idx} className="flex items-center text-[9px]">
+                <div className="flex items-center space-x-1 flex-1 min-w-0">
+                  <span className="w-3 h-3 bg-gray-500 text-white rounded-full flex items-center justify-center text-[7px] font-bold shrink-0">
+                    {item.quantity}
+                  </span>
+                  <span className="text-gray-700 truncate">{item.name}</span>
+                  {item.notes && (
+                    <span className="text-gray-500 italic text-[8px]">({item.notes})</span>
+                  )}
+                </div>
+              </div>
+            ))}
+            {order.orderDetails.length > 3 && (
+              <div className="text-[8px] text-gray-500 italic text-center">
+                +{order.orderDetails.length - 3} platillos más...
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Botón Servido - Solo para órdenes listas */}
+        {order.status === 'ready' && (
+          <div className="mt-2 pt-2 border-t border-gray-200/50">
+            <button
+              onClick={() => handleServed(order.id)}
+              className="w-full bg-green-500 hover:bg-green-600 text-white text-[10px] font-bold py-1.5 px-2 rounded-[5px] transition-all duration-200 active:scale-95 shadow-sm hover:shadow-md"
+            >
+              ✓ Servido
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )
@@ -290,6 +705,50 @@ export function Dashboard() {
             ></div>
           </div>
         </div>
+
+        {/* Order Details for Payment Pending Tables */}
+        {table.orderDetails && (
+          <div className="mt-2 pt-2 border-t border-gray-200/50">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[10px] font-medium text-gray-700">Detalle de Consumo</span>
+              <span className="text-[10px] font-bold text-green-700">${table.orderTotal}</span>
+            </div>
+            <div className="space-y-0.5 max-h-16 overflow-y-auto">
+              {table.orderDetails.slice(0, 3).map((item, idx) => (
+                <div key={idx} className="flex items-center justify-between text-[9px]">
+                  <div className="flex items-center space-x-1 flex-1 min-w-0">
+                    <span className="w-3 h-3 bg-orange-500 text-white rounded-full flex items-center justify-center text-[7px] font-bold shrink-0">
+                      {item.quantity}
+                    </span>
+                    <span className="text-gray-700 truncate">{item.name}</span>
+                    {item.notes && (
+                      <span className="text-gray-500 italic text-[8px]">({item.notes})</span>
+                    )}
+                  </div>
+                  <span className="text-gray-600 text-[8px] font-medium shrink-0 ml-1">${item.price}</span>
+                </div>
+              ))}
+              {table.orderDetails.length > 3 && (
+                <div className="text-[8px] text-gray-500 italic text-center">
+                  +{table.orderDetails.length - 3} items más...
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Botón Procesar Pago - Solo para mesas por pagar */}
+        {table.status === 'payment_pending' && (
+          <div className="mt-2 pt-2 border-t border-gray-200/50">
+            <button
+              onClick={() => handlePaymentProcessed(table.number)}
+              className="w-full bg-orange-500 hover:bg-orange-600 text-white text-[10px] font-bold py-1.5 px-2 transition-all duration-200 active:scale-95 shadow-sm hover:shadow-md"
+              style={{ borderRadius: '5px' }}
+            >
+              Procesar Pago
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )
@@ -444,7 +903,7 @@ export function Dashboard() {
               </div>
               <p className="text-xs text-gray-600 mt-1">Órdenes completadas por cocina</p>
             </div>
-            <div className="p-3 max-h-[600px] overflow-y-auto">
+            <div className="p-3 max-h-[600px] overflow-y-auto kitchen-scrollbar">
               {ordersReady.length > 0 ? (
                 <div className="space-y-2">
                   {ordersReady.map((order, index) => renderOrderCard(order, index))}
@@ -525,7 +984,7 @@ export function Dashboard() {
               </div>
               <p className="text-xs text-gray-600 mt-1">Mesas esperando el pago</p>
             </div>
-            <div className="p-3 max-h-[600px] overflow-y-auto">
+            <div className="p-3 max-h-[600px] overflow-y-auto kitchen-scrollbar">
               {paymentPending.length > 0 ? (
                 <div className="space-y-2">
                   {paymentPending.map((table, index) => renderTableCard(table, index))}
