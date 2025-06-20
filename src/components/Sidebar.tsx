@@ -18,6 +18,8 @@ import {
 
 interface SidebarProps {
   className?: string
+  onNavigate?: (page: string) => void
+  currentPage?: string
 }
 
 interface MenuItem {
@@ -29,11 +31,16 @@ interface MenuItem {
   onClick?: () => void
 }
 
-export function Sidebar({ className = '' }: SidebarProps) {
+export function Sidebar({ className = '', onNavigate, currentPage = 'dashboard' }: SidebarProps) {
   const [isExpanded, setIsExpanded] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false)
-  const [activeItem, setActiveItem] = useState('dashboard')
+  const [activeItem, setActiveItem] = useState(currentPage)
   const [contentVisible, setContentVisible] = useState(false)
+
+  // Update active item when currentPage changes
+  useEffect(() => {
+    setActiveItem(currentPage)
+  }, [currentPage])
 
   // Enhanced animation handling
   useEffect(() => {
@@ -63,7 +70,10 @@ export function Sidebar({ className = '' }: SidebarProps) {
       title: 'Dashboard',
       description: 'Vista general del restaurante',
       icon: <HomeIcon size={20} />,
-      onClick: () => setActiveItem('dashboard')
+      onClick: () => {
+        setActiveItem('dashboard')
+        onNavigate?.('dashboard')
+      }
     },
     {
       id: 'notifications',
@@ -71,7 +81,10 @@ export function Sidebar({ className = '' }: SidebarProps) {
       description: 'Alertas y avisos',
       icon: <BellIcon size={20} />,
       badge: 2,
-      onClick: () => setActiveItem('notifications')
+      onClick: () => {
+        setActiveItem('notifications')
+        onNavigate?.('notifications')
+      }
     },
     // Grupo 2: Tomar Orden y Cocina
     {
@@ -79,14 +92,20 @@ export function Sidebar({ className = '' }: SidebarProps) {
       title: 'Tomar Orden',
       description: 'Crear nueva orden',
       icon: <ClipboardIcon size={20} />,
-      onClick: () => setActiveItem('take-order')
+      onClick: () => {
+        setActiveItem('take-order')
+        onNavigate?.('take-order')
+      }
     },
     {
       id: 'kitchen',
       title: 'Cocina',
       description: 'Estado de órdenes',
       icon: <ChefHatIcon size={20} />,
-      onClick: () => setActiveItem('kitchen')
+      onClick: () => {
+        setActiveItem('kitchen')
+        onNavigate?.('kitchen')
+      }
     },
     // Grupo 3: Mesas y Pagos
     {
@@ -95,14 +114,20 @@ export function Sidebar({ className = '' }: SidebarProps) {
       description: 'Órdenes activas',
       icon: <TableIcon size={20} />,
       badge: 3,
-      onClick: () => setActiveItem('my-tables')
+      onClick: () => {
+        setActiveItem('my-tables')
+        onNavigate?.('my-tables')
+      }
     },
     {
       id: 'payments',
       title: 'Pagos',
       description: 'Procesar cobros',
       icon: <CreditCardIcon size={20} />,
-      onClick: () => setActiveItem('payments')
+      onClick: () => {
+        setActiveItem('payments')
+        onNavigate?.('payments')
+      }
     }
   ]
 
@@ -112,7 +137,10 @@ export function Sidebar({ className = '' }: SidebarProps) {
       title: 'Configuración',
       description: 'Ajustes del sistema',
       icon: <SettingsIcon size={20} />,
-      onClick: () => setActiveItem('settings')
+      onClick: () => {
+        setActiveItem('settings')
+        onNavigate?.('settings')
+      }
     }
   ]
 
