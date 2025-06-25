@@ -3,6 +3,7 @@ import React, {
   Children,
   useRef,
   useLayoutEffect,
+  useEffect,
   HTMLAttributes,
   ReactNode,
 } from "react";
@@ -25,6 +26,7 @@ interface StepperProps extends HTMLAttributes<HTMLDivElement> {
   nextButtonText?: string;
   disableStepIndicators?: boolean;
   renderStepIndicator?: (props: RenderStepIndicatorProps) => ReactNode;
+  canProceed?: boolean;
 }
 
 interface RenderStepIndicatorProps {
@@ -48,6 +50,7 @@ export default function Stepper({
   nextButtonText = "Siguiente",
   disableStepIndicators = false,
   renderStepIndicator,
+  canProceed = true,
   ...rest
 }: StepperProps) {
   const [currentStep, setCurrentStep] = useState<number>(initialStep);
@@ -56,6 +59,11 @@ export default function Stepper({
   const totalSteps = stepsArray.length;
   const isCompleted = currentStep > totalSteps;
   const isLastStep = currentStep === totalSteps;
+
+  // Reset step when initialStep changes
+  useEffect(() => {
+    setCurrentStep(initialStep);
+  }, [initialStep]);
 
   const updateStep = (newStep: number) => {
     setCurrentStep(newStep);
@@ -146,13 +154,16 @@ export default function Stepper({
                   {backButtonText}
                 </button>
               )}
-              <button
-                onClick={isLastStep ? handleComplete : handleNext}
-                className="next-button"
-                {...nextButtonProps}
-              >
-                {isLastStep ? "Completar" : nextButtonText}
-              </button>
+              {!isLastStep && (
+                <button
+                  onClick={handleNext}
+                  className={`next-button ${!canProceed ? 'disabled' : ''}`}
+                  disabled={!canProceed}
+                  {...nextButtonProps}
+                >
+                  {nextButtonText}
+                </button>
+              )}
             </div>
           </div>
         )}

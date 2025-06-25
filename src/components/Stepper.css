@@ -199,6 +199,17 @@
   background-color: #1d4ed8;
 }
 
+.next-button.disabled {
+  background-color: #d1d5db;
+  color: #9ca3af;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.next-button.disabled:hover {
+  background-color: #d1d5db;
+}
+
 .step-indicator {
   position: relative;
   cursor: pointer;
