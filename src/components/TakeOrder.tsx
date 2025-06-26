@@ -81,8 +81,8 @@ export function TakeOrder() {
   }
 
   useEffect(() => {
-    // Simulate loading
-    const timer = setTimeout(() => setIsLoading(false), 500)
+    // Simulate loading with shorter delay
+    const timer = setTimeout(() => setIsLoading(false), 300)
     return () => clearTimeout(timer)
   }, [])
 
@@ -256,21 +256,12 @@ export function TakeOrder() {
     }, 3000)
   }
 
-  if (isLoading) {
-    return (
-      <div className="h-full flex items-center justify-center font-helvetica">
-        <div className="text-center">
-          <div className="w-12 h-12 bg-black rounded flex items-center justify-center mx-auto mb-4 animate-pulse">
-            <ClipboardIcon size={24} className="text-white" />
-          </div>
-          <p className="text-gray-600 font-medium">Cargando sistema de órdenes...</p>
-        </div>
-      </div>
-    )
-  }
-
   return (
-    <div className="h-full overflow-y-auto bg-gray-50 font-helvetica relative">
+    <div 
+      className={`h-full overflow-y-auto bg-gray-50 font-helvetica relative transition-opacity duration-500 ${
+        isLoading ? 'opacity-0' : 'opacity-100'
+      }`}
+    >
       <div className="p-2 sm:p-3 md:p-5">
         
         {/* Completed Animation Overlay */}

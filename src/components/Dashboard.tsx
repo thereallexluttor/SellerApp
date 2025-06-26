@@ -89,8 +89,8 @@ export function Dashboard() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Simulate loading
-    const timer = setTimeout(() => setIsLoading(false), 500)
+    // Simulate loading with shorter delay
+    const timer = setTimeout(() => setIsLoading(false), 300)
     return () => clearTimeout(timer)
   }, [])
 
@@ -753,21 +753,13 @@ export function Dashboard() {
     </div>
   )
 
-  if (isLoading) {
-    return (
-      <div className="h-full flex items-center justify-center" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
-        <div className="text-center">
-          <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
-            <UserIcon size={24} className="text-white" />
-          </div>
-          <p className="text-gray-600 font-medium">Cargando dashboard...</p>
-        </div>
-      </div>
-    )
-  }
-
   return (
-    <div className="h-full overflow-y-auto bg-gray-50" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
+    <div 
+      className={`h-full overflow-y-auto bg-gray-50 transition-opacity duration-500 ${
+        isLoading ? 'opacity-0' : 'opacity-100'
+      }`} 
+      style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}
+    >
       <div className="p-6">
         {/* Header */}
         <div className="mb-8 animate-fadeInSlide">

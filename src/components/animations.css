@@ -497,4 +497,162 @@
 .badge-modern:hover {
   transform: translateZ(0) scale(1.1);
   animation: iconFloat 0.6s ease-in-out infinite;
+}
+
+/* Page transition animations for sidebar navigation */
+@keyframes pageSlideIn {
+  from {
+    opacity: 0;
+    transform: translate3d(30px, 0, 0) scale3d(0.98, 0.98, 1);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  }
+}
+
+@keyframes pageSlideOut {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(-30px, 0, 0) scale3d(0.98, 0.98, 1);
+  }
+}
+
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes pageZoomIn {
+  from {
+    opacity: 0;
+    transform: scale3d(0.95, 0.95, 1);
+  }
+  to {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+/* Page transition classes */
+.page-enter {
+  animation: pageSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  will-change: transform, opacity;
+}
+
+.page-exit {
+  animation: pageSlideOut 0.3s cubic-bezier(0.55, 0.05, 0.68, 0.19) forwards;
+  will-change: transform, opacity;
+}
+
+.page-fade-enter {
+  animation: pageFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.page-zoom-enter {
+  animation: pageZoomIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  will-change: transform, opacity;
+}
+
+/* Container for page transitions */
+.page-transition-container {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.page-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Smooth transition for main content area */
+.main-content-transition {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, opacity;
+}
+
+/* Enhanced sidebar navigation feedback */
+@keyframes navItemActive {
+  0% {
+    transform: scale3d(0.98, 0.98, 1);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+  50% {
+    transform: scale3d(1.02, 1.02, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  100% {
+    transform: scale3d(1, 1, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.nav-item-active {
+  animation: navItemActive 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Loading state for page transitions */
+@keyframes pageLoading {
+  0% {
+    opacity: 0.6;
+    transform: scale3d(1, 1, 1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale3d(1.01, 1.01, 1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.page-loading {
+  animation: pageLoading 0.6s ease-in-out infinite alternate;
+}
+
+/* Responsive transitions */
+@media (max-width: 768px) {
+  .page-enter {
+    animation: pageFadeIn 0.3s ease-out forwards;
+  }
+  
+  .page-exit {
+    animation: pageSlideOut 0.2s ease-in forwards;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .page-enter,
+  .page-exit,
+  .page-fade-enter,
+  .page-zoom-enter {
+    animation: none;
+    transition: opacity 0.2s ease;
+  }
+  
+  .main-content-transition {
+    transition: opacity 0.2s ease;
+  }
+  
+  .nav-item-active {
+    animation: none;
+  }
 } 

@@ -5,15 +5,13 @@ import {
   XIcon,
   ClipboardIcon,
   TableIcon,
-  BellIcon,
-  CreditCardIcon,
   MoreHorizontalIcon,
-  ChefHatIcon,
   UserIcon,
   HomeIcon,
   SettingsIcon,
   HelpCircleIcon,
-  LogOutIcon
+  LogOutIcon,
+  HistoryIcon
 } from './icons'
 
 interface SidebarProps {
@@ -64,7 +62,7 @@ export function Sidebar({ className = '', onNavigate, currentPage = 'dashboard' 
 
   // Reordenamos los items del menú en grupos lógicos
   const menuItems: MenuItem[] = [
-    // Grupo 1: Dashboard y Notificaciones
+    // Grupo 1: Dashboard
     {
       id: 'dashboard',
       title: 'Dashboard',
@@ -75,18 +73,7 @@ export function Sidebar({ className = '', onNavigate, currentPage = 'dashboard' 
         onNavigate?.('dashboard')
       }
     },
-    {
-      id: 'notifications',
-      title: 'Notificaciones',
-      description: 'Alertas y avisos',
-      icon: <BellIcon size={20} />,
-      badge: 2,
-      onClick: () => {
-        setActiveItem('notifications')
-        onNavigate?.('notifications')
-      }
-    },
-    // Grupo 2: Tomar Orden y Cocina
+    // Grupo 2: Tomar Orden
     {
       id: 'take-order',
       title: 'Tomar Orden',
@@ -97,36 +84,15 @@ export function Sidebar({ className = '', onNavigate, currentPage = 'dashboard' 
         onNavigate?.('take-order')
       }
     },
+    // Grupo 3: Historial de Pagos
     {
-      id: 'kitchen',
-      title: 'Cocina',
-      description: 'Estado de órdenes',
-      icon: <ChefHatIcon size={20} />,
+      id: 'payment-history',
+      title: 'Historial',
+      description: 'Registro de pagos',
+      icon: <HistoryIcon size={20} />,
       onClick: () => {
-        setActiveItem('kitchen')
-        onNavigate?.('kitchen')
-      }
-    },
-    // Grupo 3: Mesas y Pagos
-    {
-      id: 'my-tables',
-      title: 'Mis Mesas',
-      description: 'Órdenes activas',
-      icon: <TableIcon size={20} />,
-      badge: 3,
-      onClick: () => {
-        setActiveItem('my-tables')
-        onNavigate?.('my-tables')
-      }
-    },
-    {
-      id: 'payments',
-      title: 'Pagos',
-      description: 'Procesar cobros',
-      icon: <CreditCardIcon size={20} />,
-      onClick: () => {
-        setActiveItem('payments')
-        onNavigate?.('payments')
+        setActiveItem('payment-history')
+        onNavigate?.('payment-history')
       }
     }
   ]
@@ -145,6 +111,15 @@ export function Sidebar({ className = '', onNavigate, currentPage = 'dashboard' 
   ]
 
   function handleMenuItemClick(item: MenuItem) {
+    // Add visual feedback with animation
+    const button = document.querySelector(`[data-item-id="${item.id}"]`)
+    if (button) {
+      button.classList.add('nav-item-active')
+      setTimeout(() => {
+        button.classList.remove('nav-item-active')
+      }, 300)
+    }
+    
     item.onClick?.()
     console.log(`Navegando a: ${item.title}`)
   }
@@ -171,6 +146,7 @@ export function Sidebar({ className = '', onNavigate, currentPage = 'dashboard' 
   const renderMenuItem = (item: MenuItem, index: number, baseDelay: number) => (
     <div key={item.id} className="relative group">
       <button
+        data-item-id={item.id}
         onClick={() => handleMenuItemClick(item)}
         className={`w-full h-12 flex items-center justify-center rounded transition-all duration-200 relative overflow-visible gpu-accelerated ${
           activeItem === item.id
@@ -284,20 +260,20 @@ export function Sidebar({ className = '', onNavigate, currentPage = 'dashboard' 
           <nav className={`flex-1 py-8 px-2 space-y-1 overflow-visible content-smooth flex flex-col justify-center ${
             isExpanded ? 'opacity-100' : 'opacity-90'
           }`}>
-            {/* Grupo 1: Dashboard y Notificaciones */}
-            {menuItems.slice(0, 2).map((item, index) => renderMenuItem(item, index, 0))}
+            {/* Grupo 1: Dashboard */}
+            {menuItems.slice(0, 1).map((item, index) => renderMenuItem(item, index, 0))}
 
             {/* Primer separador */}
             {renderDivider()}
 
-            {/* Grupo 2: Tomar Orden y Cocina */}
-            {menuItems.slice(2, 4).map((item, index) => renderMenuItem(item, index, 2))}
+            {/* Grupo 2: Tomar Orden */}
+            {menuItems.slice(1, 2).map((item, index) => renderMenuItem(item, index, 1))}
 
             {/* Segundo separador */}
             {renderDivider()}
 
-            {/* Grupo 3: Mesas y Pagos */}
-            {menuItems.slice(4).map((item, index) => renderMenuItem(item, index, 4))}
+            {/* Grupo 3: Historial de Pagos */}
+            {menuItems.slice(2).map((item, index) => renderMenuItem(item, index, 2))}
           </nav>
 
           {/* Bottom Section */}
