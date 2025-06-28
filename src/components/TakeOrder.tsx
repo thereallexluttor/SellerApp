@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import './animations.css'
 import SpotlightCard from './SpotlightCard'
 import Stepper, { Step } from './Stepper'
+import { useConfig } from '../contexts/ConfigContext'
 import {
   ClipboardIcon,
   TableIcon,
@@ -69,6 +70,7 @@ export function TakeOrder() {
   const [guests, setGuests] = useState(0)
   const [showCompletedAnimation, setShowCompletedAnimation] = useState(false)
   const [currentStep, setCurrentStep] = useState(1)
+  const { t, formatCurrency, getFontSizeClass } = useConfig()
 
   // Función para normalizar texto (eliminar acentos y caracteres especiales)
   const normalizeText = (text: string): string => {
@@ -137,11 +139,11 @@ export function TakeOrder() {
   ]
 
   const categories = [
-    { id: 'all', name: 'Todo', icon: '🍽️' },
-    { id: 'entrantes', name: 'Entrantes', icon: '🥗' },
-    { id: 'principales', name: 'Principales', icon: '🍖' },
-    { id: 'postres', name: 'Postres', icon: '🍰' },
-    { id: 'bebidas', name: 'Bebidas', icon: '🍷' }
+    { id: 'all', name: t('all'), icon: '🍽️' },
+    { id: 'entrantes', name: t('starters'), icon: '🥗' },
+    { id: 'principales', name: t('mains'), icon: '🍖' },
+    { id: 'postres', name: t('desserts'), icon: '🍰' },
+    { id: 'bebidas', name: t('drinks'), icon: '🍷' }
   ]
 
   const filteredItems = menuItems.filter(item => {
@@ -232,7 +234,7 @@ export function TakeOrder() {
 
   const handleSubmitOrder = () => {
     if (!selectedTable || cart.length === 0) {
-      alert('Por favor selecciona una mesa y agrega productos al carrito')
+      alert(t('pleaseSelectTable'))
       return
     }
 
@@ -258,30 +260,31 @@ export function TakeOrder() {
 
   return (
     <div 
-      className={`h-full overflow-y-auto bg-gray-50 font-helvetica relative transition-opacity duration-500 ${
+      className={`h-full overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100 relative transition-opacity duration-500 ${
         isLoading ? 'opacity-0' : 'opacity-100'
-      }`}
+      } ${getFontSizeClass()}`}
+      style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}
     >
-      <div className="p-2 sm:p-3 md:p-5">
+      <div className="p-6">
         
         {/* Completed Animation Overlay */}
         {showCompletedAnimation && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
             <div className="bg-white rounded-lg p-8 text-center max-w-sm mx-4 animate-bounce-in">
               <div className="mb-4">
                 <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto animate-pulse">
                   <CheckIcon size={40} className="text-white" />
                 </div>
               </div>
-              <h3 className="text-2xl font-bold text-green-600 mb-2">¡Pedido Confirmado!</h3>
-              <p className="text-gray-600 mb-2">Mesa {selectedTable}</p>
-              <p className="text-xl font-bold text-gray-900 mb-4">€{getTotalPrice().toFixed(2)}</p>
+              <h3 className="text-2xl font-bold text-green-600 mb-2">{t('orderConfirmed')}</h3>
+              <p className="text-gray-600 mb-2">{t('table')} {selectedTable}</p>
+              <p className="text-xl font-bold text-gray-900 mb-4">{formatCurrency(getTotalPrice())}</p>
               <div className="flex items-center justify-center space-x-1 text-green-600">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-bounce"></div>
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
               </div>
-              <p className="text-sm text-gray-500 mt-2">Enviando a cocina...</p>
+              <p className="text-sm text-gray-500 mt-2">{t('sendingToKitchen')}</p>
             </div>
           </div>
         )}
@@ -296,84 +299,100 @@ export function TakeOrder() {
           onFinalStepCompleted={() => {
             console.log('Todos los pasos completados!');
           }}
-          backButtonText="Anterior"
-          nextButtonText="Siguiente"
+          backButtonText={t('previous')}
+          nextButtonText={t('next')}
           canProceed={isCurrentStepValid()}
         >
           {/* Paso 1: Selección de Mesa */}
           <Step>
-            <div className="w-full max-w-sm sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl mx-auto px-2 sm:px-3">
-              <div className="text-center mb-2 sm:mb-3">
-                <TableIcon size={20} className="sm:w-6 sm:h-6 mx-auto text-blue-600 mb-1" />
-                <h2 className="text-sm sm:text-base md:text-lg font-bold text-gray-900 mb-1">Seleccionar Mesa</h2>
-                <p className="text-xs text-gray-600">Primero indica cuántos huéspedes y te ayudaremos a encontrar la mesa ideal</p>
+            <div className="w-full max-w-5xl mx-auto">
+              {/* Header - Homogeneizado con Dashboard */}
+              <div className="mb-8 animate-fadeInSlide text-center">
+                              <h1 className="text-3xl font-bold text-black mb-2 tracking-tight">
+                {t('selectTable')}
+              </h1>
+              <p className="text-gray-600 font-medium">
+                {t('step1Subtitle')}
+              </p>
               </div>
 
-              {/* Configuración de Huéspedes - Siempre visible */}
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded p-2 sm:p-3 border border-blue-200 mb-3">
-                <div className="flex items-center space-x-2 mb-2">
-                  <div className="bg-blue-500 p-1 rounded">
-                    <UserIcon size={14} className="text-white" />
-                  </div>
+              {/* Configuración de Huéspedes */}
+              <div className="mb-8 animate-slideInUp" style={{ animationDelay: '200ms' }}>
+                <div className="flex items-center justify-center">
+                  {/* Quick Selection Buttons */}
                   <div>
-                    <h4 className="font-bold text-blue-800 text-xs sm:text-sm">¿Cuántos huéspedes?</h4>
-                    <p className="text-blue-600 text-xs">Te mostraremos las mesas más adecuadas</p>
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <label className="block text-xs font-semibold text-blue-800">
-                    Número de huéspedes
-                  </label>
-                  
-                  <div className="relative">
-                    <input
-                      type="text"
-                      value={guests === 0 ? '' : guests}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (value === '') {
-                          setGuests(0);
-                        } else {
-                          const num = parseInt(value);
-                          if (!isNaN(num) && num >= 0) {
-                            setGuests(num);
-                          }
-                        }
-                      }}
-                      className="w-full px-2 py-1.5 bg-white border-2 border-blue-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-xs font-semibold text-gray-700 shadow-sm transition-all duration-300"
-                      placeholder="Ej: 4"
-                    />
-                    <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-blue-500">
-                      <UserIcon size={14} />
+                                         <div className="grid grid-cols-8 gap-3 max-w-4xl mx-auto">
+                      {[1, 2, 3, 4, 5, 6, 7, 8].map((num, index) => (
+                                               <button
+                          key={num}
+                          onClick={() => setGuests(num)}
+                          className={`group relative overflow-hidden rounded-2xl aspect-square transition-all duration-300 transform hover:scale-105 w-20 h-20 ${
+                            guests === num
+                              ? 'bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-lg ring-4 ring-blue-200'
+                              : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-blue-300 hover:shadow-md'
+                          }`}
+                          style={{ animationDelay: `${index * 100}ms` }}
+                        >
+                         {/* Shine effect */}
+                         <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                         
+                                                   {/* Selection indicator */}
+                          {guests === num && (
+                            <div className="absolute top-2 right-2">
+                              <div className="w-6 h-6 bg-white/30 rounded-full flex items-center justify-center">
+                                <CheckIcon size={14} className="text-white" />
+                              </div>
+                            </div>
+                          )}
+                         
+                         {/* Content */}
+                         <div className="relative z-10 flex flex-col items-center justify-center h-full p-2">
+                           {/* Person icons visualization */}
+                           <div className="flex flex-wrap items-center justify-center gap-0.5 mb-1">
+                                                           {Array.from({ length: Math.min(num, 4) }, (_, i) => (
+                                <div
+                                  key={i}
+                                  className={`w-2 h-2 rounded-full ${
+                                    guests === num ? 'bg-white/80' : 'bg-blue-400'
+                                  }`}
+                                />
+                              ))}
+                             {num > 4 && (
+                               <span className={`text-xs font-bold ml-0.5 ${
+                                 guests === num ? 'text-white' : 'text-blue-500'
+                               }`}>
+                                 +
+                               </span>
+                             )}
+                           </div>
+                           
+                                                       {/* Number */}
+                            <div className={`text-3xl font-bold transition-colors ${
+                              guests === num ? 'text-white' : 'text-gray-800'
+                            }`}>
+                              {num}
+                            </div>
+                           
+                           {/* Label */}
+                           <div className={`text-xs font-medium transition-colors ${
+                             guests === num ? 'text-white/90' : 'text-gray-500'
+                           }`}>
+                             {num === 1 ? t('person') : t('people')}
+                           </div>
+                         </div>
+                         
+                         {/* Ripple effect */}
+                         <div className="absolute inset-0 bg-blue-400/20 rounded-2xl scale-0 group-active:scale-100 transition-transform duration-150"></div>
+                       </button>
+                     ))}
                     </div>
                   </div>
-
-                  {/* Quick Selection Buttons */}
-                  <div className="flex flex-wrap gap-1">
-                    <span className="text-xs font-medium text-blue-700 mb-1 w-full">Selección rápida:</span>
-                    {[1, 2, 4, 6, 8].map((num) => (
-                      <button
-                        key={num}
-                        onClick={() => setGuests(num)}
-                        className={`px-1.5 py-0.5 rounded text-xs font-semibold transition-all duration-200 ${
-                          guests === num
-                            ? 'bg-blue-500 text-white shadow-md'
-                            : 'bg-white text-blue-600 border border-blue-300 hover:bg-blue-100'
-                        }`}
-                      >
-                        {num} {num === 1 ? 'persona' : 'personas'}
-                      </button>
-                    ))}
-                  </div>
-
-
                 </div>
               </div>
 
 
 
-              <div className="bg-white rounded border border-gray-200 shadow-md overflow-hidden">
+              <div className="bg-white rounded border border-gray-200 overflow-hidden">
                 <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-2 sm:p-3">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <div className="flex items-center space-x-2">
@@ -381,13 +400,13 @@ export function TakeOrder() {
                         <TableCustomIcon size={16} className="text-white" />
                       </div>
                       <div>
-                        <h3 className="font-bold text-white text-sm sm:text-base">Mesas Disponibles</h3>
-                        <p className="text-blue-100 text-xs">Selecciona tu mesa preferida</p>
+                        <h3 className="font-bold text-white text-sm sm:text-base">{t('availableTables')}</h3>
+                        <p className="text-blue-100 text-xs">{t('selectPreferredTable')}</p>
                       </div>
                     </div>
                     <div className="bg-white/20 backdrop-blur-sm px-2 py-1 rounded">
                       <span className="text-white font-bold text-xs">
-                        {availableTables.length} disponibles
+                        {availableTables.length} {t('availableText')}
                       </span>
                     </div>
                   </div>
@@ -414,16 +433,15 @@ export function TakeOrder() {
                             className={`
                               relative w-full aspect-square rounded border-2 transition-all duration-300 
                               transform-gpu hover:scale-105 hover:-translate-y-1 hover:rotate-1
-                              shadow-md hover:shadow-lg
                               ${selectedTable === table.number
-                                ? 'border-emerald-400 bg-gradient-to-br from-emerald-50 to-emerald-100 shadow-emerald-200/50'
+                                ? 'border-emerald-400 bg-gradient-to-br from-emerald-50 to-emerald-100'
                                 : isPerfectMatch
-                                ? 'border-blue-400 bg-gradient-to-br from-blue-50 to-blue-100 shadow-blue-200/50 ring-2 ring-blue-200'
+                                ? 'border-blue-400 bg-gradient-to-br from-blue-50 to-blue-100 ring-2 ring-blue-200'
                                 : isRecommended
-                                ? 'border-blue-300 bg-gradient-to-br from-blue-25 to-blue-50 shadow-blue-100/50'
+                                ? 'border-blue-300 bg-gradient-to-br from-blue-25 to-blue-50'
                                 : isTooSmall
                                 ? 'border-red-200 bg-gradient-to-br from-red-25 to-red-50 opacity-60'
-                                : 'border-slate-200 bg-gradient-to-br from-white to-gray-50 hover:border-blue-300 hover:shadow-blue-200/30'
+                                : 'border-slate-200 bg-gradient-to-br from-white to-gray-50 hover:border-blue-300'
                               }
                             `}
                           >
@@ -509,9 +527,9 @@ export function TakeOrder() {
                               <div className={`
                                 text-lg sm:text-xl md:text-2xl font-black tracking-tight mb-0.5
                                 ${selectedTable === table.number 
-                                  ? 'text-emerald-600 drop-shadow-sm' 
+                                  ? 'text-emerald-600' 
                                   : isPerfectMatch
-                                  ? 'text-blue-600 drop-shadow-sm'
+                                  ? 'text-blue-600'
                                   : isRecommended
                                   ? 'text-blue-500'
                                   : isTooSmall
@@ -545,17 +563,17 @@ export function TakeOrder() {
                               {/* Status Text */}
                               {isPerfectMatch && selectedTable !== table.number && (
                                 <div className="text-xs text-blue-600 font-bold mt-0.5">
-                                  Ideal
+                                  {t('ideal')}
                                 </div>
                               )}
                               {isRecommended && !isPerfectMatch && selectedTable !== table.number && (
                                 <div className="text-xs text-blue-500 font-medium mt-0.5">
-                                  Buena
+                                  {t('good')}
                                 </div>
                               )}
                               {isTooSmall && (
                                 <div className="text-xs text-red-500 font-medium mt-0.5">
-                                  Pequeña
+                                  {t('smallTable')}
                                 </div>
                               )}
                             </div>
@@ -586,19 +604,19 @@ export function TakeOrder() {
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-xs">
                       <div className="flex items-center space-x-1">
                         <div className="w-2 h-2 rounded bg-blue-500"></div>
-                        <span className="text-gray-700">⭐ Ideal</span>
+                        <span className="text-gray-700">⭐ {t('ideal')}</span>
                       </div>
                       <div className="flex items-center space-x-1">
                         <div className="w-2 h-2 rounded bg-blue-300"></div>
-                        <span className="text-gray-700">Recomendada</span>
+                        <span className="text-gray-700">{t('recommended')}</span>
                       </div>
                       <div className="flex items-center space-x-1">
                         <div className="w-2 h-2 rounded bg-gray-300"></div>
-                        <span className="text-gray-700">Disponible</span>
+                        <span className="text-gray-700">{t('available')}</span>
                       </div>
                       <div className="flex items-center space-x-1">
                         <div className="w-2 h-2 rounded bg-red-300"></div>
-                        <span className="text-gray-700">✕ Muy pequeña</span>
+                        <span className="text-gray-700">✕ {t('tooSmall')}</span>
                       </div>
                     </div>
                   </div>
@@ -609,31 +627,52 @@ export function TakeOrder() {
 
           {/* Paso 2: Menú de Productos */}
           <Step>
-            <div className="w-full max-w-sm sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl mx-auto px-2 sm:px-3">
-              
+            <div className="w-full max-w-5xl mx-auto">
+              {/* Header - Homogeneizado con Dashboard */}
+              <div className="mb-8 animate-fadeInSlide text-center">
+                              <h1 className="text-3xl font-bold text-black mb-2 tracking-tight">
+                {t('menuTitle')}
+              </h1>
+              <p className="text-gray-600 font-medium">
+                {t('step2Subtitle').replace('{table}', selectedTable?.toString() || '').replace('{guests}', guests.toString())}
+              </p>
+              </div>
 
               {/* Progress Summary */}
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded p-2 sm:p-3 border border-blue-200 mb-3">
-                <div className="flex items-center space-x-2 mb-2">
-                  <div>
-                    <h4 className="font-bold text-blue-800 text-xs sm:text-sm">Progreso del Pedido</h4>
-                    <p className="text-blue-600 text-xs">Mesa {selectedTable} • {guests} huéspedes • {getTotalItems()} productos</p>
+              <div className="bg-white rounded border border-gray-100 animate-slideInUp mb-8 max-w-[820px] mx-auto" style={{ animationDelay: '100ms' }}>
+                <div className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <TableIcon size={18} className="text-blue-600 mr-2" />
+                      <h3 className="font-semibold text-gray-800 text-sm">{t('orderProgress')}</h3>
+                    </div>
+                    <div className="flex items-center space-x-6 text-xs">
+                      <span className="text-gray-600">
+                        {t('table')}: <span className="font-medium text-blue-600">{selectedTable}</span>
+                      </span>
+                      <span className="text-gray-600">
+                        {t('guests')}: <span className="font-medium text-blue-600">{guests}</span>
+                      </span>
+                      <span className="text-gray-600">
+                        {t('products')}: <span className="font-medium text-green-600">{getTotalItems()}</span>
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white rounded border border-gray-200 shadow-md overflow-hidden">
+              <div className="bg-white rounded border border-gray-200 overflow-hidden">
                 <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-2 sm:p-3">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <div className="flex items-center space-x-2">
                       <div>
-                        <h3 className="font-bold text-white text-sm sm:text-base">Menú del Restaurante</h3>
-                        <p className="text-blue-100 text-xs">Selecciona tus platos favoritos</p>
+                        <h3 className="font-bold text-white text-sm sm:text-base">{t('menuTitle')}</h3>
+                        <p className="text-blue-100 text-xs">{t('selectPreferredTable')}</p>
                       </div>
                     </div>
                     <div className="bg-white/20 backdrop-blur-sm px-2 py-1 rounded">
                       <span className="text-white font-bold text-xs">
-                        {filteredItems.length} disponibles
+                        {filteredItems.length} {t('availableText')}
                       </span>
                     </div>
                   </div>
@@ -647,7 +686,7 @@ export function TakeOrder() {
                         type="text"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="Buscar..."
+                        placeholder={t('search')}
                         className="w-full px-3 py-2 bg-gray-50 border-0 border-b border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:border-gray-600 transition-colors duration-200 text-sm"
                       />
                       <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">
@@ -676,8 +715,8 @@ export function TakeOrder() {
                         onClick={() => setSelectedCategory(category.id)}
                         className={`px-4 py-2 rounded text-xs font-semibold transition-all duration-300 transform hover:scale-105 ${
                           selectedCategory === category.id
-                            ? 'bg-blue-500 text-white shadow-md'
-                            : 'bg-white text-blue-600 border border-blue-300 hover:bg-blue-100 shadow-sm'
+                            ? 'bg-blue-500 text-white'
+                            : 'bg-white text-blue-600 border border-blue-300 hover:bg-blue-100'
                         }`}
                       >
                         <span className="mr-1">{category.icon}</span>
@@ -686,7 +725,7 @@ export function TakeOrder() {
                     ))}
                   </div>
                   
-                                      <div className="max-h-[450px] sm:max-h-[550px] md:max-h-[600px] overflow-y-auto pr-2 -mr-2 py-1 apple-scroll">
+                                      <div className="max-h-[450px] sm:max-h-[550px] md:max-h-[600px] overflow-y-auto pr-2 -mr-2 py-1 kitchen-scrollbar">
                     <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
                       {filteredItems.map((item, index) => {
                         const cartItem = cart.find(cartItem => cartItem.id === item.id);
@@ -695,7 +734,7 @@ export function TakeOrder() {
                         return (
                           <div
                             key={item.id}
-                            className="group bg-white border border-gray-200 rounded flex p-2 transition-all duration-300 hover:bg-gray-50 hover:shadow-lg hover:border-gray-300 relative"
+                            className="group bg-white border border-gray-200 rounded flex p-2 transition-all duration-300 hover:bg-gray-50 hover:border-gray-300 relative"
                           >
                             {/* Add/Remove buttons - top right of card */}
                             <div className="absolute -top-1 -right-1 flex gap-1 z-10">
@@ -703,7 +742,7 @@ export function TakeOrder() {
                               {isInCart && (
                                 <button
                                   onClick={() => removeFromCart(item.id)}
-                                  className="w-6 h-6 sm:w-7 sm:h-7 bg-red-500 text-white flex items-center justify-center hover:scale-110 hover:bg-red-600 transition-all duration-200 shadow-md rounded-full"
+                                  className="w-6 h-6 sm:w-7 sm:h-7 bg-red-500 text-white flex items-center justify-center hover:scale-110 hover:bg-red-600 transition-all duration-200 rounded-full"
                                 >
                                   <MinusIcon size={12} className="sm:w-3.5 sm:h-3.5" />
                                 </button>
@@ -712,7 +751,7 @@ export function TakeOrder() {
                               {/* Add button */}
                               <button
                                 onClick={() => addToCart(item)}
-                                className="w-6 h-6 sm:w-7 sm:h-7 bg-blue-600 text-white flex items-center justify-center hover:scale-110 hover:bg-blue-500 transition-all duration-200 shadow-md rounded-full"
+                                className="w-6 h-6 sm:w-7 sm:h-7 bg-blue-600 text-white flex items-center justify-center hover:scale-110 hover:bg-blue-500 transition-all duration-200 rounded-full"
                               >
                                 <PlusIcon size={12} className="sm:w-3.5 sm:h-3.5" />
                               </button>
@@ -723,8 +762,10 @@ export function TakeOrder() {
                               <h4 className="font-bold text-gray-900 text-xs sm:text-sm text-left">{item.name}</h4>
                               <p className="text-gray-600 text-xs mt-1 flex-grow line-clamp-2 text-left">{item.description}</p>
                               <div className="mt-1">
-                                <span className="font-bold text-gray-700 text-xs text-left">Product info</span>
-                                <p className="text-blue-600 text-sm font-bold mt-0 text-left">€{item.price.toFixed(2)}</p>
+                                <span className="font-bold text-gray-700 text-xs text-left">{t('productInfo')}</span>
+                                <div className="text-right">
+                                  <p className="text-blue-600 text-sm font-bold mt-0 text-left break-all leading-tight">{formatCurrency(item.price)}</p>
+                                </div>
                               </div>
                             </div>
 
@@ -740,7 +781,7 @@ export function TakeOrder() {
                               {/* In Cart Indicator */}
                               {isInCart && (
                                 <div className="absolute bottom-0 right-0 transform translate-x-1/4 translate-y-1/4">
-                                    <div className="bg-green-500 text-white text-xs w-4 h-4 rounded-full font-bold flex items-center justify-center shadow-lg ring-2 ring-white/50">
+                                    <div className="bg-green-500 text-white text-xs w-4 h-4 rounded-full font-bold flex items-center justify-center ring-2 ring-white/50">
                                       {cartItem.quantity}
                                     </div>
                                 </div>
@@ -756,13 +797,13 @@ export function TakeOrder() {
                         <ChefIcon size={48} className="mx-auto mb-4 opacity-30" />
                         {searchQuery ? (
                           <>
-                            <p className="text-lg mb-2">No se encontraron resultados para "{searchQuery}"</p>
-                            <p className="text-sm">Prueba con otros términos de búsqueda o selecciona otra categoría</p>
+                            <p className="text-lg mb-2">{t('noResultsFound')} "{searchQuery}"</p>
+                            <p className="text-sm">{t('tryOtherTerms')}</p>
                           </>
                         ) : (
                           <>
-                            <p className="text-lg mb-2">No hay productos en esta categoría</p>
-                            <p className="text-sm">Prueba seleccionando otra categoría</p>
+                            <p className="text-lg mb-2">{t('noProductsInCategory')}</p>
+                            <p className="text-sm">{t('trySelectingOther')}</p>
                           </>
                         )}
                       </div>
@@ -771,29 +812,29 @@ export function TakeOrder() {
                 </div>
               </div>
 
-              {/* Cart Summary Fixed at Bottom */}
+              {/* Cart Summary Fixed at Bottom - Enhanced for responsive prices */}
               {cart.length > 0 && (
                 <div className="fixed bottom-4 left-4 right-4 z-50 lg:relative lg:bottom-auto lg:left-auto lg:right-auto lg:mt-4">
-                  <div className="bg-white rounded-lg border-2 border-green-400 shadow-2xl p-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <div className="bg-green-500 p-2 rounded-lg">
+                  <div className="bg-white rounded-lg border-2 border-green-400 p-3">
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="flex items-center space-x-3 min-w-0 flex-1">
+                        <div className="bg-green-500 p-2 rounded-lg flex-shrink-0">
                           <ShoppingCartIcon size={16} className="text-white" />
                         </div>
-                        <div>
+                        <div className="min-w-0 flex-1">
                           <p className="font-bold text-gray-900 text-sm">
-                            {getTotalItems()} productos
+                            {getTotalItems()} {t('productsText')}
                           </p>
                           <p className="text-xs text-gray-600">
-                            Mesa {selectedTable}
+                            {t('tableNumber', { number: selectedTable ?? 0 })}
                           </p>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <p className="font-black text-lg text-green-600">
-                          €{getTotalPrice().toFixed(2)}
+                      <div className="text-right flex-shrink-0">
+                        <p className="font-black text-lg text-green-600 break-all leading-tight">
+                          {formatCurrency(getTotalPrice())}
                         </p>
-                        <p className="text-xs text-gray-500">Total</p>
+                        <p className="text-xs text-gray-500">{t('total')}</p>
                       </div>
                     </div>
                   </div>
@@ -804,35 +845,64 @@ export function TakeOrder() {
 
           {/* Paso 3: Carrito y Resumen */}
           <Step>
-            <div className="w-full max-w-sm sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl mx-auto px-2 sm:px-3">
+            <div className="w-full max-w-5xl mx-auto">
+              {/* Header - Homogeneizado con Dashboard */}
+              <div className="mb-8 animate-fadeInSlide text-center">
+                              <h1 className="text-3xl font-bold text-black mb-2 tracking-tight">
+                {t('orderSummary')}
+              </h1>
+              <p className="text-gray-600 font-medium">
+                {t('step3Subtitle').replace('{table}', selectedTable?.toString() || '')}
+              </p>
+              </div>
+
               
 
-              {/* Order Info Card */}
-              <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-4 mb-4 border border-green-200">
-                <div className="grid grid-cols-3 gap-4 text-center">
-                  <div>
-                    <div className="flex items-center justify-center mb-1">
-                      <TableCustomIcon size={16} className="mr-1" />
-                      <span className="text-sm font-medium text-gray-700">Mesa</span>
+              {/* Order Summary Cards - Dashboard Style */}
+              <div className="flex gap-4 mb-8 justify-center">
+                
+                {/* Table Info */}
+                <div className="w-48">
+                  <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
+                    <div className="bg-blue-100 backdrop-blur-sm rounded-md px-2 py-3 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200" style={{ animationDelay: '0ms', backdropFilter: 'blur(10px)' }}>
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
+                      <div className="relative z-10">
+                        <h3 className="text-sm font-medium text-black mb-1">{t('table')}</h3>
+                        <p className="text-3xl font-normal text-black mb-1" style={{ fontFamily: 'Helvetica Neue', fontWeight: 'bold' }}>{selectedTable}</p>
+                        <p className="text-xs font-normal text-black">{guests} {guests === 1 ? t('person') : t('people')}</p>
+                      </div>
                     </div>
-                    <p className="text-lg font-bold text-green-600">{selectedTable}</p>
-                    <p className="text-xs text-gray-500">{guests} {guests === 1 ? 'huésped' : 'huéspedes'}</p>
-                  </div>
-                  <div>
-                    <div className="flex items-center justify-center mb-1">
-                      <ShoppingCartIcon size={16} className="mr-1" />
-                      <span className="text-sm font-medium text-gray-700">Productos</span>
-                    </div>
-                    <p className="text-lg font-bold text-blue-600">{getTotalItems()}</p>
-                    <p className="text-xs text-gray-500">{cart.length} {cart.length === 1 ? 'tipo' : 'tipos'}</p>
-                  </div>
-                  <div>
-                    <div className="flex items-center justify-center mb-1">
-                      <span className="text-sm font-medium text-gray-700">💰 Total</span>
-                    </div>
-                    <p className="text-xl font-black text-green-600">€{getTotalPrice().toFixed(2)}</p>
-                  </div>
+                  </SpotlightCard>
                 </div>
+
+                {/* Products Info */}
+                <div className="w-48">
+                  <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
+                    <div className="bg-purple-100 backdrop-blur-sm rounded-md px-2 py-3 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200" style={{ animationDelay: '100ms', backdropFilter: 'blur(10px)' }}>
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
+                      <div className="relative z-10">
+                        <h3 className="text-sm font-medium text-black mb-1">{t('products')}</h3>
+                        <p className="text-3xl font-normal text-black mb-1" style={{ fontFamily: 'Helvetica Neue', fontWeight: 'bold' }}>{getTotalItems()}</p>
+                        <p className="text-xs font-normal text-black">{cart.length} {cart.length === 1 ? t('type') : t('types')}</p>
+                      </div>
+                    </div>
+                  </SpotlightCard>
+                </div>
+
+                {/* Total Info */}
+                <div className="w-48">
+                  <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
+                    <div className="bg-green-100 backdrop-blur-sm rounded-md px-2 py-3 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200" style={{ animationDelay: '200ms', backdropFilter: 'blur(10px)' }}>
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
+                      <div className="relative z-10">
+                        <h3 className="text-sm font-medium text-black mb-1">{t('total')}</h3>
+                        <p className="text-3xl font-normal text-black mb-1" style={{ fontFamily: 'Helvetica Neue', fontWeight: 'bold' }}>{formatCurrency(getTotalPrice())}</p>
+                        <p className="text-xs font-normal text-black">{t('including')} {t('taxes')}</p>
+                      </div>
+                    </div>
+                  </SpotlightCard>
+                </div>
+                
               </div>
 
               {cart.length > 0 ? (
@@ -841,20 +911,45 @@ export function TakeOrder() {
                   <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
                     <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
                       <div className="flex items-center justify-between">
-                        <h3 className="font-semibold text-gray-800">Tu Pedido</h3>
+                        <h3 className="font-semibold text-gray-800">{t('yourOrder')}</h3>
                         <div className="flex items-center space-x-2">
-                          <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
-                            {getTotalItems()} items
-                          </span>
+                                                      <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
+                              {getTotalItems()} {t('items')}
+                            </span>
                           {cart.length > 0 && (
                             <button
                               onClick={clearCart}
                               className="text-red-500 hover:text-red-700 p-1.5 rounded-full hover:bg-red-50 transition-all duration-200"
-                              title="Vaciar carrito"
+                              title={t('clearCartTooltip')}
                             >
                               <TrashIcon size={16} />
                             </button>
                           )}
+                        </div>
+                      </div>
+                    </div>
+                    
+                                        {/* Table Headers */}
+                    <div className="bg-gray-100 px-4 py-2 border-b border-gray-200">
+                      <div className="flex items-center space-x-4">
+                        {/* Product Icon Header */}
+                        <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center">
+                          <span className="text-xs font-medium text-gray-600">🍽️</span>
+                        </div>
+                        
+                        {/* Product Info Header - Aligned left to match content */}
+                        <div className="flex-grow min-w-0">
+                          <span className="text-xs font-medium text-gray-600">{t('productInfo')}</span>
+                        </div>
+                        
+                        {/* Quantity Controls Header - Centered to match controls */}
+                        <div className="flex items-center justify-center min-w-[140px]">
+                          <span className="text-xs font-medium text-gray-600">{t('quantity')}</span>
+                        </div>
+                        
+                        {/* Subtotal Header - Right aligned */}
+                        <div className="text-right min-w-[80px]">
+                          <span className="text-xs font-medium text-gray-600">{t('subtotal')}</span>
                         </div>
                       </div>
                     </div>
@@ -872,14 +967,14 @@ export function TakeOrder() {
                                 <span className="text-2xl">{categoryIcon}</span>
                               </div>
                               
-                              {/* Product Info */}
+                              {/* Product Info - Enhanced for responsive prices */}
                               <div className="flex-grow min-w-0">
-                                <h4 className="font-semibold text-gray-900 truncate">{item.name}</h4>
-                                <p className="text-sm text-gray-600">€{item.price.toFixed(2)} por unidad</p>
+                                <h4 className="font-semibold text-gray-900 line-clamp-2">{item.name}</h4>
+                                <p className="text-sm text-gray-600 break-all leading-tight">{formatCurrency(item.price)} {t('unitPrice')}</p>
                               </div>
                               
                               {/* Quantity Controls */}
-                              <div className="flex items-center space-x-3">
+                              <div className="flex items-center space-x-3 flex-shrink-0">
                                 <button
                                   onClick={() => removeFromCart(item.id)}
                                   className="w-8 h-8 bg-red-100 text-red-600 rounded-full flex items-center justify-center hover:bg-red-200 transition-colors duration-200"
@@ -899,9 +994,9 @@ export function TakeOrder() {
                                 </button>
                               </div>
                               
-                              {/* Subtotal */}
-                              <div className="text-right min-w-[80px]">
-                                <p className="font-bold text-lg text-gray-900">€{(item.price * item.quantity).toFixed(2)}</p>
+                              {/* Subtotal - Enhanced for responsive prices */}
+                              <div className="text-right min-w-[100px] flex-shrink-0">
+                                <p className="font-bold text-lg text-gray-900 break-all leading-tight">{formatCurrency(item.price * item.quantity)}</p>
                               </div>
                             </div>
                           </div>
@@ -909,15 +1004,15 @@ export function TakeOrder() {
                       })}
                     </div>
                     
-                    {/* Total Section */}
+                    {/* Total Section - Enhanced for responsive prices */}
                     <div className="bg-gray-50 px-4 py-4 border-t border-gray-200">
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <p className="text-sm text-gray-600">Total del pedido</p>
-                          <p className="text-xs text-gray-500">{getTotalItems()} productos • Mesa {selectedTable}</p>
+                      <div className="flex justify-between items-center gap-4">
+                        <div className="min-w-0 flex-1">
+                          <p className="text-sm text-gray-600">{t('orderTotal')}</p>
+                          <p className="text-xs text-gray-500">{getTotalItems()} {t('products')} • {t('table')} {selectedTable}</p>
                         </div>
-                        <div className="text-right">
-                          <p className="text-2xl font-black text-green-600">€{getTotalPrice().toFixed(2)}</p>
+                        <div className="text-right flex-shrink-0">
+                          <p className="text-2xl font-black text-green-600 break-all leading-tight">{formatCurrency(getTotalPrice())}</p>
                         </div>
                       </div>
                     </div>
@@ -927,22 +1022,22 @@ export function TakeOrder() {
                   <div className="space-y-3">
                     <button
                       onClick={handleSubmitOrder}
-                      className="w-full bg-green-500 hover:bg-green-600 text-white py-4 px-6 rounded text-lg font-semibold transition-all duration-200 active:scale-95 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
+                      className="w-full bg-green-500 hover:bg-green-600 text-white py-4 px-6 rounded text-lg font-bold transition-all duration-200 active:scale-95 flex items-center justify-center space-x-2"
                     >
                       <CheckIcon size={20} />
-                      <span>Confirmar y Enviar Pedido</span>
+                      <span>{t('confirmOrder')}</span>
                     </button>
                     
                     <p className="text-center text-xs text-gray-500">
-                      Puedes editar las cantidades usando los botones + y -
+                      {t('canEditQuantities')}
                     </p>
                   </div>
                 </div>
               ) : (
                 <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
                   <ShoppingCartIcon size={48} className="mx-auto mb-4 text-gray-300" />
-                  <h3 className="text-lg font-semibold text-gray-700 mb-2">No hay productos en tu pedido</h3>
-                  <p className="text-sm text-gray-500 mb-4">Regresa al paso anterior para agregar productos al carrito</p>
+                  <h3 className="text-lg font-semibold text-gray-700 mb-2">{t('noProductsInOrder')}</h3>
+                  <p className="text-sm text-gray-500 mb-4">{t('goBackToPrevious')}</p>
                 </div>
               )}
             </div>
@@ -951,4 +1046,4 @@ export function TakeOrder() {
       </div>
     </div>
   )
-} 
+}

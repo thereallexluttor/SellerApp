@@ -1,0 +1,252 @@
+/* Font Size Configuration Classes */
+
+/* Small Font Size */
+.config-font-small {
+  font-size: 0.75rem; /* 12px */
+}
+
+.config-font-small h1 {
+  font-size: 1.5rem; /* 24px */
+}
+
+.config-font-small h2 {
+  font-size: 1.25rem; /* 20px */
+}
+
+.config-font-small h3 {
+  font-size: 1.125rem; /* 18px */
+}
+
+.config-font-small h4 {
+  font-size: 1rem; /* 16px */
+}
+
+.config-font-small .text-xs {
+  font-size: 0.625rem; /* 10px */
+}
+
+.config-font-small .text-sm {
+  font-size: 0.6875rem; /* 11px */
+}
+
+.config-font-small .text-lg {
+  font-size: 1rem; /* 16px */
+}
+
+.config-font-small .text-xl {
+  font-size: 1.125rem; /* 18px */
+}
+
+.config-font-small .text-2xl {
+  font-size: 1.25rem; /* 20px */
+}
+
+.config-font-small .text-3xl {
+  font-size: 1.5rem; /* 24px */
+}
+
+/* Medium Font Size (Default) */
+.config-font-medium {
+  font-size: 0.875rem; /* 14px */
+}
+
+.config-font-medium h1 {
+  font-size: 1.875rem; /* 30px */
+}
+
+.config-font-medium h2 {
+  font-size: 1.5rem; /* 24px */
+}
+
+.config-font-medium h3 {
+  font-size: 1.25rem; /* 20px */
+}
+
+.config-font-medium h4 {
+  font-size: 1.125rem; /* 18px */
+}
+
+.config-font-medium .text-xs {
+  font-size: 0.75rem; /* 12px */
+}
+
+.config-font-medium .text-sm {
+  font-size: 0.875rem; /* 14px */
+}
+
+.config-font-medium .text-lg {
+  font-size: 1.125rem; /* 18px */
+}
+
+.config-font-medium .text-xl {
+  font-size: 1.25rem; /* 20px */
+}
+
+.config-font-medium .text-2xl {
+  font-size: 1.5rem; /* 24px */
+}
+
+.config-font-medium .text-3xl {
+  font-size: 1.875rem; /* 30px */
+}
+
+/* Large Font Size */
+.config-font-large {
+  font-size: 1rem; /* 16px */
+}
+
+.config-font-large h1 {
+  font-size: 2.25rem; /* 36px */
+}
+
+.config-font-large h2 {
+  font-size: 1.875rem; /* 30px */
+}
+
+.config-font-large h3 {
+  font-size: 1.5rem; /* 24px */
+}
+
+.config-font-large h4 {
+  font-size: 1.25rem; /* 20px */
+}
+
+.config-font-large .text-xs {
+  font-size: 0.875rem; /* 14px */
+}
+
+.config-font-large .text-sm {
+  font-size: 1rem; /* 16px */
+}
+
+.config-font-large .text-lg {
+  font-size: 1.25rem; /* 20px */
+}
+
+.config-font-large .text-xl {
+  font-size: 1.5rem; /* 24px */
+}
+
+.config-font-large .text-2xl {
+  font-size: 1.875rem; /* 30px */
+}
+
+.config-font-large .text-3xl {
+  font-size: 2.25rem; /* 36px */
+}
+
+/* Extra Large Font Size */
+.config-font-extra-large {
+  font-size: 1.125rem; /* 18px */
+}
+
+.config-font-extra-large h1 {
+  font-size: 2.5rem; /* 40px */
+}
+
+.config-font-extra-large h2 {
+  font-size: 2.25rem; /* 36px */
+}
+
+.config-font-extra-large h3 {
+  font-size: 1.875rem; /* 30px */
+}
+
+.config-font-extra-large h4 {
+  font-size: 1.5rem; /* 24px */
+}
+
+.config-font-extra-large .text-xs {
+  font-size: 1rem; /* 16px */
+}
+
+.config-font-extra-large .text-sm {
+  font-size: 1.125rem; /* 18px */
+}
+
+.config-font-extra-large .text-lg {
+  font-size: 1.5rem; /* 24px */
+}
+
+.config-font-extra-large .text-xl {
+  font-size: 1.875rem; /* 30px */
+}
+
+.config-font-extra-large .text-2xl {
+  font-size: 2.25rem; /* 36px */
+}
+
+.config-font-extra-large .text-3xl {
+  font-size: 2.5rem; /* 40px */
+}
+
+/* Button and Input Adjustments */
+.config-font-small button,
+.config-font-small input,
+.config-font-small select,
+.config-font-small textarea {
+  font-size: 0.75rem; /* 12px */
+}
+
+.config-font-medium button,
+.config-font-medium input,
+.config-font-medium select,
+.config-font-medium textarea {
+  font-size: 0.875rem; /* 14px */
+}
+
+.config-font-large button,
+.config-font-large input,
+.config-font-large select,
+.config-font-large textarea {
+  font-size: 1rem; /* 16px */
+}
+
+.config-font-extra-large button,
+.config-font-extra-large input,
+.config-font-extra-large select,
+.config-font-extra-large textarea {
+  font-size: 1.125rem; /* 18px */
+}
+
+/* Table Adjustments */
+.config-font-small table th,
+.config-font-small table td {
+  font-size: 0.625rem; /* 10px */
+}
+
+.config-font-medium table th,
+.config-font-medium table td {
+  font-size: 0.75rem; /* 12px */
+}
+
+.config-font-large table th,
+.config-font-large table td {
+  font-size: 0.875rem; /* 14px */
+}
+
+.config-font-extra-large table th,
+.config-font-extra-large table td {
+  font-size: 1rem; /* 16px */
+}
+
+/* Badge and Label Adjustments */
+.config-font-small .badge,
+.config-font-small .label {
+  font-size: 0.625rem; /* 10px */
+}
+
+.config-font-medium .badge,
+.config-font-medium .label {
+  font-size: 0.75rem; /* 12px */
+}
+
+.config-font-large .badge,
+.config-font-large .label {
+  font-size: 0.875rem; /* 14px */
+}
+
+.config-font-extra-large .badge,
+.config-font-extra-large .label {
+  font-size: 1rem; /* 16px */
+} 

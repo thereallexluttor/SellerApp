@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import './animations.css'
+import './config-styles.css'
 import SpotlightCard from './SpotlightCard'
+import { useConfig } from '../contexts/ConfigContext'
 import {
   ClockIcon,
   TableIcon,
@@ -87,6 +89,7 @@ const TrendingUpCustomIcon = ({ size = 16, className = "" }: { size?: number, cl
 
 export function Dashboard() {
   const [isLoading, setIsLoading] = useState(true)
+  const { t, formatCurrency, getFontSizeClass } = useConfig()
 
   useEffect(() => {
     // Simulate loading with shorter delay
@@ -517,7 +520,7 @@ export function Dashboard() {
   const renderOrderCard = (order: Order, index: number) => (
     <div
       key={order.id}
-      className={`group relative p-2 rounded-lg border-2 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] animate-slideInUp cursor-pointer ${getStatusColor(order.status)}`}
+      className={`group relative p-3 rounded border-2 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] animate-slideInUp cursor-pointer ${getStatusColor(order.status)}`}
       style={{ 
         animationDelay: `${index * 50}ms`,
         backdropFilter: 'blur(8px)',
@@ -529,7 +532,7 @@ export function Dashboard() {
       }}
     >
       {/* Glow effect */}
-      <div className="absolute inset-0 rounded-lg bg-gradient-to-r opacity-0 group-hover:opacity-20 transition-opacity duration-300"
+      <div className="absolute inset-0 rounded bg-gradient-to-r opacity-0 group-hover:opacity-20 transition-opacity duration-300"
            style={{
              background: `linear-gradient(45deg, ${
                order.status === 'ready' ? '#10b981, #34d399' :
@@ -539,23 +542,23 @@ export function Dashboard() {
            }}></div>
       
       <div className="relative z-10">
-        <div className="flex items-center justify-between mb-1">
-          <div className="flex items-center">
-            <div className="relative">
-              <div className="w-8 h-8 bg-gradient-to-br from-gray-800 to-black text-white rounded-lg flex items-center justify-center text-sm font-bold shadow-md">
-                {order.tableNumber}
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center min-w-0 flex-1">
+            <div className="relative flex-shrink-0">
+              <div className="w-8 h-8 bg-gradient-to-br from-gray-800 to-black text-white rounded flex items-center justify-center font-bold shadow-md">
+                <span className="text-xs">{order.tableNumber}</span>
               </div>
             </div>
-            <div className="ml-2">
+            <div className="ml-3 min-w-0 flex-1">
               <div className="flex items-center space-x-1">
-                <span className="font-bold text-gray-900 text-xs">Mesa {order.tableNumber}</span>
+                <span className="font-bold text-gray-900">{t('tableNumber', { number: order.tableNumber })}</span>
               </div>
-              <div className="flex items-center mt-0.5 text-xs text-gray-600">
-                <div className="flex items-center space-x-1">
-                  <div className="w-3 h-3 bg-gray-400 rounded-full flex items-center justify-center">
-                    <span className="text-[10px] text-white font-bold">{order.items}</span>
+              <div className="flex items-center mt-1 text-gray-600">
+                <div className="flex items-center space-x-2">
+                  <div className="w-4 h-4 bg-gray-400 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-xs text-white font-bold">{order.items}</span>
                   </div>
-                  <span className="text-[10px]">platillos</span>
+                  <span className="text-sm">{t('dishes')}</span>
                 </div>
               </div>
             </div>
@@ -564,14 +567,14 @@ export function Dashboard() {
         
         {/* Progress bar for cooking orders */}
         {order.status === 'cooking' && (
-          <div className="mt-1.5">
-            <div className="flex items-center justify-between text-[10px] text-gray-600 mb-0.5">
-              <span>Progreso</span>
-              <span>~{Math.floor(Math.random() * 40 + 60)}%</span>
+          <div className="mt-2">
+            <div className="flex items-center justify-between text-gray-600 mb-1">
+              <span className="text-sm">{t('progress')}</span>
+              <span className="text-sm">~{Math.floor(Math.random() * 40 + 60)}%</span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-1.5">
+            <div className="w-full bg-gray-200 rounded-full h-2">
               <div 
-                className="bg-gradient-to-r from-yellow-400 to-orange-500 h-1.5 rounded-full transition-all duration-1000"
+                className="bg-gradient-to-r from-yellow-400 to-orange-500 h-2 rounded-full transition-all duration-1000"
                 style={{ width: `${Math.floor(Math.random() * 40 + 60)}%` }}
               ></div>
             </div>
@@ -580,14 +583,14 @@ export function Dashboard() {
         
         {/* Capacity indicator for ready orders */}
         {order.status === 'ready' && order.guests !== undefined && order.capacity !== undefined && (
-          <div className="mt-1.5">
-            <div className="flex items-center justify-between text-[9px] text-gray-600 mb-0.5">
-              <span>Ocupación</span>
-              <span>{order.guests}/{order.capacity} personas</span>
+          <div className="mt-2">
+            <div className="flex items-center justify-between text-gray-600 mb-1">
+              <span className="text-sm">{t('occupation')}</span>
+              <span className="text-sm">{order.guests}/{order.capacity} {t('persons')}</span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-1.5">
+            <div className="w-full bg-gray-200 rounded-full h-2">
               <div 
-                className={`h-1.5 rounded-full transition-all duration-1000 ${
+                className={`h-2 rounded-full transition-all duration-1000 ${
                   order.guests / order.capacity > 0.8 ? 'bg-gradient-to-r from-red-400 to-red-600' :
                   order.guests / order.capacity > 0.5 ? 'bg-gradient-to-r from-yellow-400 to-orange-500' :
                   'bg-gradient-to-r from-green-400 to-blue-500'
@@ -598,30 +601,26 @@ export function Dashboard() {
           </div>
         )}
 
-        {/* Order Details */}
+        {/* Order Details - Enhanced for responsive prices */}
         <div className="mt-2 pt-2 border-t border-gray-200/50">
-          <div className="flex items-center justify-between mb-1">
-            <span className="text-[10px] font-medium text-gray-700">Detalle de la Orden</span>
+          <div className="flex items-start justify-between mb-1">
+            <span className="font-medium text-gray-700 text-sm">{t('orderDetails')}</span>
+            <div className="flex-shrink-0 ml-2 text-right">
+              <span className="font-bold text-gray-800 text-sm break-all">{formatCurrency(order.total)}</span>
+            </div>
           </div>
-          <div className="space-y-0.5 max-h-16 overflow-y-auto">
-            {order.orderDetails.slice(0, 3).map((item, idx) => (
-              <div key={idx} className="flex items-center text-[9px]">
-                <div className="flex items-center space-x-1 flex-1 min-w-0">
-                  <span className="w-3 h-3 bg-gray-500 text-white rounded-full flex items-center justify-center text-[7px] font-bold shrink-0">
+          <div className="space-y-1">
+            {order.orderDetails.map((item, idx) => (
+              <div key={idx} className="flex items-start justify-between text-sm gap-2">
+                <div className="flex items-start space-x-2 flex-1 min-w-0">
+                  <span className="w-4 h-4 bg-gray-500 text-white rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
                     {item.quantity}
                   </span>
-                  <span className="text-gray-700 truncate">{item.name}</span>
-                  {item.notes && (
-                    <span className="text-gray-500 italic text-[8px]">({item.notes})</span>
-                  )}
+                  <span className="text-gray-700 line-clamp-2 flex-1 text-justify">{item.name}</span>
                 </div>
+                <span className="text-gray-600 text-xs font-medium shrink-0 ml-1 break-all leading-tight text-right">{formatCurrency(item.price || 0)}</span>
               </div>
             ))}
-            {order.orderDetails.length > 3 && (
-              <div className="text-[8px] text-gray-500 italic text-center">
-                +{order.orderDetails.length - 3} platillos más...
-              </div>
-            )}
           </div>
         </div>
 
@@ -630,9 +629,9 @@ export function Dashboard() {
           <div className="mt-2 pt-2 border-t border-gray-200/50">
             <button
               onClick={() => handleServed(order.id)}
-              className="w-full bg-green-500 hover:bg-green-600 text-white text-[10px] font-bold py-1.5 px-2 rounded-[5px] transition-all duration-200 active:scale-95 shadow-sm hover:shadow-md"
+              className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-3 rounded transition-all duration-200 active:scale-95 shadow-sm hover:shadow-md text-sm"
             >
-              ✓ Servido
+              ✓ {t('served')}
             </button>
           </div>
         )}
@@ -643,7 +642,7 @@ export function Dashboard() {
   const renderTableCard = (table: Table, index: number) => (
     <div
       key={table.number}
-      className={`group relative p-2 rounded-lg border-2 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] animate-slideInUp cursor-pointer ${
+      className={`group relative p-3 rounded border-2 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] animate-slideInUp cursor-pointer ${
         table.status === 'payment_pending' 
           ? 'border-orange-200 bg-gradient-to-br from-orange-50 to-orange-100/50' 
           : 'border-gray-200 bg-gradient-to-br from-gray-50 to-gray-100/50'
@@ -654,33 +653,31 @@ export function Dashboard() {
       }}
     >
       {/* Glow effect */}
-      <div className={`absolute inset-0 rounded-lg bg-gradient-to-r opacity-0 group-hover:opacity-20 transition-opacity duration-300 ${
+      <div className={`absolute inset-0 rounded bg-gradient-to-r opacity-0 group-hover:opacity-20 transition-opacity duration-300 ${
         table.status === 'payment_pending' 
           ? 'bg-gradient-to-r from-orange-400 to-yellow-400' 
           : 'bg-gradient-to-r from-blue-400 to-purple-400'
       }`}></div>
       
-
-      
       <div className="relative z-10">
-        <div className="flex items-center justify-between mb-1">
-          <div className="flex items-center">
-            <div className="relative">
-              <div className="w-8 h-8 bg-gradient-to-br from-gray-800 to-black text-white rounded-lg flex items-center justify-center text-sm font-bold shadow-md">
-                {table.number}
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center min-w-0 flex-1">
+            <div className="relative flex-shrink-0">
+              <div className="w-8 h-8 bg-gradient-to-br from-gray-800 to-black text-white rounded flex items-center justify-center font-bold shadow-md">
+                <span className="text-xs">{table.number}</span>
               </div>
             </div>
-            <div className="ml-2">
+            <div className="ml-3 min-w-0 flex-1">
               <div className="flex items-center space-x-1">
-                <span className="font-bold text-gray-900 text-xs">Mesa {table.number}</span>
+                <span className="font-bold text-gray-900">{t('tableNumber', { number: table.number })}</span>
               </div>
-              <div className="flex items-center mt-0.5 space-x-2">
+              <div className="flex items-center mt-1 space-x-2">
                 {table.orderTotal && (
-                  <div className="flex items-center space-x-1 text-xs">
-                    <div className="w-3 h-3 bg-green-500 rounded-full flex items-center justify-center">
-                      <span className="text-[8px] text-white font-bold">$</span>
+                  <div className="flex items-start space-x-1 flex-wrap">
+                    <div className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-xs text-white font-bold">$</span>
                     </div>
-                    <span className="font-bold text-green-700 text-[10px]">${table.orderTotal}</span>
+                    <span className="font-bold text-green-700 text-sm break-all leading-tight">{formatCurrency(table.orderTotal || 0)}</span>
                   </div>
                 )}
               </div>
@@ -689,14 +686,14 @@ export function Dashboard() {
         </div>
         
         {/* Capacity indicator */}
-        <div className="mt-1.5">
-          <div className="flex items-center justify-between text-[9px] text-gray-600 mb-0.5">
-            <span>Ocupación</span>
-            <span>{table.guests}/{table.capacity}</span>
+        <div className="mt-2">
+          <div className="flex items-center justify-between text-gray-600 mb-1">
+            <span className="text-sm">{t('occupation')}</span>
+            <span className="text-sm">{table.guests}/{table.capacity}</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-1.5">
+          <div className="w-full bg-gray-200 rounded-full h-2">
             <div 
-              className={`h-1.5 rounded-full transition-all duration-1000 ${
+              className={`h-2 rounded-full transition-all duration-1000 ${
                 table.guests / table.capacity > 0.8 ? 'bg-gradient-to-r from-red-400 to-red-600' :
                 table.guests / table.capacity > 0.5 ? 'bg-gradient-to-r from-yellow-400 to-orange-500' :
                 'bg-gradient-to-r from-green-400 to-blue-500'
@@ -706,33 +703,27 @@ export function Dashboard() {
           </div>
         </div>
 
-        {/* Order Details for Payment Pending Tables */}
+        {/* Order Details for Payment Pending Tables - Enhanced for responsive prices */}
         {table.orderDetails && (
           <div className="mt-2 pt-2 border-t border-gray-200/50">
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-[10px] font-medium text-gray-700">Detalle de Consumo</span>
-              <span className="text-[10px] font-bold text-green-700">${table.orderTotal}</span>
+            <div className="flex items-start justify-between mb-1">
+              <span className="font-medium text-gray-700 text-sm">{t('consumption')}</span>
+              <div className="flex-shrink-0 ml-2 text-right">
+                <span className="font-bold text-green-700 text-sm break-all leading-tight">{formatCurrency(table.orderTotal || 0)}</span>
+              </div>
             </div>
-            <div className="space-y-0.5 max-h-16 overflow-y-auto">
-              {table.orderDetails.slice(0, 3).map((item, idx) => (
-                <div key={idx} className="flex items-center justify-between text-[9px]">
-                  <div className="flex items-center space-x-1 flex-1 min-w-0">
-                    <span className="w-3 h-3 bg-orange-500 text-white rounded-full flex items-center justify-center text-[7px] font-bold shrink-0">
+            <div className="space-y-1">
+              {table.orderDetails.map((item, idx) => (
+                <div key={idx} className="flex items-start justify-between text-sm gap-2">
+                  <div className="flex items-start space-x-2 flex-1 min-w-0">
+                    <span className="w-4 h-4 bg-orange-500 text-white rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
                       {item.quantity}
                     </span>
-                    <span className="text-gray-700 truncate">{item.name}</span>
-                    {item.notes && (
-                      <span className="text-gray-500 italic text-[8px]">({item.notes})</span>
-                    )}
+                    <span className="text-gray-700 line-clamp-2 flex-1 text-justify">{item.name}</span>
                   </div>
-                  <span className="text-gray-600 text-[8px] font-medium shrink-0 ml-1">${item.price}</span>
+                  <span className="text-gray-600 text-xs font-medium shrink-0 ml-1 break-all leading-tight text-right">{formatCurrency(item.price || 0)}</span>
                 </div>
               ))}
-              {table.orderDetails.length > 3 && (
-                <div className="text-[8px] text-gray-500 italic text-center">
-                  +{table.orderDetails.length - 3} items más...
-                </div>
-              )}
             </div>
           </div>
         )}
@@ -742,10 +733,9 @@ export function Dashboard() {
           <div className="mt-2 pt-2 border-t border-gray-200/50">
             <button
               onClick={() => handlePaymentProcessed(table.number)}
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white text-[10px] font-bold py-1.5 px-2 transition-all duration-200 active:scale-95 shadow-sm hover:shadow-md"
-              style={{ borderRadius: '5px' }}
+              className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-3 rounded transition-all duration-200 active:scale-95 shadow-sm hover:shadow-md text-sm"
             >
-              Procesar Pago
+              {t('processPayment')}
             </button>
           </div>
         )}
@@ -757,17 +747,17 @@ export function Dashboard() {
     <div 
       className={`h-full overflow-y-auto bg-gray-50 transition-opacity duration-500 ${
         isLoading ? 'opacity-0' : 'opacity-100'
-      }`} 
+      } ${getFontSizeClass()}`} 
       style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}
     >
-      <div className="p-6">
+      <div className="p-4 lg:p-6">
         {/* Header */}
-        <div className="mb-8 animate-fadeInSlide">
-          <h1 className="text-3xl font-bold text-black mb-2 tracking-tight">
-            Dashboard de Operaciones
+        <div className="mb-6 lg:mb-8 animate-fadeInSlide">
+          <h1 className="text-2xl lg:text-3xl font-bold text-black mb-2 tracking-tight">
+            {t('dashboardTitle')}
           </h1>
-          <p className="text-gray-600 font-medium">
-            Vista en tiempo real del restaurante • {new Date().toLocaleDateString('es-ES', { 
+          <p className="text-gray-600 font-medium text-sm lg:text-base">
+            {t('dashboardSubtitle')} • {new Date().toLocaleDateString('es-ES', { 
               weekday: 'long', 
               year: 'numeric', 
               month: 'long', 
@@ -777,70 +767,66 @@ export function Dashboard() {
         </div>
 
         {/* Stats Overview */}
-        <div className="flex gap-4 mb-8 justify-center">
-          <div className="w-48">
+        <div className="grid grid-cols-2 lg:flex lg:justify-center gap-3 lg:gap-4 mb-6 lg:mb-8">
+          <div className="w-full lg:w-48">
             {/* Listas para Servir - Verde */}
             <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-green-100 backdrop-blur-sm rounded-md px-2 py-3 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200" style={{ animationDelay: '0ms', backdropFilter: 'blur(10px)' }}>
+              <div className="bg-green-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '0ms', backdropFilter: 'blur(10px)' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
-                <div className="absolute top-2 right-2 z-10">
-                  <CheckIcon size={18} className="opacity-80" />
-                </div>
-                <div className="relative z-10">
-                  <h3 className="text-sm font-medium text-black mb-1">Listas para Servir</h3>
-                  <p className="text-3xl font-normal text-black mb-1" style={{ fontFamily: 'Helvetica Neue', fontWeight: 'bold' }}>{ordersReady.length}</p>
-                  <p className="text-xs font-normal text-black">órdenes completadas</p>
+                <div className="relative z-10 flex flex-col justify-between h-full">
+                  <h3 className="font-medium text-black text-sm lg:text-base leading-tight">{t('readyToServe')}</h3>
+                  <div className="flex flex-col items-center justify-center flex-1">
+                    <p className="text-2xl lg:text-3xl xl:text-4xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{ordersReady.length}</p>
+                  </div>
+                  <p className="text-xs lg:text-sm font-normal text-black leading-tight">{t('completedOrders')}</p>
                 </div>
               </div>
             </SpotlightCard>
           </div>
 
-          <div className="w-48">
+          <div className="w-full lg:w-48">
             {/* En Cocina - Amarillo */}
             <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-yellow-100 backdrop-blur-sm rounded-md px-2 py-3 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200" style={{ animationDelay: '100ms', backdropFilter: 'blur(10px)' }}>
+              <div className="bg-yellow-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '100ms', backdropFilter: 'blur(10px)' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
-                <div className="absolute top-2 right-2 z-10">
-                  <CocinaIcon size={16} className="opacity-80" />
-                </div>
-                <div className="relative z-10">
-                  <h3 className="text-sm font-medium text-black mb-1">En Cocina</h3>
-                  <p className="text-3xl font-normal text-black mb-1" style={{ fontFamily: 'Helvetica Neue', fontWeight: 'bold' }}>{ordersCooking.length + ordersPending.length}</p>
-                  <p className="text-xs font-normal text-black">en preparación</p>
+                <div className="relative z-10 flex flex-col justify-between h-full">
+                  <h3 className="font-medium text-black text-sm lg:text-base leading-tight">{t('inKitchen')}</h3>
+                  <div className="flex flex-col items-center justify-center flex-1">
+                    <p className="text-2xl lg:text-3xl xl:text-4xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{ordersCooking.length + ordersPending.length}</p>
+                  </div>
+                  <p className="text-xs lg:text-sm font-normal text-black leading-tight">{t('inPreparation')}</p>
                 </div>
               </div>
             </SpotlightCard>
           </div>
 
-          <div className="w-48">
+          <div className="w-full lg:w-48">
             {/* Por Pagar - Naranja */}
             <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-orange-100 backdrop-blur-sm rounded-md px-2 py-3 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200" style={{ animationDelay: '200ms', backdropFilter: 'blur(10px)' }}>
+              <div className="bg-orange-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '200ms', backdropFilter: 'blur(10px)' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
-                <div className="absolute top-2 right-2 z-10">
-                  <CreditCardCustomIcon size={18} className="opacity-80" />
-                </div>
-                <div className="relative z-10">
-                  <h3 className="text-sm font-medium text-black mb-1">Por Pagar</h3>
-                  <p className="text-3xl font-normal text-black mb-1" style={{ fontFamily: 'Helvetica Neue', fontWeight: 'bold' }}>{paymentPending.length}</p>
-                  <p className="text-xs font-normal text-black">mesas esperando</p>
+                <div className="relative z-10 flex flex-col justify-between h-full">
+                  <h3 className="font-medium text-black text-sm lg:text-base leading-tight">{t('pendingPayment')}</h3>
+                  <div className="flex flex-col items-center justify-center flex-1">
+                    <p className="text-2xl lg:text-3xl xl:text-4xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{paymentPending.length}</p>
+                  </div>
+                  <p className="text-xs lg:text-sm font-normal text-black leading-tight">{t('tablesWaiting')}</p>
                 </div>
               </div>
             </SpotlightCard>
           </div>
 
-          <div className="w-48">
+          <div className="w-full lg:w-48">
             {/* Ocupación - Azul */}
             <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-blue-100 backdrop-blur-sm rounded-md px-2 py-3 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200" style={{ animationDelay: '300ms', backdropFilter: 'blur(10px)' }}>
+              <div className="bg-blue-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '300ms', backdropFilter: 'blur(10px)' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
-                <div className="absolute top-2 right-2 z-10">
-                  <TrendingUpCustomIcon size={18} className="opacity-80" />
-                </div>
-                <div className="relative z-10">
-                  <h3 className="text-sm font-medium text-black mb-1">Ocupación</h3>
-                  <p className="text-3xl font-normal text-black mb-1" style={{ fontFamily: 'Helvetica Neue', fontWeight: 'bold' }}>{occupancyRate}%</p>
-                  <p className="text-xs font-normal text-black">del restaurante</p>
+                <div className="relative z-10 flex flex-col justify-between h-full">
+                  <h3 className="font-medium text-black text-sm lg:text-base leading-tight">{t('occupancy')}</h3>
+                  <div className="flex flex-col items-center justify-center flex-1">
+                    <p className="text-2xl lg:text-3xl xl:text-4xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{occupancyRate}%</p>
+                  </div>
+                  <p className="text-xs lg:text-sm font-normal text-black leading-tight">{t('ofRestaurant')}</p>
                 </div>
               </div>
             </SpotlightCard>
@@ -848,24 +834,24 @@ export function Dashboard() {
         </div>
 
         {/* Estado de Mesas */}
-        <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp mb-8 max-w-[820px] mx-auto" style={{ animationDelay: '350ms' }}>
-          <div className="p-4">
-            <div className="flex items-center justify-between">
+        <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp mb-6 lg:mb-8 max-w-full lg:max-w-[820px] mx-auto" style={{ animationDelay: '350ms' }}>
+          <div className="p-3 lg:p-4">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
               <div className="flex items-center">
-                <TableIcon size={18} className="text-blue-600 mr-2" />
-                <h3 className="font-semibold text-gray-800 text-sm">Estado de Mesas</h3>
+                <TableIcon size={18} className="text-blue-600 mr-2 flex-shrink-0" />
+                <h3 className="font-semibold text-gray-800">{t('tableStatus')}</h3>
               </div>
-              <div className="flex items-center space-x-6 text-xs">
+              <div className="flex flex-wrap items-center gap-3 lg:gap-6 text-xs lg:text-sm">
                 <span className="text-gray-600">
-                  Disponibles: <span className="font-medium text-green-600">{availableTables.length}</span>
+                  {t('available')}: <span className="font-medium text-green-600">{availableTables.length}</span>
                 </span>
                 <span className="text-gray-600">
-                  Ocupadas: <span className="font-medium text-blue-600">{occupiedTables}</span>
+                  {t('occupied')}: <span className="font-medium text-blue-600">{occupiedTables}</span>
                 </span>
                 <span className="text-gray-600">
-                  Total: <span className="font-medium text-gray-800">{totalTables}</span>
+                  {t('total')}: <span className="font-medium text-gray-800">{totalTables}</span>
                 </span>
-                <span className="text-sm font-semibold text-gray-700 ml-4">{occupancyRate}% ocupación</span>
+                <span className="font-semibold text-gray-700">{occupancyRate}% {t('occupancyRate')}</span>
               </div>
             </div>
             <div className="mt-3">
@@ -880,63 +866,63 @@ export function Dashboard() {
         </div>
 
         {/* Main Grid */}
-        <div className="flex gap-6 mb-8 justify-center mx-auto">
+        <div className="flex flex-col xl:flex-row gap-4 lg:gap-6 mb-6 lg:mb-8 justify-center mx-auto">
           {/* Órdenes Listas para Servir */}
-          <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp" style={{ animationDelay: '400ms', width: '300px', minWidth: '300px' }}>
-            <div className="p-3 border-b border-gray-100">
+          <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp w-full xl:w-80 xl:min-w-[320px]" style={{ animationDelay: '400ms' }}>
+            <div className="p-3 lg:p-4 border-b border-gray-100">
               <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <CheckIcon size={18} className="mr-2" />
-                  <h3 className="font-semibold text-gray-800 text-sm">Listas para Servir</h3>
+                <div className="flex items-center min-w-0 flex-1">
+                  <CheckIcon size={18} className="mr-2 flex-shrink-0" />
+                  <h3 className="font-semibold text-gray-800 truncate">{t('readyToServe')}</h3>
                 </div>
-                <span className="bg-green-50 text-green-800 px-2 py-1 rounded text-xs font-medium border border-green-100">
+                <span className="bg-green-50 text-green-800 px-2 py-1 rounded text-xs font-medium border border-green-100 flex-shrink-0 ml-2">
                   {ordersReady.length}
                 </span>
               </div>
-              <p className="text-xs text-gray-600 mt-1">Órdenes completadas por cocina</p>
+              <p className="text-xs lg:text-sm text-gray-600 mt-1">{t('completedOrders')} {t('byKitchen')}</p>
             </div>
-            <div className="p-3 max-h-[600px] overflow-y-auto kitchen-scrollbar">
+            <div className="p-3 lg:p-4 h-[550px] lg:h-[650px] overflow-y-auto kitchen-scrollbar">
               {ordersReady.length > 0 ? (
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {ordersReady.map((order, index) => renderOrderCard(order, index))}
                 </div>
               ) : (
                 <div className="text-center py-8 text-gray-500">
                   <CheckIcon size={28} className="mx-auto mb-2 opacity-30" />
-                  <p className="text-xs">No hay órdenes listas</p>
+                  <p className="text-sm">No hay órdenes listas</p>
                 </div>
               )}
             </div>
           </div>
 
           {/* Órdenes en Cocina */}
-          <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp" style={{ animationDelay: '500ms', width: '520px', minWidth: '520px' }}>
-            <div className="p-3 border-b border-gray-100">
+          <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp w-full xl:w-[680px] xl:min-w-[680px]" style={{ animationDelay: '500ms' }}>
+            <div className="p-3 lg:p-4 border-b border-gray-100">
               <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <CocinaIcon size={14} className="mr-2" />
-                  <h3 className="font-semibold text-gray-800 text-sm">En Cocina</h3>
+                <div className="flex items-center min-w-0 flex-1">
+                  <CocinaIcon size={14} className="mr-2 flex-shrink-0" />
+                  <h3 className="font-semibold text-gray-800 truncate">{t('inKitchen')}</h3>
                 </div>
-                <span className="bg-yellow-50 text-yellow-800 px-2 py-1 rounded text-xs font-medium border border-yellow-100">
+                <span className="bg-yellow-50 text-yellow-800 px-2 py-1 rounded text-xs font-medium border border-yellow-100 flex-shrink-0 ml-2">
                   {ordersCooking.length + ordersPending.length}
                 </span>
               </div>
-              <p className="text-xs text-gray-600 mt-1">En preparación y pendientes</p>
+              <p className="text-xs lg:text-sm text-gray-600 mt-1">{t('inPreparation')} {t('andPending')}</p>
             </div>
-            <div className="p-3 max-h-[600px] overflow-y-auto kitchen-scrollbar">
-              <div className="grid grid-cols-2 gap-3">
+            <div className="p-4 lg:p-6 h-[550px] lg:h-[650px] overflow-y-auto kitchen-scrollbar">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
                 {/* Columna Pendientes */}
                 <div>
-                  <div className="flex items-center text-xs font-medium text-red-600 mb-2">
-                    <AlertTriangleIcon size={12} className="mr-1" />
-                    PENDIENTES ({ordersPending.length})
+                  <div className="flex items-center font-medium text-red-600 mb-3">
+                    <AlertTriangleIcon size={12} className="mr-1 flex-shrink-0" />
+                    <span className="text-xs lg:text-sm">{t('pending').toUpperCase()} ({ordersPending.length})</span>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     {ordersPending.length > 0 ? (
                       ordersPending.map((order, index) => renderOrderCard(order, index))
                     ) : (
                       <div className="text-center py-4 text-gray-400">
-                        <p className="text-xs">Sin órdenes pendientes</p>
+                        <p className="text-sm">{t('noPendingOrders')}</p>
                       </div>
                     )}
                   </div>
@@ -944,16 +930,16 @@ export function Dashboard() {
                 
                 {/* Columna En Preparación */}
                 <div>
-                  <div className="flex items-center text-xs font-medium text-yellow-600 mb-2">
-                    <ClockIcon size={12} className="mr-1" />
-                    EN PREPARACIÓN ({ordersCooking.length})
+                  <div className="flex items-center font-medium text-yellow-600 mb-3">
+                    <ClockIcon size={12} className="mr-1 flex-shrink-0" />
+                    <span className="text-xs lg:text-sm">{t('inPreparationCaps')} ({ordersCooking.length})</span>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     {ordersCooking.length > 0 ? (
                       ordersCooking.map((order, index) => renderOrderCard(order, index))
                     ) : (
                       <div className="text-center py-4 text-gray-400">
-                        <p className="text-xs">Sin órdenes en preparación</p>
+                        <p className="text-sm">{t('noOrdersInPreparation')}</p>
                       </div>
                     )}
                   </div>
@@ -963,34 +949,33 @@ export function Dashboard() {
           </div>
 
           {/* Mesas por Pagar */}
-          <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp" style={{ animationDelay: '600ms', width: '300px', minWidth: '300px' }}>
-            <div className="p-3 border-b border-gray-100">
+          <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp w-full xl:w-80 xl:min-w-[320px]" style={{ animationDelay: '600ms' }}>
+            <div className="p-3 lg:p-4 border-b border-gray-100">
               <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <CreditCardCustomIcon size={18} className="mr-2" />
-                  <h3 className="font-semibold text-gray-800 text-sm">Por Pagar</h3>
+                <div className="flex items-center min-w-0 flex-1">
+                  <CreditCardCustomIcon size={18} className="mr-2 flex-shrink-0" />
+                  <h3 className="font-semibold text-gray-800 truncate">{t('pendingPayment')}</h3>
                 </div>
-                <span className="bg-orange-50 text-orange-800 px-2 py-1 rounded text-xs font-medium border border-orange-100">
+                <span className="bg-orange-50 text-orange-800 px-2 py-1 rounded text-xs font-medium border border-orange-100 flex-shrink-0 ml-2">
                   {paymentPending.length}
                 </span>
               </div>
-              <p className="text-xs text-gray-600 mt-1">Mesas esperando el pago</p>
+              <p className="text-xs lg:text-sm text-gray-600 mt-1">{t('tablesWaiting')} {t('waitingPayment')}</p>
             </div>
-            <div className="p-3 max-h-[600px] overflow-y-auto kitchen-scrollbar">
+            <div className="p-3 lg:p-4 h-[550px] lg:h-[650px] overflow-y-auto kitchen-scrollbar">
               {paymentPending.length > 0 ? (
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {paymentPending.map((table, index) => renderTableCard(table, index))}
                 </div>
               ) : (
                 <div className="text-center py-8 text-gray-500">
                   <CreditCardCustomIcon size={28} className="mx-auto mb-2 opacity-30" />
-                  <p className="text-xs">No hay pagos pendientes</p>
+                  <p className="text-sm">{t('noPaymentsPending')}</p>
                 </div>
               )}
             </div>
           </div>
         </div>
-
 
       </div>
     </div>

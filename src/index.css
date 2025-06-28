@@ -165,6 +165,56 @@ code {
   overflow: hidden;
 }
 
+/* Currency responsive utilities for large numbers */
+.currency-responsive {
+  word-break: break-all;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  line-height: 1.2;
+}
+
+.currency-container {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.price-text {
+  word-break: break-all;
+  overflow-wrap: break-word;
+  line-height: 1.2;
+  white-space: normal;
+}
+
+/* Responsive table cells for currency */
+.currency-cell {
+  min-width: 100px;
+  max-width: 200px;
+  word-break: break-all;
+  overflow-wrap: break-word;
+}
+
+/* Flexbox utilities for price layouts */
+.price-flex-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.price-content {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.price-amount {
+  flex-shrink: 0;
+  word-break: break-all;
+  overflow-wrap: break-word;
+  line-height: 1.1;
+}
+
 /* Custom scrollbar for mobile */
 .kitchen-scrollbar {
   scrollbar-width: thin;
