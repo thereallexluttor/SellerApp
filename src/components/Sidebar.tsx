@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import './animations.css'
 import { useConfig } from '../contexts/ConfigContext'
+import { useAuth } from '../contexts/AuthContext'
 import {
   MenuIcon,
   XIcon,
@@ -10,7 +11,6 @@ import {
   UserIcon,
   HomeIcon,
   SettingsIcon,
-  HelpCircleIcon,
   LogOutIcon,
   HistoryIcon
 } from './icons'
@@ -33,6 +33,7 @@ export function Sidebar({ className = '', onNavigate, currentPage = 'dashboard' 
   const [isExpanded, setIsExpanded] = useState(false)
   const [activeItem, setActiveItem] = useState(currentPage)
   const { t } = useConfig()
+  const { logout, user } = useAuth()
 
   // Update active item when currentPage changes
   useEffect(() => {
@@ -202,33 +203,15 @@ export function Sidebar({ className = '', onNavigate, currentPage = 'dashboard' 
           {/* Settings */}
           {renderMenuItem(bottomItems[0])}
 
-          {/* Help and Logout */}
+          {/* Logout */}
           <div className="space-y-1 pt-2 border-t border-gray-50">
             <div className="relative group">
-              <button className={`w-full h-12 flex items-center rounded text-gray-600 hover:bg-gray-50 hover:text-black ${
-                isExpanded ? 'justify-start px-3' : 'justify-center'
-              }`}>
-                <div className="w-10 h-10 flex items-center justify-center flex-shrink-0">
-                  <HelpCircleIcon size={20} />
-                </div>
-                {isExpanded && (
-                  <span className="ml-3 font-medium text-sm text-black truncate">
-                    Ayuda
-                  </span>
-                )}
-              </button>
-              {!isExpanded && (
-                <div className="absolute left-14 top-1/2 transform -translate-y-1/2 bg-black text-white px-3 py-2 rounded text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-30 shadow-lg">
-                  Ayuda
-                  <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 border-4 border-transparent border-r-black"></div>
-                </div>
-              )}
-            </div>
-
-            <div className="relative group">
-              <button className={`w-full h-12 flex items-center rounded text-gray-600 hover:bg-gray-50 hover:text-red-600 ${
-                isExpanded ? 'justify-start px-3' : 'justify-center'
-              }`}>
+              <button 
+                onClick={logout}
+                className={`w-full h-12 flex items-center rounded text-gray-600 hover:bg-gray-50 hover:text-red-600 ${
+                  isExpanded ? 'justify-start px-3' : 'justify-center'
+                }`}
+              >
                 <div className="w-10 h-10 flex items-center justify-center flex-shrink-0">
                   <LogOutIcon size={20} />
                 </div>

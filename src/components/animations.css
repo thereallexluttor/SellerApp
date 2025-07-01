@@ -144,7 +144,7 @@
 }
 
 .animate-scaleIn {
-  animation: scaleIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: scaleIn 0.2s ease-out forwards;
   will-change: transform, opacity;
 }
 

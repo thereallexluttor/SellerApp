@@ -4,14 +4,19 @@ import { Dashboard } from './components/Dashboard'
 import { TakeOrder } from './components/TakeOrder'
 import { PaymentHistory } from './components/PaymentHistory'
 import { Settings } from './components/Settings'
+import { Login } from './components/Login'
+import { KitchenDashboard } from './components/KitchenDashboard'
 import { ConfigProvider } from './contexts/ConfigContext'
+import { AuthProvider, useAuth } from './contexts/AuthContext'
+import { OrderProvider } from './contexts/OrderContext'
 import './components/animations.css'
 import './components/config-styles.css'
 
-function App() {
+function AppContent() {
   const [currentPage, setCurrentPage] = useState('dashboard')
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [previousPage, setPreviousPage] = useState('')
+  const { user, isLoading } = useAuth()
 
   // Handle page navigation with smooth transitions
   const handlePageNavigation = (newPage: string) => {
@@ -34,6 +39,12 @@ function App() {
   }
 
   const renderCurrentPage = () => {
+    // Si el usuario es de cocina, solo mostrar KitchenDashboard
+    if (user?.role === 'kitchen') {
+      return <KitchenDashboard />
+    }
+
+    // Si es frontman/mesero, mostrar la interfaz normal
     const pageContent = (() => {
       switch (currentPage) {
         case 'dashboard':
@@ -61,37 +72,66 @@ function App() {
     )
   }
 
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600 font-medium">Cargando aplicación...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Login screen
+  if (!user) {
+    return <Login />
+  }
+
   return (
-    <ConfigProvider>
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-        {/* Sidebar Component */}
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      {/* Sidebar Component - solo para frontman/mesero */}
+      {user.role === 'frontman' && (
         <Sidebar 
           onNavigate={handlePageNavigation} 
           currentPage={currentPage} 
         />
-        
-        {/* Main Content with Transition Container */}
-        <div className="transition-all duration-300 ml-16">
-          <div className="page-transition-container main-content-transition">
-            {renderCurrentPage()}
-          </div>
+      )}
+      
+      {/* Main Content with Transition Container */}
+      <div className={`transition-all duration-300 ${user.role === 'frontman' ? 'ml-16' : ''}`}>
+        <div className="page-transition-container main-content-transition">
+          {renderCurrentPage()}
         </div>
-        
-        {/* Optional: Loading overlay during transitions */}
-        {isTransitioning && (
-          <div className="fixed inset-0 pointer-events-none z-10">
-            <div className="absolute top-4 right-4">
-              <div className="bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 shadow-sm">
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                  <span className="text-xs text-gray-600 font-medium">Cargando...</span>
-                </div>
+      </div>
+      
+      {/* Optional: Loading overlay during transitions */}
+      {isTransitioning && user.role === 'frontman' && (
+        <div className="fixed inset-0 pointer-events-none z-10">
+          <div className="absolute top-4 right-4">
+            <div className="bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 shadow-sm">
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                <span className="text-xs text-gray-600 font-medium">Cargando...</span>
               </div>
             </div>
           </div>
-        )}
-      </div>
-    </ConfigProvider>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <ConfigProvider>
+        <OrderProvider>
+          <AppContent />
+        </OrderProvider>
+      </ConfigProvider>
+    </AuthProvider>
   )
 }
 

@@ -3,6 +3,8 @@ import './animations.css'
 import SpotlightCard from './SpotlightCard'
 import Stepper, { Step } from './Stepper'
 import { useConfig } from '../contexts/ConfigContext'
+import { useOrders } from '../contexts/OrderContext'
+import { useAuth } from '../contexts/AuthContext'
 import {
   ClipboardIcon,
   TableIcon,
@@ -71,6 +73,8 @@ export function TakeOrder() {
   const [showCompletedAnimation, setShowCompletedAnimation] = useState(false)
   const [currentStep, setCurrentStep] = useState(1)
   const { t, formatCurrency, getFontSizeClass } = useConfig()
+  const { addOrder } = useOrders()
+  const { user } = useAuth()
 
   // Función para normalizar texto (eliminar acentos y caracteres especiales)
   const normalizeText = (text: string): string => {
@@ -217,7 +221,13 @@ export function TakeOrder() {
 
   // Validaciones para cada paso
   const isStep1Valid = () => {
-    return selectedTable !== null && guests > 0
+    if (selectedTable === null || guests === 0) return false
+    
+    // Verificar que la mesa tenga suficiente capacidad
+    const table = availableTables.find(t => t.number === selectedTable)
+    if (!table) return false
+    
+    return table.capacity >= guests
   }
 
   const isStep2Valid = () => {
@@ -238,15 +248,29 @@ export function TakeOrder() {
       return
     }
 
+    // Convertir cart items al formato del contexto de órdenes
+    const orderItems = cart.map(cartItem => {
+      const menuItem = menuItems.find(mi => mi.id === cartItem.id)
+      return {
+        id: cartItem.id,
+        name: cartItem.name,
+        category: menuItem?.category || 'other',
+        quantity: cartItem.quantity,
+        notes: cartItem.notes
+      }
+    })
+
     const orderData = {
       table: selectedTable,
       guests: guests,
-      items: cart,
-      total: getTotalPrice(),
-      timestamp: new Date().toISOString()
+      items: orderItems,
+      waiter: user?.name || 'Usuario'
     }
 
-    console.log('Orden enviada:', orderData)
+    // Enviar orden al contexto (que la enviará a cocina)
+    addOrder(orderData)
+    
+    console.log('Orden enviada a cocina:', orderData)
     
     // Mostrar animación de completado
     setShowCompletedAnimation(true)
@@ -396,12 +420,9 @@ export function TakeOrder() {
                 <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-2 sm:p-3">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <div className="flex items-center space-x-2">
-                      <div className="bg-white/20 p-1 rounded">
-                        <TableCustomIcon size={16} className="text-white" />
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-white text-sm sm:text-base">{t('availableTables')}</h3>
-                        <p className="text-blue-100 text-xs">{t('selectPreferredTable')}</p>
+                      <div className="text-left">
+                        <h3 className="font-bold text-white text-sm sm:text-base text-left">{t('availableTables')}</h3>
+                        <p className="text-blue-100 text-xs text-left">{t('selectPreferredTable')}</p>
                       </div>
                     </div>
                     <div className="bg-white/20 backdrop-blur-sm px-2 py-1 rounded">
@@ -496,22 +517,7 @@ export function TakeOrder() {
                               <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded opacity-50 blur-sm animate-pulse"></div>
                             )}
 
-                            {/* Mesa Icon */}
-                            <div className="absolute top-1.5 left-1.5">
-                              <div className={`p-0.5 rounded ${
-                                selectedTable === table.number 
-                                  ? 'bg-emerald-500 text-white' 
-                                  : isPerfectMatch
-                                  ? 'bg-blue-500 text-white'
-                                  : isRecommended
-                                  ? 'bg-blue-400 text-white'
-                                  : isTooSmall
-                                  ? 'bg-red-400 text-white'
-                                  : 'bg-slate-100 text-slate-600 group-hover:bg-blue-100 group-hover:text-blue-600'
-                              } transition-all duration-300`}>
-                                <TableCustomIcon size={8} />
-                              </div>
-                            </div>
+
 
                             {/* Selection Check */}
                             {selectedTable === table.number && (

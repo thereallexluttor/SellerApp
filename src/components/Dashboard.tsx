@@ -11,6 +11,7 @@ import {
   EyeIcon,
   UserIcon
 } from './icons'
+import { PaymentModal } from './PaymentModal'
 
 interface OrderItem {
   name: string
@@ -90,6 +91,8 @@ const TrendingUpCustomIcon = ({ size = 16, className = "" }: { size?: number, cl
 export function Dashboard() {
   const [isLoading, setIsLoading] = useState(true)
   const { t, formatCurrency, getFontSizeClass } = useConfig()
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false)
+  const [selectedTable, setSelectedTable] = useState<Table | null>(null)
 
   useEffect(() => {
     // Simulate loading with shorter delay
@@ -495,8 +498,21 @@ export function Dashboard() {
 
   // Función para manejar cuando se procesa un pago
   const handlePaymentProcessed = (tableNumber: number) => {
-    // Remover de mesas por pagar
-    setPaymentPending(prev => prev.filter(table => table.number !== tableNumber))
+    const table = paymentPending.find(t => t.number === tableNumber)
+    if (table) {
+      setSelectedTable(table)
+      setIsPaymentModalOpen(true)
+    }
+  }
+
+  const handlePaymentCompleted = (method: string) => {
+    if (selectedTable) {
+      // Aquí podrías enviar la información del pago a tu backend
+      console.log(`Pago procesado para la mesa ${selectedTable.number} con método ${method}`)
+      // Remover de mesas por pagar
+      setPaymentPending(prev => prev.filter(table => table.number !== selectedTable.number))
+      setSelectedTable(null)
+    }
   }
 
   const getPriorityColor = (priority: string) => {
@@ -978,6 +994,19 @@ export function Dashboard() {
         </div>
 
       </div>
+
+      {/* Payment Modal */}
+      {selectedTable && (
+        <PaymentModal
+          isOpen={isPaymentModalOpen}
+          onClose={() => {
+            setIsPaymentModalOpen(false)
+            setSelectedTable(null)
+          }}
+          tableData={selectedTable as { number: number; orderTotal?: number | undefined; orderDetails?: OrderItem[] | undefined; timeOccupied: string; guests: number; }}
+          onProcessPayment={handlePaymentCompleted}
+        />
+      )}
     </div>
   )
 } 
