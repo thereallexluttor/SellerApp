@@ -10,7 +10,8 @@ import {
   CheckIcon,
   PlayIcon,
   ArrowRightIcon,
-  AlertTriangleIcon
+  AlertTriangleIcon,
+  LogOutIcon
 } from './icons'
 
 interface OrderItem {
@@ -268,7 +269,7 @@ function OrderCard({ order, onStatusChange }: OrderCardProps) {
 
 export function KitchenDashboard() {
   const { t, getFontSizeClass, formatCurrency } = useConfig()
-  const { user } = useAuth()
+  const { user, logout } = useAuth()
   const [isLoading, setIsLoading] = useState(true)
 
   // Datos simulados para el dashboard de cocina
@@ -505,17 +506,31 @@ export function KitchenDashboard() {
       <div className="p-4 lg:p-6">
         {/* Header */}
         <div className="mb-6 lg:mb-8 animate-fadeInSlide">
-          <h1 className="text-2xl lg:text-3xl font-bold text-black mb-2 tracking-tight">
-            Dashboard de Cocina
-          </h1>
-          <p className="text-gray-600 font-medium text-sm lg:text-base">
-            Bienvenido, {user?.name} • Gestiona las órdenes en tiempo real • {new Date().toLocaleDateString('es-ES', { 
-              weekday: 'long', 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
-            })}
-          </p>
+          <div className="relative flex items-center justify-center mb-2">
+            {/* Logout Button - Positioned absolutely */}
+            <button
+              onClick={logout}
+              className="absolute right-0 flex items-center space-x-2 bg-white border border-gray-200 text-gray-700 hover:text-red-600 hover:border-red-200 hover:bg-red-50 px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-sm hover:shadow-md"
+            >
+              <LogOutIcon size={18} />
+              <span className="hidden sm:inline">Cerrar Sesión</span>
+            </button>
+            
+            {/* Centered Title and Subtitle */}
+            <div className="text-center">
+              <h1 className="text-2xl lg:text-3xl font-bold text-black mb-2 tracking-tight">
+                Dashboard de Cocina
+              </h1>
+              <p className="text-gray-600 font-medium text-sm lg:text-base">
+                Bienvenido, {user?.name} • Gestiona las órdenes en tiempo real • {new Date().toLocaleDateString('es-ES', { 
+                  weekday: 'long', 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                })}
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Stats Cards */}

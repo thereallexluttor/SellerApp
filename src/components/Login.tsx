@@ -55,11 +55,7 @@ export function Login() {
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8 animate-fadeInSlide">
-          <div className="mb-6">
-            <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-              <UserIcon size={32} className="text-white" />
-            </div>
-          </div>
+          
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Acceso al Sistema</h1>
           <p className="text-gray-600">Inicia sesión para continuar</p>
         </div>
@@ -70,14 +66,14 @@ export function Login() {
           <div className="grid grid-cols-2 gap-3">
             <button
               onClick={() => handleRoleQuickSelect('frontman')}
-              className={`p-4 rounded-xl border-2 transition-all duration-300 ${
+              className={`p-4 rounded border-2 transition-all duration-300 ${
                 selectedRole === 'frontman'
                   ? 'border-blue-500 bg-blue-50 text-blue-700'
                   : 'border-gray-200 bg-white text-gray-700 hover:border-blue-300 hover:bg-blue-50'
               }`}
             >
               <div className="text-center">
-                <div className="w-8 h-8 mx-auto mb-2 bg-blue-100 rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 mx-auto mb-2 bg-blue-100 rounded flex items-center justify-center">
                   <UserIcon size={16} className="text-blue-600" />
                 </div>
                 <div className="font-medium text-sm">Mesero/Frontman</div>
@@ -87,14 +83,14 @@ export function Login() {
             
             <button
               onClick={() => handleRoleQuickSelect('kitchen')}
-              className={`p-4 rounded-xl border-2 transition-all duration-300 ${
+              className={`p-4 rounded border-2 transition-all duration-300 ${
                 selectedRole === 'kitchen'
                   ? 'border-orange-500 bg-orange-50 text-orange-700'
                   : 'border-gray-200 bg-white text-gray-700 hover:border-orange-300 hover:bg-orange-50'
               }`}
             >
               <div className="text-center">
-                <div className="w-8 h-8 mx-auto mb-2 bg-orange-100 rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 mx-auto mb-2 bg-orange-100 rounded flex items-center justify-center">
                   <img src="/src/public/cocina.png" alt="Chef" width={16} height={16} />
                 </div>
                 <div className="font-medium text-sm">Cocina</div>
@@ -105,7 +101,7 @@ export function Login() {
         </div>
 
         {/* Login Form */}
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8 animate-slideInUp" style={{ animationDelay: '300ms' }}>
+        <div className="bg-white rounded shadow-xl border border-gray-200 p-8 animate-slideInUp" style={{ animationDelay: '300ms' }}>
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Username Field */}
             <div>
@@ -121,8 +117,8 @@ export function Login() {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                  placeholder="Ingresa tu usuario"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white text-gray-900"
+                  placeholder=""
                   disabled={isLoading}
                 />
               </div>
@@ -142,8 +138,8 @@ export function Login() {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                  placeholder="Ingresa tu contraseña"
+                  className="block w-full pl-10 pr-12 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white text-gray-900"
+                  placeholder=""
                   disabled={isLoading}
                 />
                 <button
@@ -159,7 +155,7 @@ export function Login() {
 
             {/* Error Message */}
             {error && (
-              <div className="bg-red-50 border border-red-200 rounded-xl p-3 flex items-center space-x-2 animate-shake">
+              <div className="bg-red-50 border border-red-200 rounded p-3 flex items-center space-x-2 animate-shake">
                 <AlertTriangleIcon size={20} className="text-red-500 flex-shrink-0" />
                 <span className="text-red-700 text-sm">{error}</span>
               </div>
@@ -169,7 +165,7 @@ export function Login() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-3 px-4 rounded-xl font-medium hover:from-blue-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+              className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-3 px-4 rounded font-medium hover:from-blue-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
             >
               {isLoading ? (
                 <>
