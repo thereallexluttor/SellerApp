@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 
-export type UserRole = 'frontman' | 'kitchen'
+export type UserRole = 'frontman' | 'kitchen' | 'admin'
 
 interface User {
   id: string
@@ -47,6 +47,13 @@ const mockUsers: (User & { password: string })[] = [
     password: '123',
     role: 'kitchen',
     name: 'José Chef'
+  },
+  {
+    id: '5',
+    username: 'admin',
+    password: 'admin123',
+    role: 'admin',
+    name: 'Administrador Principal'
   }
 ]
 

@@ -7,7 +7,8 @@ import {
   EyeIcon,
   EyeOffIcon,
   LogInIcon,
-  AlertTriangleIcon
+  AlertTriangleIcon,
+  SettingsIcon
 } from './icons'
 import './animations.css'
 
@@ -16,7 +17,7 @@ export function Login() {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
-  const [selectedRole, setSelectedRole] = useState<'frontman' | 'kitchen' | null>(null)
+  const [selectedRole, setSelectedRole] = useState<'frontman' | 'kitchen' | 'admin' | null>(null)
   
   const { login, isLoading } = useAuth()
   const { t, getFontSizeClass } = useConfig()
@@ -36,14 +37,17 @@ export function Login() {
     }
   }
 
-  const handleRoleQuickSelect = (role: 'frontman' | 'kitchen') => {
+  const handleRoleQuickSelect = (role: 'frontman' | 'kitchen' | 'admin') => {
     setSelectedRole(role)
     if (role === 'frontman') {
       setUsername('mesero')
       setPassword('123')
-    } else {
+    } else if (role === 'kitchen') {
       setUsername('cocina')
       setPassword('123')
+    } else if (role === 'admin') {
+      setUsername('admin')
+      setPassword('admin123')
     }
   }
 
@@ -63,7 +67,7 @@ export function Login() {
         {/* Quick Role Selection */}
         <div className="mb-6 animate-slideInUp" style={{ animationDelay: '200ms' }}>
           <p className="text-sm font-medium text-gray-700 mb-3 text-center">Acceso rápido por puesto:</p>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-3 gap-3">
             <button
               onClick={() => handleRoleQuickSelect('frontman')}
               className={`p-4 rounded border-2 transition-all duration-300 ${
@@ -95,6 +99,23 @@ export function Login() {
                 </div>
                 <div className="font-medium text-sm">Cocina</div>
                 <div className="text-xs text-gray-500 mt-1">Gestionar órdenes</div>
+              </div>
+            </button>
+            
+            <button
+              onClick={() => handleRoleQuickSelect('admin')}
+              className={`p-4 rounded border-2 transition-all duration-300 ${
+                selectedRole === 'admin'
+                  ? 'border-purple-500 bg-purple-50 text-purple-700'
+                  : 'border-gray-200 bg-white text-gray-700 hover:border-purple-300 hover:bg-purple-50'
+              }`}
+            >
+              <div className="text-center">
+                <div className="w-8 h-8 mx-auto mb-2 bg-purple-100 rounded flex items-center justify-center">
+                  <SettingsIcon size={16} className="text-purple-600" />
+                </div>
+                <div className="font-medium text-sm">Administrador</div>
+                <div className="text-xs text-gray-500 mt-1">Panel de control</div>
               </div>
             </button>
           </div>
@@ -185,7 +206,7 @@ export function Login() {
           <div className="mt-6 pt-6 border-t border-gray-200">
             <div className="text-xs text-gray-500 space-y-1">
               <p className="font-medium text-gray-600 mb-2">Usuarios de prueba:</p>
-              <div className="grid grid-cols-2 gap-4 text-xs">
+              <div className="grid grid-cols-3 gap-3 text-xs">
                 <div className="bg-blue-50 p-2 rounded">
                   <p className="font-medium text-blue-700">Mesero/Frontman</p>
                   <p>Usuario: <span className="font-mono">mesero</span></p>
@@ -195,6 +216,11 @@ export function Login() {
                   <p className="font-medium text-orange-700">Cocina</p>
                   <p>Usuario: <span className="font-mono">cocina</span></p>
                   <p>Contraseña: <span className="font-mono">123</span></p>
+                </div>
+                <div className="bg-purple-50 p-2 rounded">
+                  <p className="font-medium text-purple-700">Administrador</p>
+                  <p>Usuario: <span className="font-mono">admin</span></p>
+                  <p>Contraseña: <span className="font-mono">admin123</span></p>
                 </div>
               </div>
             </div>

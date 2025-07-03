@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react'
 import { Sidebar } from './components/Sidebar'
+import { AdminSidebar } from './components/AdminSidebar'
 import { Dashboard } from './components/Dashboard'
+import { AdminDashboard } from './components/AdminDashboard'
+import { AdminEmployees } from './components/AdminEmployees'
+import { AdminExpenses } from './components/AdminExpenses'
+import { AdminDebts } from './components/AdminDebts'
+import { AdminInventory } from './components/AdminInventory'
 import { TakeOrder } from './components/TakeOrder'
 import { PaymentHistory } from './components/PaymentHistory'
 import { Settings } from './components/Settings'
@@ -17,6 +23,18 @@ function AppContent() {
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [previousPage, setPreviousPage] = useState('')
   const { user, isLoading } = useAuth()
+
+  // Set initial page based on user role
+  useEffect(() => {
+    if (user) {
+      if (user.role === 'admin') {
+        setCurrentPage('admin-dashboard')
+      } else if (user.role === 'frontman') {
+        setCurrentPage('dashboard')
+      }
+      // kitchen role uses its own dashboard without page navigation
+    }
+  }, [user])
 
   // Handle page navigation with smooth transitions
   const handlePageNavigation = (newPage: string) => {
@@ -42,6 +60,39 @@ function AppContent() {
     // Si el usuario es de cocina, solo mostrar KitchenDashboard
     if (user?.role === 'kitchen') {
       return <KitchenDashboard />
+    }
+
+    // Si es admin, mostrar la interfaz de administración
+    if (user?.role === 'admin') {
+      const pageContent = (() => {
+        switch (currentPage) {
+          case 'admin-dashboard':
+            return <AdminDashboard />
+          case 'admin-employees':
+            return <AdminEmployees />
+          case 'admin-expenses':
+            return <AdminExpenses />
+          case 'admin-debts':
+            return <AdminDebts />
+          case 'admin-inventory':
+            return <AdminInventory />
+          case 'admin-settings':
+            return <Settings />
+          default:
+            return <AdminDashboard />
+        }
+      })()
+
+      return (
+        <div 
+          key={currentPage}
+          className={`page-content ${
+            isTransitioning ? 'page-loading' : 'page-enter'
+          }`}
+        >
+          {pageContent}
+        </div>
+      )
     }
 
     // Si es frontman/mesero, mostrar la interfaz normal
@@ -91,7 +142,7 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Sidebar Component - solo para frontman/mesero */}
+      {/* Sidebar Components */}
       {user.role === 'frontman' && (
         <Sidebar 
           onNavigate={handlePageNavigation} 
@@ -99,15 +150,22 @@ function AppContent() {
         />
       )}
       
+      {user.role === 'admin' && (
+        <AdminSidebar 
+          onNavigate={handlePageNavigation} 
+          currentPage={currentPage} 
+        />
+      )}
+      
       {/* Main Content with Transition Container */}
-      <div className={`transition-all duration-300 ${user.role === 'frontman' ? 'ml-16' : ''}`}>
+      <div className={`transition-all duration-300 ${(user.role === 'frontman' || user.role === 'admin') ? 'ml-16' : ''}`}>
         <div className="page-transition-container main-content-transition">
           {renderCurrentPage()}
         </div>
       </div>
       
       {/* Optional: Loading overlay during transitions */}
-      {isTransitioning && user.role === 'frontman' && (
+      {isTransitioning && (user.role === 'frontman' || user.role === 'admin') && (
         <div className="fixed inset-0 pointer-events-none z-10">
           <div className="absolute top-4 right-4">
             <div className="bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 shadow-sm">
