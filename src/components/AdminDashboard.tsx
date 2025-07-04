@@ -193,79 +193,69 @@ export function AdminDashboard() {
       } ${getFontSizeClass()}`}
     >
       <div className="p-4 lg:p-6">
-        <div className="mb-6">
-          <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 animate-slideInUp">
-            📊 Panel de Administración
-          </h1>
-          <p className="text-gray-600 font-medium text-sm lg:text-base">
-            Gestión y control del restaurante • {new Date().toLocaleDateString('es-ES', { 
-              weekday: 'long', 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
-            })}
-          </p>
-        </div>
-
-        {/* Stats Overview - Ventas */}
-        <div className="mb-8">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">📊 Resumen de Ventas</h2>
-          <div className="grid grid-cols-2 lg:flex lg:justify-center gap-3 lg:gap-4">
-            <div className="w-full lg:w-48">
+        {/* Stats Overview - Combined */}
+        <div className="bg-white rounded-[8px] border border-gray-200 shadow-sm animate-slideInUp mb-8" style={{ animationDelay: '0ms' }}>
+          <div className="p-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Resumen de Ventas */}
+              <div>
+                <h2 className="text-sm font-medium text-gray-800 mb-3">Resumen de Ventas</h2>
+                <div className="flex justify-center gap-3 flex-wrap">
+                  <div className="w-36">
               <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-                <div className="bg-green-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '0ms', backdropFilter: 'blur(10px)' }}>
+                      <div className="bg-green-100 backdrop-blur-sm rounded-[8px] px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-green-300 h-24 flex flex-col justify-between config-font-medium" style={{ animationDelay: '100ms', backdropFilter: 'blur(10px)' }}>
                   <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                   <div className="relative z-10 flex flex-col justify-between h-full">
-                    <h3 className="font-medium text-black text-sm lg:text-base leading-tight">Hoy</h3>
+                          <h3 className="font-medium text-black text-xs leading-tight">Hoy</h3>
                     <div className="flex flex-col items-center justify-center flex-1">
-                      <p className="text-2xl lg:text-3xl xl:text-4xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{formatCurrency(salesData.today)}</p>
+                            <p className="text-lg font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{formatCurrency(salesData.today)}</p>
                     </div>
-                    <p className="text-xs lg:text-sm font-normal text-black leading-tight">Ventas del día</p>
+                          <p className="text-xs font-normal text-black leading-tight">Ventas del día</p>
                   </div>
                 </div>
               </SpotlightCard>
             </div>
 
-            <div className="w-full lg:w-48">
+                  <div className="w-36">
               <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-                <div className="bg-blue-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '100ms', backdropFilter: 'blur(10px)' }}>
+                      <div className="bg-blue-100 backdrop-blur-sm rounded-[8px] px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-blue-300 h-24 flex flex-col justify-between config-font-medium" style={{ animationDelay: '150ms', backdropFilter: 'blur(10px)' }}>
                   <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                   <div className="relative z-10 flex flex-col justify-between h-full">
-                    <h3 className="font-medium text-black text-sm lg:text-base leading-tight">Semana</h3>
+                          <h3 className="font-medium text-black text-xs leading-tight">Semana</h3>
                     <div className="flex flex-col items-center justify-center flex-1">
-                      <p className="text-2xl lg:text-3xl xl:text-4xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{formatCurrency(salesData.week)}</p>
+                            <p className="text-lg font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{formatCurrency(salesData.week)}</p>
                     </div>
-                    <p className="text-xs lg:text-sm font-normal text-black leading-tight">Últimos 7 días</p>
+                          <p className="text-xs font-normal text-black leading-tight">Últimos 7 días</p>
                   </div>
                 </div>
               </SpotlightCard>
             </div>
 
-            <div className="w-full lg:w-48">
+                  <div className="w-36">
               <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-                <div className="bg-orange-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '200ms', backdropFilter: 'blur(10px)' }}>
+                      <div className="bg-orange-100 backdrop-blur-sm rounded-[8px] px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-orange-300 h-24 flex flex-col justify-between config-font-medium" style={{ animationDelay: '200ms', backdropFilter: 'blur(10px)' }}>
                   <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                   <div className="relative z-10 flex flex-col justify-between h-full">
-                    <h3 className="font-medium text-black text-sm lg:text-base leading-tight">Mes</h3>
+                          <h3 className="font-medium text-black text-xs leading-tight">Mes</h3>
                     <div className="flex flex-col items-center justify-center flex-1">
-                      <p className="text-2xl lg:text-3xl xl:text-4xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{formatCurrency(salesData.month)}</p>
+                            <p className="text-lg font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{formatCurrency(salesData.month)}</p>
                     </div>
-                    <p className="text-xs lg:text-sm font-normal text-black leading-tight">Mes actual</p>
+                          <p className="text-xs font-normal text-black leading-tight">Mes actual</p>
                   </div>
                 </div>
               </SpotlightCard>
             </div>
 
-            <div className="w-full lg:w-48">
+                  <div className="w-36">
               <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-                <div className="bg-purple-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '300ms', backdropFilter: 'blur(10px)' }}>
+                      <div className="bg-purple-100 backdrop-blur-sm rounded-[8px] px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-purple-300 h-24 flex flex-col justify-between config-font-medium" style={{ animationDelay: '250ms', backdropFilter: 'blur(10px)' }}>
                   <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                   <div className="relative z-10 flex flex-col justify-between h-full">
-                    <h3 className="font-medium text-black text-sm lg:text-base leading-tight">Año</h3>
+                          <h3 className="font-medium text-black text-xs leading-tight">Año</h3>
                     <div className="flex flex-col items-center justify-center flex-1">
-                      <p className="text-2xl lg:text-3xl xl:text-4xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{formatCurrency(salesData.year)}</p>
+                            <p className="text-lg font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{formatCurrency(salesData.year)}</p>
                     </div>
-                    <p className="text-xs lg:text-sm font-normal text-black leading-tight">Año en curso</p>
+                          <p className="text-xs font-normal text-black leading-tight">Año en curso</p>
                   </div>
                 </div>
               </SpotlightCard>
@@ -273,68 +263,111 @@ export function AdminDashboard() {
           </div>
         </div>
 
-        {/* Stats Overview - Comensales */}
-        <div className="mb-8">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">👥 Estadísticas de Comensales</h2>
-          <div className="grid grid-cols-2 lg:flex lg:justify-center gap-3 lg:gap-4">
-            <div className="w-full lg:w-48">
+              {/* Estadísticas de Comensales */}
+              <div>
+                <h2 className="text-sm font-medium text-gray-800 mb-3">Estadísticas de Comensales</h2>
+                <div className="flex justify-center gap-3 flex-wrap">
+                  <div className="w-36">
               <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-                <div className="bg-cyan-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '0ms', backdropFilter: 'blur(10px)' }}>
+                      <div className="bg-cyan-100 backdrop-blur-sm rounded-[8px] px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-cyan-300 h-24 flex flex-col justify-between config-font-medium" style={{ animationDelay: '300ms', backdropFilter: 'blur(10px)' }}>
                   <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                   <div className="relative z-10 flex flex-col justify-between h-full">
-                    <h3 className="font-medium text-black text-sm lg:text-base leading-tight">Hoy</h3>
+                          <h3 className="font-medium text-black text-xs leading-tight">Hoy</h3>
                     <div className="flex flex-col items-center justify-center flex-1">
-                      <p className="text-2xl lg:text-3xl xl:text-4xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{customerStats.totalToday}</p>
+                            <p className="text-lg font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{customerStats.totalToday}</p>
                     </div>
-                    <p className="text-xs lg:text-sm font-normal text-black leading-tight">Comensales</p>
+                          <p className="text-xs font-normal text-black leading-tight">Comensales</p>
                   </div>
                 </div>
               </SpotlightCard>
             </div>
 
-            <div className="w-full lg:w-48">
+                  <div className="w-36">
               <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-                <div className="bg-teal-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '100ms', backdropFilter: 'blur(10px)' }}>
+                      <div className="bg-teal-100 backdrop-blur-sm rounded-[8px] px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-teal-300 h-24 flex flex-col justify-between config-font-medium" style={{ animationDelay: '350ms', backdropFilter: 'blur(10px)' }}>
                   <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                   <div className="relative z-10 flex flex-col justify-between h-full">
-                    <h3 className="font-medium text-black text-sm lg:text-base leading-tight">Tiempo Mesa</h3>
+                          <h3 className="font-medium text-black text-xs leading-tight">Tiempo Mesa</h3>
                     <div className="flex flex-col items-center justify-center flex-1">
-                      <p className="text-2xl lg:text-3xl xl:text-4xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{customerStats.avgTableTime}</p>
+                            <p className="text-lg font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{customerStats.avgTableTime}</p>
                     </div>
-                    <p className="text-xs lg:text-sm font-normal text-black leading-tight">Promedio</p>
+                          <p className="text-xs font-normal text-black leading-tight">Promedio</p>
                   </div>
                 </div>
               </SpotlightCard>
             </div>
 
-            <div className="w-full lg:w-48">
+                  <div className="w-36">
               <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-                <div className="bg-emerald-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '200ms', backdropFilter: 'blur(10px)' }}>
+                      <div className="bg-emerald-100 backdrop-blur-sm rounded-[8px] px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-emerald-300 h-24 flex flex-col justify-between config-font-medium" style={{ animationDelay: '400ms', backdropFilter: 'blur(10px)' }}>
                   <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                   <div className="relative z-10 flex flex-col justify-between h-full">
-                    <h3 className="font-medium text-black text-sm lg:text-base leading-tight">Clientes Fieles</h3>
+                          <h3 className="font-medium text-black text-xs leading-tight">Clientes Fieles</h3>
                     <div className="flex flex-col items-center justify-center flex-1">
-                      <p className="text-2xl lg:text-3xl xl:text-4xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{customerStats.returnRate}%</p>
+                            <p className="text-lg font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{customerStats.returnRate}%</p>
                     </div>
-                    <p className="text-xs lg:text-sm font-normal text-black leading-tight">Retorno</p>
+                          <p className="text-xs font-normal text-black leading-tight">Retorno</p>
                   </div>
                 </div>
               </SpotlightCard>
             </div>
 
-            <div className="w-full lg:w-48">
+                  <div className="w-36">
               <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-                <div className="bg-yellow-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '300ms', backdropFilter: 'blur(10px)' }}>
+                      <div className="bg-yellow-100 backdrop-blur-sm rounded-[8px] px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-yellow-300 h-24 flex flex-col justify-between config-font-medium" style={{ animationDelay: '450ms', backdropFilter: 'blur(10px)' }}>
                   <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                   <div className="relative z-10 flex flex-col justify-between h-full">
-                    <h3 className="font-medium text-black text-sm lg:text-base leading-tight">Satisfacción</h3>
+                          <h3 className="font-medium text-black text-xs leading-tight">Satisfacción</h3>
                     <div className="flex flex-col items-center justify-center flex-1">
-                      <p className="text-2xl lg:text-3xl xl:text-4xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{customerStats.satisfaction}/5</p>
+                            <p className="text-lg font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{customerStats.satisfaction}/5</p>
+                          </div>
+                          <p className="text-xs font-normal text-black leading-tight">Calificación</p>
+                        </div>
                     </div>
-                    <p className="text-xs lg:text-sm font-normal text-black leading-tight">Calificación</p>
+                    </SpotlightCard>
                   </div>
                 </div>
-              </SpotlightCard>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Resumen del Personal */}
+        <div className="bg-white rounded-[8px] border border-gray-200 shadow-sm animate-slideInUp mb-8" style={{ animationDelay: '500ms' }}>
+          <div className="p-4 border-b border-gray-100">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <UserIcon size={18} className="text-purple-600 mr-2" />
+                <h3 className="text-sm font-medium text-gray-800">Resumen del Personal - Día Actual</h3>
+              </div>
+              <div className="text-xs text-gray-500">
+                {new Date().toLocaleDateString('es-ES')}
+              </div>
+            </div>
+          </div>
+          <div className="p-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-blue-50 rounded-[8px] p-4 border border-blue-300">
+                <h4 className="text-sm font-medium text-blue-800 mb-2">Total Servicios</h4>
+                <p className="text-2xl font-bold text-blue-900">
+                  {employeeStats.reduce((sum, emp) => sum + emp.servicesCount, 0)}
+                </p>
+                <p className="text-xs text-blue-600">Atenciones completadas</p>
+              </div>
+              <div className="bg-green-50 rounded-[8px] p-4 border border-green-300">
+                <h4 className="text-sm font-medium text-green-800 mb-2">Total Propinas</h4>
+                <p className="text-2xl font-bold text-green-900">
+                  {formatCurrency(employeeStats.reduce((sum, emp) => sum + emp.totalTips, 0))}
+                </p>
+                <p className="text-xs text-green-600">Propinas del día</p>
+              </div>
+              <div className="bg-purple-50 rounded-[8px] p-4 border border-purple-300">
+                <h4 className="text-sm font-medium text-purple-800 mb-2">Ventas Generadas</h4>
+                <p className="text-2xl font-bold text-purple-900">
+                  {formatCurrency(employeeStats.reduce((sum, emp) => sum + emp.sales, 0))}
+                </p>
+                <p className="text-xs text-purple-600">Por el equipo</p>
+              </div>
             </div>
           </div>
         </div>
@@ -343,12 +376,12 @@ export function AdminDashboard() {
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
           
           {/* Empleados Performance */}
-          <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp" style={{ animationDelay: '400ms' }}>
+          <div className="bg-white rounded-[8px] border border-gray-200 shadow-sm animate-slideInUp" style={{ animationDelay: '600ms' }}>
             <div className="p-4 border-b border-gray-100">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <UserIcon size={18} className="text-blue-600 mr-2" />
-                  <h3 className="font-semibold text-gray-800">Rendimiento Empleados</h3>
+                  <h3 className="text-sm font-medium text-gray-800">Rendimiento Empleados</h3>
                 </div>
                 <span className="bg-blue-50 text-blue-800 px-2 py-1 rounded text-xs font-medium border border-blue-100">
                   Hoy
@@ -359,11 +392,11 @@ export function AdminDashboard() {
             <div className="p-4 h-[400px] overflow-y-auto kitchen-scrollbar">
               <div className="space-y-3">
                 {employeeStats.map((employee, index) => (
-                  <div key={employee.id} className="bg-gray-50 rounded p-3 hover:bg-gray-100 transition-colors duration-200">
+                  <div key={employee.id} className="bg-gray-50 rounded-[8px] p-3 hover:bg-gray-100 transition-colors duration-200">
                     <div className="flex items-center justify-between mb-2">
-                      <div>
-                        <h4 className="font-semibold text-gray-900 text-sm">{employee.name}</h4>
-                        <p className="text-xs text-gray-600">{employee.role}</p>
+                      <div className="text-center w-full">
+                        <h4 className="font-semibold text-gray-900 text-sm text-center">{employee.name}</h4>
+                        <p className="text-xs text-gray-600 text-center">{employee.role}</p>
                       </div>
                       <div className="flex items-center">
                         <StarIcon size={12} className="text-yellow-500 mr-1" />
@@ -395,12 +428,12 @@ export function AdminDashboard() {
           </div>
 
           {/* Platos Más Populares */}
-          <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp" style={{ animationDelay: '500ms' }}>
+          <div className="bg-white rounded-[8px] border border-gray-200 shadow-sm animate-slideInUp" style={{ animationDelay: '700ms' }}>
             <div className="p-4 border-b border-gray-100">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <TrendingUpCustomIcon size={18} className="mr-2" />
-                  <h3 className="font-semibold text-gray-800">Platos Favoritos</h3>
+                  <h3 className="text-sm font-medium text-gray-800">Platos Favoritos</h3>
                 </div>
                 <span className="bg-green-50 text-green-800 px-2 py-1 rounded text-xs font-medium border border-green-100">
                   Top 5
@@ -437,12 +470,12 @@ export function AdminDashboard() {
           </div>
 
           {/* Platos Menos Populares */}
-          <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp" style={{ animationDelay: '600ms' }}>
+          <div className="bg-white rounded-[8px] border border-gray-200 shadow-sm animate-slideInUp" style={{ animationDelay: '800ms' }}>
             <div className="p-4 border-b border-gray-100">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <AlertTriangleIcon size={18} className="text-orange-600 mr-2" />
-                  <h3 className="font-semibold text-gray-800">Oportunidades</h3>
+                  <h3 className="text-sm font-medium text-gray-800">Oportunidades</h3>
                 </div>
                 <span className="bg-orange-50 text-orange-800 px-2 py-1 rounded text-xs font-medium border border-orange-100">
                   Mejorar
@@ -479,46 +512,6 @@ export function AdminDashboard() {
                 <p className="text-xs text-orange-700">
                   💡 <strong>Sugerencia:</strong> Considera promociones especiales o revisar recetas para estos platos.
                 </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Resumen del Personal */}
-        <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp mb-6" style={{ animationDelay: '700ms' }}>
-          <div className="p-4 border-b border-gray-100">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <UserIcon size={18} className="text-purple-600 mr-2" />
-                <h3 className="font-semibold text-gray-800">Resumen del Personal - Día Actual</h3>
-              </div>
-              <div className="text-xs text-gray-500">
-                {new Date().toLocaleDateString('es-ES')}
-              </div>
-            </div>
-          </div>
-          <div className="p-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-blue-50 rounded p-4">
-                <h4 className="font-medium text-blue-800 mb-2">Total Servicios</h4>
-                <p className="text-2xl font-bold text-blue-900">
-                  {employeeStats.reduce((sum, emp) => sum + emp.servicesCount, 0)}
-                </p>
-                <p className="text-xs text-blue-600">Atenciones completadas</p>
-              </div>
-              <div className="bg-green-50 rounded p-4">
-                <h4 className="font-medium text-green-800 mb-2">Total Propinas</h4>
-                <p className="text-2xl font-bold text-green-900">
-                  {formatCurrency(employeeStats.reduce((sum, emp) => sum + emp.totalTips, 0))}
-                </p>
-                <p className="text-xs text-green-600">Propinas del día</p>
-              </div>
-              <div className="bg-purple-50 rounded p-4">
-                <h4 className="font-medium text-purple-800 mb-2">Ventas Generadas</h4>
-                <p className="text-2xl font-bold text-purple-900">
-                  {formatCurrency(employeeStats.reduce((sum, emp) => sum + emp.sales, 0))}
-                </p>
-                <p className="text-xs text-purple-600">Por el equipo</p>
               </div>
             </div>
           </div>

@@ -50,8 +50,8 @@ interface ExpenseStats {
 
 export function AdminExpenses() {
   const [isLoading, setIsLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState<'overview' | 'payroll' | 'expenses' | 'add'>('overview')
-  const [isAddingExpense, setIsAddingExpense] = useState(false)
+  const [activeTab, setActiveTab] = useState<'overview' | 'payroll' | 'expenses'>('overview')
+  const [isAddExpenseModalOpen, setIsAddExpenseModalOpen] = useState(false)
   const [editingExpense, setEditingExpense] = useState<string | null>(null)
   const { formatCurrency, getFontSizeClass } = useConfig()
 
@@ -212,6 +212,16 @@ export function AdminExpenses() {
     otros: 'Otros'
   }
 
+  // Colores para degradado de barras
+  const categoryGradients = {
+    nomina: 'linear-gradient(90deg, #60a5fa 0%, #1e40af 100%)', // blue-400 to blue-900
+    servicios: 'linear-gradient(90deg, #fde68a 0%, #b45309 100%)', // yellow-300 to yellow-800
+    inventario: 'linear-gradient(90deg, #6ee7b7 0%, #065f46 100%)', // green-300 to green-900
+    mantenimiento: 'linear-gradient(90deg, #fca5a5 0%, #991b1b 100%)', // red-300 to red-900
+    marketing: 'linear-gradient(90deg, #c4b5fd 0%, #6d28d9 100%)', // purple-300 to purple-800
+    otros: 'linear-gradient(90deg, #d1d5db 0%, #374151 100%)', // gray-300 to gray-800
+  }
+
   const handleAddExpense = () => {
     if (newExpense.description && newExpense.amount) {
       const expense: Expense = {
@@ -234,7 +244,7 @@ export function AdminExpenses() {
         recurring: false,
         date: new Date().toISOString().split('T')[0]
       })
-      setIsAddingExpense(false)
+      setIsAddExpenseModalOpen(false)
     }
   }
 
@@ -261,18 +271,16 @@ export function AdminExpenses() {
   }
 
   return (
-    <div 
-      className={`h-full overflow-y-auto bg-gray-50 transition-opacity duration-500 ${
+    <div
+      className={`min-h-screen flex flex-col bg-gray-50 transition-opacity duration-500 ${
         isLoading ? 'opacity-0' : 'opacity-100'
-      } ${getFontSizeClass()}`} 
+      } ${getFontSizeClass()}`}
       style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}
     >
-      <div className="p-4 lg:p-6">
+      <div className="flex-1 flex flex-col p-4 lg:p-6 w-full max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-6 lg:mb-8 animate-fadeInSlide">
-          <h1 className="text-2xl lg:text-3xl font-bold text-black mb-2 tracking-tight">
-            Gestión de Gastos
-          </h1>
+          
           <p className="text-gray-600 font-medium text-sm lg:text-base">
             Control de gastos operativos y nómina del restaurante
           </p>
@@ -280,24 +288,23 @@ export function AdminExpenses() {
 
         {/* Tab Navigation */}
         <div className="mb-6">
-          <div className="border-b border-gray-200">
-            <nav className="-mb-px flex space-x-8">
+          <div className="flex justify-center">
+            <nav className="bg-white rounded-[12px] shadow-sm flex px-1 py-1 gap-1">
               {[
-                { id: 'overview', label: 'Resumen', icon: '' },
-                { id: 'payroll', label: 'Nómina', icon: '' },
-                { id: 'expenses', label: 'Gastos', icon: '' },
-                { id: 'add', label: 'Agregar', icon: '' }
+                { id: 'overview', label: 'Resumen' },
+                { id: 'payroll', label: 'Nómina' },
+                { id: 'expenses', label: 'Gastos' }
               ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm ${
-                    activeTab === tab.id
-                      ? 'border-purple-500 text-purple-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
+                  className={`px-4 py-2 rounded-[8px] font-semibold text-sm transition-all duration-200
+                    ${activeTab === tab.id
+                      ? 'bg-blue-50 text-blue-700 shadow-sm'
+                      : 'bg-transparent text-gray-500 hover:bg-gray-50 hover:text-gray-700'}
+                  `}
+                  style={{ minWidth: 90 }}
                 >
-                  <span className="mr-2">{tab.icon}</span>
                   {tab.label}
                 </button>
               ))}
@@ -312,7 +319,7 @@ export function AdminExpenses() {
             <div className="grid grid-cols-2 lg:flex lg:justify-center gap-3 lg:gap-4 mb-8">
               <div className="w-full lg:w-48">
                 <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-                  <div className="bg-red-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '0ms', backdropFilter: 'blur(10px)' }}>
+                  <div className="bg-red-100 backdrop-blur-sm rounded-[8px] px-2 py-2 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-red-400 h-20 lg:h-24 xl:h-28 flex flex-col justify-between config-font-medium" style={{ animationDelay: '0ms', backdropFilter: 'blur(10px)' }}>
                     <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                     <div className="relative z-10 flex flex-col justify-between h-full">
                       <h3 className="font-medium text-black text-sm lg:text-base leading-tight">Este Mes</h3>
@@ -327,7 +334,7 @@ export function AdminExpenses() {
 
               <div className="w-full lg:w-48">
                 <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-                  <div className="bg-orange-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '100ms', backdropFilter: 'blur(10px)' }}>
+                  <div className="bg-orange-100 backdrop-blur-sm rounded-[8px] px-2 py-2 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-orange-400 h-20 lg:h-24 xl:h-28 flex flex-col justify-between config-font-medium" style={{ animationDelay: '100ms', backdropFilter: 'blur(10px)' }}>
                     <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                     <div className="relative z-10 flex flex-col justify-between h-full">
                       <h3 className="font-medium text-black text-sm lg:text-base leading-tight">Nómina</h3>
@@ -342,7 +349,7 @@ export function AdminExpenses() {
 
               <div className="w-full lg:w-48">
                 <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-                  <div className="bg-yellow-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '200ms', backdropFilter: 'blur(10px)' }}>
+                  <div className="bg-yellow-100 backdrop-blur-sm rounded-[8px] px-2 py-2 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-yellow-400 h-20 lg:h-24 xl:h-28 flex flex-col justify-between config-font-medium" style={{ animationDelay: '200ms', backdropFilter: 'blur(10px)' }}>
                     <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                     <div className="relative z-10 flex flex-col justify-between h-full">
                       <h3 className="font-medium text-black text-sm lg:text-base leading-tight">Pendientes</h3>
@@ -357,7 +364,7 @@ export function AdminExpenses() {
 
               <div className="w-full lg:w-48">
                 <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-                  <div className="bg-blue-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '300ms', backdropFilter: 'blur(10px)' }}>
+                  <div className="bg-blue-100 backdrop-blur-sm rounded-[8px] px-2 py-2 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-blue-400 h-20 lg:h-24 xl:h-28 flex flex-col justify-between config-font-medium" style={{ animationDelay: '300ms', backdropFilter: 'blur(10px)' }}>
                     <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                     <div className="relative z-10 flex flex-col justify-between h-full">
                       <h3 className="font-medium text-black text-sm lg:text-base leading-tight">Promedio</h3>
@@ -372,27 +379,37 @@ export function AdminExpenses() {
             </div>
 
             {/* Category Breakdown */}
-            <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp mb-8" style={{ animationDelay: '400ms' }}>
+            <div className="bg-white rounded-[8px] border border-gray-200 shadow-sm animate-slideInUp mb-8" style={{ animationDelay: '400ms' }}>
               <div className="p-4 border-b border-gray-100">
                 <h3 className="font-semibold text-gray-800">Gastos por Categoría</h3>
                 <p className="text-xs text-gray-600 mt-1">Distribución del gasto total</p>
               </div>
               <div className="p-4">
-                <div className="space-y-3">
-                  {Object.entries(expenseStats.byCategory).map(([category, amount]) => (
-                    <div key={category} className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <div className={`w-4 h-4 rounded ${categoryColors[category as keyof typeof categoryColors]} mr-3`}></div>
-                        <span className="font-medium text-gray-900">{categoryNames[category as keyof typeof categoryNames]}</span>
-                      </div>
-                      <div className="text-right">
-                        <span className="font-bold text-gray-900">{formatCurrency(amount)}</span>
-                        <div className="text-xs text-gray-500">
-                          {((amount / expenseStats.totalMonth) * 100).toFixed(1)}%
+                <div className="space-y-4">
+                  {Object.entries(expenseStats.byCategory).map(([category, amount]) => {
+                    const percent = expenseStats.totalMonth > 0 ? (amount / expenseStats.totalMonth) * 100 : 0;
+                    const gradient = categoryGradients[category as keyof typeof categoryGradients];
+                    return (
+                      <div key={category} className="flex flex-col">
+                        <div className="flex flex-row items-center justify-between mb-1">
+                          <div className="flex items-center">
+                            <div className={`w-3 h-3 rounded ${categoryColors[category as keyof typeof categoryColors]} mr-2`}></div>
+                            <span className="font-medium text-gray-900 text-sm">{categoryNames[category as keyof typeof categoryNames]}</span>
+                          </div>
+                          <span className="font-bold text-gray-900 text-sm">{formatCurrency(amount)}</span>
+                        </div>
+                        <div className="flex items-center">
+                          <div className="flex-1 h-3 bg-gray-100 rounded-full overflow-hidden mr-2">
+                            <div
+                              className={`h-3 rounded-full transition-all duration-500`}
+                              style={{ width: `${percent}%`, minWidth: percent > 0 ? '8px' : '0', background: gradient }}
+                            ></div>
+                          </div>
+                          <span className="text-xs text-gray-500 min-w-[32px] text-right">{percent.toFixed(1)}%</span>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -401,7 +418,7 @@ export function AdminExpenses() {
 
         {/* Payroll Tab */}
         {activeTab === 'payroll' && (
-          <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp">
+          <div className="bg-white rounded-[8px] border border-gray-200 shadow-sm animate-slideInUp">
             <div className="p-4 border-b border-gray-100">
               <div className="flex items-center justify-between">
                 <div>
@@ -465,7 +482,7 @@ export function AdminExpenses() {
 
         {/* Expenses Tab */}
         {activeTab === 'expenses' && (
-          <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp">
+          <div className="bg-white rounded-[8px] border border-gray-200 shadow-sm animate-slideInUp">
             <div className="p-4 border-b border-gray-100">
               <div className="flex items-center justify-between">
                 <div>
@@ -473,8 +490,8 @@ export function AdminExpenses() {
                   <p className="text-xs text-gray-600 mt-1">Todos los gastos operativos</p>
                 </div>
                 <button
-                  onClick={() => setIsAddingExpense(true)}
-                  className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition-colors duration-200 flex items-center text-sm"
+                  onClick={() => setIsAddExpenseModalOpen(true)}
+                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-200 flex items-center text-sm"
                 >
                   <PlusIcon size={16} className="mr-2" />
                   Agregar Gasto
@@ -484,44 +501,44 @@ export function AdminExpenses() {
             <div className="p-4">
               <div className="space-y-3">
                 {expenses.map((expense) => (
-                  <div key={expense.id} className="border border-gray-200 rounded p-4 hover:bg-gray-50 transition-colors duration-200">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center min-w-0 flex-1">
-                        <div className={`w-3 h-3 rounded-full ${categoryColors[expense.category]} mr-3 flex-shrink-0`}></div>
-                        <div className="min-w-0 flex-1">
-                          <h4 className="font-medium text-gray-900 truncate">{expense.description}</h4>
-                          <div className="flex items-center space-x-4 text-xs text-gray-500 mt-1">
-                            <span>{categoryNames[expense.category]}</span>
-                            <span>•</span>
-                            <span>{new Date(expense.date).toLocaleDateString()}</span>
-                            <span>•</span>
-                            <span className={expense.type === 'fijo' ? 'text-blue-600' : 'text-orange-600'}>
-                              {expense.type}
-                            </span>
-                            {expense.recurring && (
-                              <>
-                                <span>•</span>
-                                <span className="text-purple-600">Recurrente</span>
-                              </>
-                            )}
-                          </div>
-                        </div>
+                  <div
+                    key={expense.id}
+                    className="bg-white border border-gray-100 rounded-[8px] p-3 shadow-sm hover:shadow-md transition-all duration-200 group flex flex-row items-center gap-2 min-h-[56px]"
+                  >
+                    {/* Contenido principal a la izquierda */}
+                    <div className="flex flex-col justify-center min-h-[40px] flex-1">
+                      <h4 className="font-semibold text-gray-900 truncate text-sm leading-tight text-left mb-1">
+                        {expense.description}
+                      </h4>
+                      <div className="flex items-center gap-x-2 gap-y-1 text-xs text-gray-400 flex-wrap min-w-0">
+                        <div className={`w-2 h-2 rounded-full ${categoryColors[expense.category]} flex-shrink-0`}></div>
+                        <span>{categoryNames[expense.category]}</span>
+                        <span>·</span>
+                        <span>{new Date(expense.date).toLocaleDateString()}</span>
+                        <span>·</span>
+                        <span className={expense.type === 'fijo' ? 'text-blue-500' : 'text-orange-500'}>{expense.type}</span>
+                        {expense.recurring && <><span>·</span><span className="text-blue-400">Recurrente</span></>}
+                        {expense.notes && <><span>·</span><span className="italic text-gray-300 truncate max-w-[100px]">{expense.notes}</span></>}
                       </div>
-                      <div className="flex items-center space-x-3 ml-4">
-                        <div className="text-right">
-                          <span className="font-bold text-lg text-gray-900">{formatCurrency(expense.amount)}</span>
-                          <div className={`text-xs px-2 py-1 rounded-full inline-flex items-center ${getStatusColor(expense.status)}`}>
-                            <span className="mr-1">{getStatusIcon(expense.status)}</span>
-                            {expense.status}
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => handleDeleteExpense(expense.id)}
-                          className="text-red-500 hover:text-red-700 p-1"
-                        >
-                          <TrashIcon size={16} />
-                        </button>
-                      </div>
+                    </div>
+                    {/* Bloque horizontal a la derecha */}
+                    <div className="flex flex-row items-center gap-2 ml-2">
+                      <span className="text-base font-bold text-blue-700 leading-none select-text" style={{minWidth: 60, textAlign: 'right'}}>{formatCurrency(expense.amount)}</span>
+                      <span className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(expense.status)}`}
+                        style={{ minWidth: 54, textTransform: 'capitalize', background: 'white', borderWidth: 1 }}>
+                        <span className={`w-2 h-2 rounded-full ${
+                          expense.status === 'pagado' ? 'bg-green-400' : expense.status === 'pendiente' ? 'bg-red-400' : 'bg-yellow-300'
+                        }`}></span>
+                        {expense.status}
+                      </span>
+                      <button
+                        onClick={() => handleDeleteExpense(expense.id)}
+                        className="flex items-center justify-center w-7 h-7 rounded-full border border-gray-200 bg-white text-red-400 hover:text-red-600 hover:bg-red-50 transition-all duration-200 shadow-sm"
+                        title="Eliminar"
+                        style={{ boxShadow: '0 1px 4px 0 rgba(0,0,0,0.04)' }}
+                      >
+                        <TrashIcon size={15} />
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -530,14 +547,20 @@ export function AdminExpenses() {
           </div>
         )}
 
-        {/* Add Expense Tab */}
-        {activeTab === 'add' && (
-          <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp">
-            <div className="p-4 border-b border-gray-100">
-              <h3 className="font-semibold text-gray-800">Agregar Nuevo Gasto</h3>
-              <p className="text-xs text-gray-600 mt-1">Registra un nuevo gasto operativo</p>
-            </div>
-            <div className="p-6">
+        {/* Modal para agregar gasto */}
+        {isAddExpenseModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30 backdrop-blur-sm">
+            <div className="bg-white rounded-[12px] shadow-2xl max-w-lg w-full mx-4 p-6 relative animate-fadeInSlide">
+              <button
+                className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-xl font-bold focus:outline-none"
+                onClick={() => setIsAddExpenseModalOpen(false)}
+                aria-label="Cerrar"
+              >
+                <XIcon size={22} />
+              </button>
+              <h3 className="font-semibold text-gray-800 text-lg mb-2">Agregar Nuevo Gasto</h3>
+              <p className="text-xs text-gray-500 mb-4">Registra un nuevo gasto operativo</p>
+              {/* Formulario de agregar gasto (reutilizado del tab 'add') */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Descripción */}
                 <div>
@@ -546,51 +569,52 @@ export function AdminExpenses() {
                     type="text"
                     value={newExpense.description || ''}
                     onChange={(e) => setNewExpense({...newExpense, description: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
                     placeholder="Descripción del gasto"
                   />
                 </div>
-
                 {/* Monto */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Monto</label>
                   <input
-                    type="number"
+                    type="text"
+                    inputMode="decimal"
+                    pattern="^[0-9]*[.,]?[0-9]*$"
                     value={newExpense.amount || ''}
-                    onChange={(e) => setNewExpense({...newExpense, amount: parseFloat(e.target.value)})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/,/g, '.');
+                      setNewExpense({ ...newExpense, amount: val === '' ? undefined : parseFloat(val) });
+                    }}
+                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black appearance-none"
                     placeholder="0.00"
-                    step="0.01"
+                    style={{ MozAppearance: 'textfield' }}
                   />
                 </div>
-
                 {/* Categoría */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Categoría</label>
                   <select
                     value={newExpense.category}
                     onChange={(e) => setNewExpense({...newExpense, category: e.target.value as any})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
                   >
                     {Object.entries(categoryNames).map(([key, value]) => (
                       <option key={key} value={key}>{value}</option>
                     ))}
                   </select>
                 </div>
-
                 {/* Tipo */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Tipo</label>
                   <select
                     value={newExpense.type}
                     onChange={(e) => setNewExpense({...newExpense, type: e.target.value as any})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
                   >
                     <option value="variable">Variable</option>
                     <option value="fijo">Fijo</option>
                   </select>
                 </div>
-
                 {/* Fecha */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Fecha</label>
@@ -598,24 +622,22 @@ export function AdminExpenses() {
                     type="date"
                     value={newExpense.date}
                     onChange={(e) => setNewExpense({...newExpense, date: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
                   />
                 </div>
-
                 {/* Estado */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Estado</label>
                   <select
                     value={newExpense.status}
                     onChange={(e) => setNewExpense({...newExpense, status: e.target.value as any})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
                   >
                     <option value="pendiente">Pendiente</option>
                     <option value="pagado">Pagado</option>
                     <option value="programado">Programado</option>
                   </select>
                 </div>
-
                 {/* Recurrente */}
                 <div className="md:col-span-2">
                   <label className="flex items-center">
@@ -623,25 +645,23 @@ export function AdminExpenses() {
                       type="checkbox"
                       checked={newExpense.recurring}
                       onChange={(e) => setNewExpense({...newExpense, recurring: e.target.checked})}
-                      className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                     />
                     <span className="ml-2 text-sm text-gray-700">Gasto recurrente</span>
                   </label>
                 </div>
-
                 {/* Notas */}
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-2">Notas (opcional)</label>
                   <textarea
                     value={newExpense.notes || ''}
                     onChange={(e) => setNewExpense({...newExpense, notes: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
                     rows={3}
                     placeholder="Notas adicionales sobre este gasto..."
                   />
                 </div>
               </div>
-
               <div className="mt-6 flex justify-end space-x-3">
                 <button
                   onClick={() => setNewExpense({
@@ -656,8 +676,11 @@ export function AdminExpenses() {
                   Limpiar
                 </button>
                 <button
-                  onClick={handleAddExpense}
-                  className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors duration-200 flex items-center"
+                  onClick={() => {
+                    handleAddExpense();
+                    setIsAddExpenseModalOpen(false);
+                  }}
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-200 flex items-center"
                 >
                   <SaveIcon size={16} className="mr-2" />
                   Guardar Gasto
@@ -666,6 +689,8 @@ export function AdminExpenses() {
             </div>
           </div>
         )}
+
+
       </div>
     </div>
   )

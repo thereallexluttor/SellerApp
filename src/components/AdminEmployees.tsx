@@ -246,16 +246,14 @@ export function AdminEmployees() {
     <div className="p-4 lg:p-6">
       {/* Header */}
       <div className="mb-6 lg:mb-8 animate-fadeInSlide">
-        <h1 className="text-2xl lg:text-3xl font-bold text-black mb-2 tracking-tight">
-          Gestión de Empleados
-        </h1>
+        
         <p className="text-gray-600 font-medium text-sm lg:text-base">
           Administra el personal del restaurante y sus datos
         </p>
       </div>
 
       {/* Controls */}
-      <div className="mb-6 bg-white rounded border border-gray-300 shadow-sm p-4 max-w-4xl mx-auto">
+      <div className="mb-6 bg-white rounded-[8px] border border-gray-300 shadow-sm p-4 max-w-4xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
           {/* Search */}
           <div className="flex-1 max-w-md">
@@ -296,7 +294,7 @@ export function AdminEmployees() {
 
             <button
               onClick={() => setIsAddingEmployee(true)}
-              className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors flex items-center gap-2"
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors flex items-center gap-2"
             >
               <PlusIcon size={16} />
               Agregar Empleado
@@ -307,14 +305,14 @@ export function AdminEmployees() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 max-w-4xl mx-auto">
-        <div className="bg-white rounded border border-gray-300 shadow-sm p-4">
+        <div className="bg-white rounded-[8px] border border-gray-300 shadow-sm p-4">
           <div className="text-center">
             <p className="text-sm font-medium text-gray-600">Total Empleados</p>
             <p className="text-2xl font-bold text-purple-600 mt-2">{employees.length}</p>
           </div>
         </div>
 
-        <div className="bg-white rounded border border-gray-300 shadow-sm p-4">
+        <div className="bg-white rounded-[8px] border border-gray-300 shadow-sm p-4">
           <div className="text-center">
             <p className="text-sm font-medium text-gray-600">Activos</p>
             <p className="text-2xl font-bold text-green-600 mt-2">
@@ -323,7 +321,7 @@ export function AdminEmployees() {
           </div>
         </div>
 
-        <div className="bg-white rounded border border-gray-300 shadow-sm p-4">
+        <div className="bg-white rounded-[8px] border border-gray-300 shadow-sm p-4">
           <div className="text-center">
             <p className="text-sm font-medium text-gray-600">Nómina Total</p>
             <p className="text-2xl font-bold text-blue-600 mt-2">
@@ -332,7 +330,7 @@ export function AdminEmployees() {
           </div>
         </div>
 
-        <div className="bg-white rounded border border-gray-300 shadow-sm p-4">
+        <div className="bg-white rounded-[8px] border border-gray-300 shadow-sm p-4">
           <div className="text-center">
             <p className="text-sm font-medium text-gray-600">Departamentos</p>
             <p className="text-2xl font-bold text-orange-600 mt-2">
@@ -343,7 +341,7 @@ export function AdminEmployees() {
       </div>
 
       {/* Employees Table */}
-      <div className="bg-white rounded border border-gray-300 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-[8px] border border-gray-300 shadow-sm overflow-hidden">
         <div className="p-4 border-b border-gray-100">
           <h3 className="font-semibold text-gray-800">Lista de Empleados</h3>
           <p className="text-sm text-gray-600 mt-1">
@@ -429,7 +427,7 @@ export function AdminEmployees() {
                           e.stopPropagation()
                           setEditingEmployee(employee.id)
                         }}
-                        className="text-purple-600 hover:text-purple-900 p-1 rounded hover:bg-purple-50"
+                        className="text-blue-600 hover:text-blue-900 p-1 rounded hover:bg-blue-50"
                         title="Editar empleado"
                       >
                         <EditIcon size={16} />
@@ -470,7 +468,7 @@ export function AdminEmployees() {
           onClick={() => setSelectedEmployee(null)}
         >
           <div 
-            className="bg-white rounded max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded max-w-4xl w-full max-h-[90vh] overflow-y-auto apple-scrollbar-dark"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="p-6">
@@ -996,13 +994,13 @@ export function AdminEmployees() {
                     setSelectedEmployee(null)
                     setEditingEmployee(selectedEmployee.id)
                   }}
-                  className="px-3 py-1.5 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors text-sm"
+                  className="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors text-sm"
                 >
                   Editar Empleado
                 </button>
                 <button
                   onClick={() => setSelectedEmployee(null)}
-                  className="px-3 py-1.5 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition-colors text-sm"
+                  className="px-3 py-1.5 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors text-sm"
                 >
                   Cerrar
                 </button>
@@ -1015,245 +1013,241 @@ export function AdminEmployees() {
       {/* Add Employee Modal */}
       {isAddingEmployee && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30 backdrop-blur-sm"
           onClick={() => setIsAddingEmployee(false)}
         >
           <div 
-            className="bg-white rounded max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-[12px] shadow-2xl max-w-lg w-full mx-4 p-6 relative animate-fadeInSlide"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-6">
-              {/* Header */}
-              <div className="relative mb-6">
-                <h2 className="text-lg font-bold text-gray-900 text-center">Agregar Nuevo Empleado</h2>
-                <button
-                  onClick={() => setIsAddingEmployee(false)}
-                  className="absolute top-0 right-0 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded transition-all duration-200"
-                >
-                  <span className="text-xl leading-none">&times;</span>
-                </button>
+            <button
+              className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-xl font-bold focus:outline-none"
+              onClick={() => setIsAddingEmployee(false)}
+              aria-label="Cerrar"
+            >
+              <span className="text-2xl leading-none">&times;</span>
+            </button>
+            <h2 className="font-semibold text-gray-800 text-lg mb-2">Agregar Nuevo Empleado</h2>
+            <p className="text-xs text-gray-500 mb-4">Registra un nuevo empleado para el restaurante</p>
+            {/* Form */}
+            <form onSubmit={(e) => {
+              e.preventDefault()
+              if (!newEmployee.name || !newEmployee.email || !newEmployee.position || !newEmployee.salary || !newEmployee.department) {
+                alert('Por favor completa todos los campos obligatorios')
+                return
+              }
+
+              const employee: Employee = {
+                id: (employees.length + 1).toString(),
+                name: newEmployee.name,
+                email: newEmployee.email,
+                phone: newEmployee.phone,
+                position: newEmployee.position,
+                salary: parseFloat(newEmployee.salary),
+                payrollType: newEmployee.payrollType,
+                startDate: newEmployee.startDate || new Date().toISOString().split('T')[0],
+                status: newEmployee.status,
+                department: newEmployee.department,
+                shifts: newEmployee.shifts
+              }
+
+              setEmployees(prev => [...prev, employee])
+              setNewEmployee({
+                name: '',
+                email: '',
+                phone: '',
+                position: '',
+                salary: '',
+                payrollType: 'mensual',
+                startDate: '',
+                status: 'activo',
+                department: '',
+                shifts: []
+              })
+              setIsAddingEmployee(false)
+            }}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                {/* Información Personal */}
+                <div className="space-y-4">
+                  <h3 className="font-semibold text-gray-800 border-b border-gray-200 pb-2">Información Personal</h3>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Nombre Completo *
+                    </label>
+                    <input
+                      type="text"
+                      value={newEmployee.name}
+                      onChange={(e) => setNewEmployee(prev => ({ ...prev, name: e.target.value }))}
+                      className="w-full px-3 py-2 bg-white text-black border border-gray-300 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      placeholder="Ej: Juan Pérez"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Email *
+                    </label>
+                    <input
+                      type="email"
+                      value={newEmployee.email}
+                      onChange={(e) => setNewEmployee(prev => ({ ...prev, email: e.target.value }))}
+                      className="w-full px-3 py-2 bg-white text-black border border-gray-300 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      placeholder="juan.perez@restaurant.com"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Teléfono
+                    </label>
+                    <input
+                      type="tel"
+                      value={newEmployee.phone}
+                      onChange={(e) => setNewEmployee(prev => ({ ...prev, phone: e.target.value }))}
+                      className="w-full px-3 py-2 bg-white text-black border border-gray-300 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      placeholder="+1 234-567-8900"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Fecha de Inicio
+                    </label>
+                    <input
+                      type="date"
+                      value={newEmployee.startDate}
+                      onChange={(e) => setNewEmployee(prev => ({ ...prev, startDate: e.target.value }))}
+                      className="w-full px-3 py-2 bg-white text-black border border-gray-300 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    />
+                  </div>
+                </div>
+
+                {/* Información Laboral */}
+                <div className="space-y-4">
+                  <h3 className="font-semibold text-gray-800 border-b border-gray-200 pb-2">Información Laboral</h3>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Posición *
+                    </label>
+                    <input
+                      type="text"
+                      value={newEmployee.position}
+                      onChange={(e) => setNewEmployee(prev => ({ ...prev, position: e.target.value }))}
+                      className="w-full px-3 py-2 bg-white text-black border border-gray-300 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      placeholder="Ej: Mesero, Chef, Cajero"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Departamento *
+                    </label>
+                    <select
+                      value={newEmployee.department}
+                      onChange={(e) => setNewEmployee(prev => ({ ...prev, department: e.target.value }))}
+                      className="w-full px-3 py-2 bg-white text-black border border-gray-300 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      required
+                    >
+                      <option value="">Seleccionar departamento</option>
+                      <option value="Servicio">Servicio</option>
+                      <option value="Cocina">Cocina</option>
+                      <option value="Administración">Administración</option>
+                      <option value="Limpieza">Limpieza</option>
+                      <option value="Seguridad">Seguridad</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Salario *
+                    </label>
+                    <input
+                      type="text"
+                      value={newEmployee.salary}
+                      onChange={(e) => setNewEmployee(prev => ({ ...prev, salary: e.target.value }))}
+                      className="w-full px-3 py-2 bg-white text-black border border-gray-300 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      placeholder="1000.00"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Tipo de Nómina
+                    </label>
+                    <select
+                      value={newEmployee.payrollType}
+                      onChange={(e) => setNewEmployee(prev => ({ ...prev, payrollType: e.target.value as any }))}
+                      className="w-full px-3 py-2 bg-white text-black border border-gray-300 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    >
+                      <option value="mensual">Mensual</option>
+                      <option value="quincenal">Quincenal</option>
+                      <option value="semanal">Semanal</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Estado
+                    </label>
+                    <select
+                      value={newEmployee.status}
+                      onChange={(e) => setNewEmployee(prev => ({ ...prev, status: e.target.value as any }))}
+                      className="w-full px-3 py-2 bg-white text-black border border-gray-300 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    >
+                      <option value="activo">Activo</option>
+                      <option value="inactivo">Inactivo</option>
+                    </select>
+                  </div>
+                </div>
               </div>
 
-              {/* Form */}
-              <form onSubmit={(e) => {
-                e.preventDefault()
-                if (!newEmployee.name || !newEmployee.email || !newEmployee.position || !newEmployee.salary || !newEmployee.department) {
-                  alert('Por favor completa todos los campos obligatorios')
-                  return
-                }
-
-                const employee: Employee = {
-                  id: (employees.length + 1).toString(),
-                  name: newEmployee.name,
-                  email: newEmployee.email,
-                  phone: newEmployee.phone,
-                  position: newEmployee.position,
-                  salary: parseFloat(newEmployee.salary),
-                  payrollType: newEmployee.payrollType,
-                  startDate: newEmployee.startDate || new Date().toISOString().split('T')[0],
-                  status: newEmployee.status,
-                  department: newEmployee.department,
-                  shifts: newEmployee.shifts
-                }
-
-                setEmployees(prev => [...prev, employee])
-                setNewEmployee({
-                  name: '',
-                  email: '',
-                  phone: '',
-                  position: '',
-                  salary: '',
-                  payrollType: 'mensual',
-                  startDate: '',
-                  status: 'activo',
-                  department: '',
-                  shifts: []
-                })
-                setIsAddingEmployee(false)
-              }}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                  {/* Información Personal */}
-                  <div className="space-y-4">
-                    <h3 className="font-semibold text-gray-800 border-b border-gray-200 pb-2">Información Personal</h3>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Nombre Completo *
-                      </label>
+              {/* Turnos */}
+              <div className="mb-6">
+                <h3 className="font-semibold text-gray-800 border-b border-gray-200 pb-2 mb-4">Turnos de Trabajo</h3>
+                <div className="flex flex-wrap gap-2">
+                  {['Mañana', 'Tarde', 'Noche'].map((shift) => (
+                    <label key={shift} className="flex items-center">
                       <input
-                        type="text"
-                        value={newEmployee.name}
-                        onChange={(e) => setNewEmployee(prev => ({ ...prev, name: e.target.value }))}
-                        className="w-full px-3 py-2 bg-white text-black border border-gray-300 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                        placeholder="Ej: Juan Pérez"
-                        required
+                        type="checkbox"
+                        checked={newEmployee.shifts.includes(shift)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setNewEmployee(prev => ({ ...prev, shifts: [...prev.shifts, shift] }))
+                          } else {
+                            setNewEmployee(prev => ({ ...prev, shifts: prev.shifts.filter(s => s !== shift) }))
+                          }
+                        }}
+                        className="mr-2 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
                       />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Email *
-                      </label>
-                      <input
-                        type="email"
-                        value={newEmployee.email}
-                        onChange={(e) => setNewEmployee(prev => ({ ...prev, email: e.target.value }))}
-                        className="w-full px-3 py-2 bg-white text-black border border-gray-300 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                        placeholder="juan.perez@restaurant.com"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Teléfono
-                      </label>
-                      <input
-                        type="tel"
-                        value={newEmployee.phone}
-                        onChange={(e) => setNewEmployee(prev => ({ ...prev, phone: e.target.value }))}
-                        className="w-full px-3 py-2 bg-white text-black border border-gray-300 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                        placeholder="+1 234-567-8900"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Fecha de Inicio
-                      </label>
-                      <input
-                        type="date"
-                        value={newEmployee.startDate}
-                        onChange={(e) => setNewEmployee(prev => ({ ...prev, startDate: e.target.value }))}
-                        className="w-full px-3 py-2 bg-white text-black border border-gray-300 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Información Laboral */}
-                  <div className="space-y-4">
-                    <h3 className="font-semibold text-gray-800 border-b border-gray-200 pb-2">Información Laboral</h3>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Posición *
-                      </label>
-                      <input
-                        type="text"
-                        value={newEmployee.position}
-                        onChange={(e) => setNewEmployee(prev => ({ ...prev, position: e.target.value }))}
-                        className="w-full px-3 py-2 bg-white text-black border border-gray-300 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                        placeholder="Ej: Mesero, Chef, Cajero"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Departamento *
-                      </label>
-                      <select
-                        value={newEmployee.department}
-                        onChange={(e) => setNewEmployee(prev => ({ ...prev, department: e.target.value }))}
-                        className="w-full px-3 py-2 bg-white text-black border border-gray-300 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                        required
-                      >
-                        <option value="">Seleccionar departamento</option>
-                        <option value="Servicio">Servicio</option>
-                        <option value="Cocina">Cocina</option>
-                        <option value="Administración">Administración</option>
-                        <option value="Limpieza">Limpieza</option>
-                        <option value="Seguridad">Seguridad</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Salario *
-                      </label>
-                      <input
-                        type="text"
-                        value={newEmployee.salary}
-                        onChange={(e) => setNewEmployee(prev => ({ ...prev, salary: e.target.value }))}
-                        className="w-full px-3 py-2 bg-white text-black border border-gray-300 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                        placeholder="1000.00"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Tipo de Nómina
-                      </label>
-                      <select
-                        value={newEmployee.payrollType}
-                        onChange={(e) => setNewEmployee(prev => ({ ...prev, payrollType: e.target.value as any }))}
-                        className="w-full px-3 py-2 bg-white text-black border border-gray-300 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                      >
-                        <option value="mensual">Mensual</option>
-                        <option value="quincenal">Quincenal</option>
-                        <option value="semanal">Semanal</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Estado
-                      </label>
-                      <select
-                        value={newEmployee.status}
-                        onChange={(e) => setNewEmployee(prev => ({ ...prev, status: e.target.value as any }))}
-                        className="w-full px-3 py-2 bg-white text-black border border-gray-300 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                      >
-                        <option value="activo">Activo</option>
-                        <option value="inactivo">Inactivo</option>
-                      </select>
-                    </div>
-                  </div>
+                      <span className="text-sm text-gray-700">{shift}</span>
+                    </label>
+                  ))}
                 </div>
+              </div>
 
-                {/* Turnos */}
-                <div className="mb-6">
-                  <h3 className="font-semibold text-gray-800 border-b border-gray-200 pb-2 mb-4">Turnos de Trabajo</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {['Mañana', 'Tarde', 'Noche'].map((shift) => (
-                      <label key={shift} className="flex items-center">
-                        <input
-                          type="checkbox"
-                          checked={newEmployee.shifts.includes(shift)}
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              setNewEmployee(prev => ({ ...prev, shifts: [...prev.shifts, shift] }))
-                            } else {
-                              setNewEmployee(prev => ({ ...prev, shifts: prev.shifts.filter(s => s !== shift) }))
-                            }
-                          }}
-                          className="mr-2 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
-                        />
-                        <span className="text-sm text-gray-700">{shift}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Actions */}
-                <div className="flex gap-3 justify-end">
-                  <button
-                    type="button"
-                    onClick={() => setIsAddingEmployee(false)}
-                    className="px-3 py-1.5 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition-colors text-sm"
-                  >
-                    Cancelar
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-3 py-1.5 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors text-sm"
-                  >
-                    Agregar Empleado
-                  </button>
-                </div>
-              </form>
-            </div>
+              {/* Actions */}
+              <div className="flex gap-3 justify-end">
+                <button
+                  type="button"
+                  onClick={() => setIsAddingEmployee(false)}
+                  className="px-3 py-1.5 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors text-sm"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors text-sm"
+                >
+                  Agregar Empleado
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
@@ -1265,7 +1259,7 @@ export function AdminEmployees() {
           onClick={() => setEditingEmployee(null)}
         >
           <div 
-            className="bg-white rounded max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded max-w-2xl w-full max-h-[90vh] overflow-y-auto apple-scrollbar-dark"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="p-6">
@@ -1475,13 +1469,13 @@ export function AdminEmployees() {
                   <button
                     type="button"
                     onClick={() => setEditingEmployee(null)}
-                    className="px-3 py-1.5 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition-colors text-sm"
+                    className="px-3 py-1.5 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors text-sm"
                   >
                     Cancelar
                   </button>
                   <button
                     type="submit"
-                    className="px-3 py-1.5 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors text-sm"
+                    className="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors text-sm"
                   >
                     Guardar Cambios
                   </button>
