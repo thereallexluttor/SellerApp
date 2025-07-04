@@ -52,7 +52,7 @@ interface CustomerStats {
 // Componentes de iconos personalizados
 const MoneyIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
   <img 
-    src="/src/public/Credit_Card_01.png" 
+    src="./Credit_Card_01.png" 
     alt="Dinero" 
     width={size} 
     height={size} 
@@ -62,7 +62,7 @@ const MoneyIcon = ({ size = 16, className = "" }: { size?: number, className?: s
 
 const TrendingUpCustomIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
   <img 
-    src="/src/public/Trending_Up.png" 
+    src="./Trending_Up.png" 
     alt="Trending Up" 
     width={size} 
     height={size} 

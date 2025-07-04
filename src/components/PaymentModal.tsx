@@ -25,19 +25,19 @@ const PaymentMethods = [
   {
     id: 'qr',
     name: 'Pago QR',
-    icon: <img src="/src/public/qr-code.png" alt="QR" className="w-12 h-12" />,
+            icon: <img src="./qr-code.png" alt="QR" className="w-12 h-12" />,
     description: 'Pago con QR'
   },
   {
     id: 'card',
     name: 'Tarjeta',
-    icon: <img src="/src/public/credit-cards.png" alt="Tarjeta" className="w-12 h-12" />,
+            icon: <img src="./credit-cards.png" alt="Tarjeta" className="w-12 h-12" />,
     description: 'Débito o Crédito'
   },
   {
     id: 'cash',
     name: 'Efectivo',
-    icon: <img src="/src/public/money.png" alt="Efectivo" className="w-12 h-12" />,
+            icon: <img src="./money.png" alt="Efectivo" className="w-12 h-12" />,
     description: 'Pago en efectivo'
   }
 ]
@@ -62,7 +62,7 @@ export function PaymentModal({ isOpen, onClose, tableData, onProcessPayment }: P
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-md shadow-xl w-full max-w-2xl max-h-[90vh] overflow-hidden animate-scaleIn">
+      <div className="bg-white rounded-[8px] shadow-xl w-full max-w-2xl max-h-[90vh] overflow-hidden animate-scaleIn">
         {/* Header */}
         <div className="p-6 border-b border-gray-200">
           <div className="flex items-center justify-between">

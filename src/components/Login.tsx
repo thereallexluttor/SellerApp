@@ -95,7 +95,7 @@ export function Login() {
             >
               <div className="text-center">
                 <div className="w-8 h-8 mx-auto mb-2 bg-orange-100 rounded flex items-center justify-center">
-                  <img src="/src/public/cocina.png" alt="Chef" width={16} height={16} />
+                  <img src="./cocina.png" alt="Chef" width={16} height={16} />
                 </div>
                 <div className="font-medium text-sm">Cocina</div>
                 <div className="text-xs text-gray-500 mt-1">Gestionar órdenes</div>

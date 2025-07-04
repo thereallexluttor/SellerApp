@@ -29,56 +29,56 @@ interface MenuItem {
   onClick?: () => void
 }
 
-// Iconos personalizados para admin
-const DashboardIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
-  <img 
-    src="/src/public/dashboard.png" 
-    alt="Dashboard" 
-    width={size} 
-    height={size} 
-    className={className}
-  />
-)
+// Iconos personalizados para admin - Comentados hasta que se agreguen las imágenes
+// const DashboardIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
+//   <img 
+//     src="/dashboard.png" 
+//     alt="Dashboard" 
+//     width={size} 
+//     height={size} 
+//     className={className}
+//   />
+// )
 
-const EmployeeIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
-  <img 
-    src="/src/public/empleado.png" 
-    alt="Empleados" 
-    width={size} 
-    height={size} 
-    className={className}
-  />
-)
+// const EmployeeIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
+//   <img 
+//     src="/empleado.png" 
+//     alt="Empleados" 
+//     width={size} 
+//     height={size} 
+//     className={className}
+//   />
+// )
 
-const ExpenseIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
-  <img 
-    src="/src/public/gastos.png" 
-    alt="Gastos" 
-    width={size} 
-    height={size} 
-    className={className}
-  />
-)
+// const ExpenseIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
+//   <img 
+//     src="/gastos.png" 
+//     alt="Gastos" 
+//     width={size} 
+//     height={size} 
+//     className={className}
+//   />
+// )
 
-const DebtIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
-  <img 
-    src="/src/public/deudas.png" 
-    alt="Deudas" 
-    width={size} 
-    height={size} 
-    className={className}
-  />
-)
+// const DebtIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
+//   <img 
+//     src="/deudas.png" 
+//     alt="Deudas" 
+//     width={size} 
+//     height={size} 
+//     className={className}
+//   />
+// )
 
-const InventoryIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
-  <img 
-    src="/src/public/inventario.png" 
-    alt="Inventario" 
-    width={size} 
-    height={size} 
-    className={className}
-  />
-)
+// const InventoryIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
+//   <img 
+//     src="/inventario.png" 
+//     alt="Inventario" 
+//     width={size} 
+//     height={size} 
+//     className={className}
+//   />
+// )
 
 export function AdminSidebar({ className = '', onNavigate, currentPage = 'admin-dashboard' }: AdminSidebarProps) {
   const [isExpanded, setIsExpanded] = useState(false)
@@ -178,8 +178,8 @@ export function AdminSidebar({ className = '', onNavigate, currentPage = 'admin-
         onClick={() => handleMenuItemClick(item)}
         className={`w-full h-12 flex items-center rounded relative overflow-visible ${
           activeItem === item.id
-            ? 'bg-purple-600 text-white'
-            : 'text-gray-700 hover:bg-purple-50'
+            ? 'bg-black text-white'
+            : 'text-gray-700 hover:bg-gray-50'
         } ${isExpanded ? 'justify-start px-3' : 'justify-center'}`}
       >
         {/* Active indicator */}
@@ -191,7 +191,7 @@ export function AdminSidebar({ className = '', onNavigate, currentPage = 'admin-
         <div className={`w-10 h-10 flex items-center justify-center flex-shrink-0 ${
           activeItem === item.id 
             ? 'text-white' 
-            : 'group-hover:text-purple-600'
+            : 'group-hover:text-gray-700'
         }`}>
           {item.icon}
         </div>
@@ -252,22 +252,14 @@ export function AdminSidebar({ className = '', onNavigate, currentPage = 'admin-
           {/* Dashboard */}
           {renderMenuItem(menuItems[0])}
           
-          {renderDivider()}
-          
           {/* Empleados */}
           {renderMenuItem(menuItems[1])}
-          
-          {renderDivider()}
           
           {/* Gastos */}
           {renderMenuItem(menuItems[2])}
           
-          {renderDivider()}
-          
           {/* Deudas */}
           {renderMenuItem(menuItems[3])}
-          
-          {renderDivider()}
           
           {/* Inventario */}
           {renderMenuItem(menuItems[4])}

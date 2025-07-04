@@ -11,7 +11,7 @@ import {
 // Componente para el ícono de vista previa personalizado
 const PreviewIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
   <img 
-    src="/src/public/mesa.png" 
+    src="./mesa.png" 
     alt="Vista Previa" 
     width={size} 
     height={size} 
@@ -22,7 +22,7 @@ const PreviewIcon = ({ size = 16, className = "" }: { size?: number, className?:
 // Componente para el ícono de paleta personalizado
 const PaletteIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
   <img 
-    src="/src/public/Trending_Up.png" 
+    src="./Trending_Up.png" 
     alt="Personalización" 
     width={size} 
     height={size} 

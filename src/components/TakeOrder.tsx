@@ -44,7 +44,7 @@ interface Table {
 // Componente para el ícono de chef personalizado
 const ChefIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
   <img 
-    src="/src/public/cocina.png" 
+    src="./cocina.png" 
     alt="Chef" 
     width={size} 
     height={size} 
@@ -55,7 +55,7 @@ const ChefIcon = ({ size = 16, className = "" }: { size?: number, className?: st
 // Componente para el ícono de mesa personalizado
 const TableCustomIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
   <img 
-    src="/src/public/mesa.png" 
+    src="./mesa.png" 
     alt="Mesa" 
     width={size} 
     height={size} 
@@ -416,7 +416,7 @@ export function TakeOrder() {
 
 
 
-              <div className="bg-white rounded border border-gray-200 overflow-hidden">
+              <div className="bg-white rounded-[8px] border border-gray-200 overflow-hidden">
                 <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-2 sm:p-3">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <div className="flex items-center space-x-2">
@@ -645,7 +645,7 @@ export function TakeOrder() {
               </div>
 
               {/* Progress Summary */}
-              <div className="bg-white rounded border border-gray-100 animate-slideInUp mb-8 max-w-[820px] mx-auto" style={{ animationDelay: '100ms' }}>
+              <div className="bg-white rounded-[8px] border border-gray-100 animate-slideInUp mb-8 max-w-[820px] mx-auto" style={{ animationDelay: '100ms' }}>
                 <div className="p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
@@ -667,7 +667,7 @@ export function TakeOrder() {
                 </div>
               </div>
 
-              <div className="bg-white rounded border border-gray-200 overflow-hidden">
+              <div className="bg-white rounded-[8px] border border-gray-200 overflow-hidden">
                 <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-2 sm:p-3">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <div className="flex items-center space-x-2">
@@ -740,7 +740,7 @@ export function TakeOrder() {
                         return (
                           <div
                             key={item.id}
-                            className="group bg-white border border-gray-200 rounded flex p-2 transition-all duration-300 hover:bg-gray-50 hover:border-gray-300 relative"
+                            className="group bg-white rounded-[8px] border border-gray-200 flex p-2 transition-all duration-300 hover:bg-gray-50 hover:border-gray-300 relative"
                           >
                             {/* Add/Remove buttons - top right of card */}
                             <div className="absolute -top-1 -right-1 flex gap-1 z-10">
@@ -821,7 +821,7 @@ export function TakeOrder() {
               {/* Cart Summary Fixed at Bottom - Enhanced for responsive prices */}
               {cart.length > 0 && (
                 <div className="fixed bottom-4 left-4 right-4 z-50 lg:relative lg:bottom-auto lg:left-auto lg:right-auto lg:mt-4">
-                  <div className="bg-white rounded-lg border-2 border-green-400 p-3">
+                  <div className="bg-white rounded-lg border-2 border-green-400 p-3 rounded-[8px]">
                     <div className="flex items-center justify-between gap-4">
                       <div className="flex items-center space-x-3 min-w-0 flex-1">
                         <div className="bg-green-500 p-2 rounded-lg flex-shrink-0">
@@ -870,7 +870,7 @@ export function TakeOrder() {
                 {/* Table Info */}
                 <div className="w-48">
                   <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-                    <div className="bg-blue-100 backdrop-blur-sm rounded-md px-2 py-3 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200" style={{ animationDelay: '0ms', backdropFilter: 'blur(10px)' }}>
+                    <div className="bg-blue-100 backdrop-blur-sm rounded-[8px] px-2 py-3 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border-2 border-blue-400" style={{ animationDelay: '0ms', backdropFilter: 'blur(10px)' }}>
                       <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                       <div className="relative z-10">
                         <h3 className="text-sm font-medium text-black mb-1">{t('table')}</h3>
@@ -884,7 +884,7 @@ export function TakeOrder() {
                 {/* Products Info */}
                 <div className="w-48">
                   <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-                    <div className="bg-purple-100 backdrop-blur-sm rounded-md px-2 py-3 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200" style={{ animationDelay: '100ms', backdropFilter: 'blur(10px)' }}>
+                    <div className="bg-purple-100 backdrop-blur-sm rounded-[8px] px-2 py-3 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border-2 border-purple-400" style={{ animationDelay: '100ms', backdropFilter: 'blur(10px)' }}>
                       <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                       <div className="relative z-10">
                         <h3 className="text-sm font-medium text-black mb-1">{t('products')}</h3>
@@ -898,7 +898,7 @@ export function TakeOrder() {
                 {/* Total Info */}
                 <div className="w-48">
                   <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-                    <div className="bg-green-100 backdrop-blur-sm rounded-md px-2 py-3 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200" style={{ animationDelay: '200ms', backdropFilter: 'blur(10px)' }}>
+                    <div className="bg-green-100 backdrop-blur-sm rounded-[8px] px-2 py-3 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border-2 border-green-400" style={{ animationDelay: '200ms', backdropFilter: 'blur(10px)' }}>
                       <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                       <div className="relative z-10">
                         <h3 className="text-sm font-medium text-black mb-1">{t('total')}</h3>
@@ -914,7 +914,7 @@ export function TakeOrder() {
               {cart.length > 0 ? (
                 <div className="space-y-4">
                   {/* Order Items */}
-                  <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                  <div className="bg-white rounded-[8px] border border-gray-200 overflow-hidden">
                     <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
                       <div className="flex items-center justify-between">
                         <h3 className="font-semibold text-gray-800">{t('yourOrder')}</h3>
@@ -1040,7 +1040,7 @@ export function TakeOrder() {
                   </div>
                 </div>
               ) : (
-                <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
+                <div className="text-center py-12 bg-white rounded-[8px] border border-gray-200">
                   <ShoppingCartIcon size={48} className="mx-auto mb-4 text-gray-300" />
                   <h3 className="text-lg font-semibold text-gray-700 mb-2">{t('noProductsInOrder')}</h3>
                   <p className="text-sm text-gray-500 mb-4">{t('goBackToPrevious')}</p>

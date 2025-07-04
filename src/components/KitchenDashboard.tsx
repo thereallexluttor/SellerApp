@@ -35,7 +35,7 @@ interface Order {
 // Componente para el ícono de chef personalizado
 const ChefIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
   <img 
-    src="/src/public/cocina.png" 
+    src="./cocina.png" 
     alt="Chef" 
     width={size} 
     height={size} 
@@ -160,7 +160,7 @@ function OrderCard({ order, onStatusChange }: OrderCardProps) {
 
   return (
     <div 
-      className={`group relative p-3 rounded border-2 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] cursor-pointer ${colors.bg}`}
+      className={`group relative p-3 rounded-[8px] border-2 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] cursor-pointer ${colors.bg}`}
       style={{ 
         maxWidth: '320px',
         backdropFilter: 'blur(8px)'
@@ -208,7 +208,7 @@ function OrderCard({ order, onStatusChange }: OrderCardProps) {
         {/* Items por categoría */}
         <div className="space-y-3 mb-4">
           {Object.entries(itemsByCategory).map(([category, items]) => (
-            <div key={category} className="bg-white/60 rounded-lg p-3">
+            <div key={category} className="bg-white/60 rounded-[8px] p-3">
               <div className="flex items-center mb-2">
                 <span className="text-lg mr-2">{getCategoryIcon(category)}</span>
                 <h4 className="font-semibold text-gray-800 text-sm">{getCategoryName(category)}</h4>
@@ -249,7 +249,7 @@ function OrderCard({ order, onStatusChange }: OrderCardProps) {
         {nextStatus && (
           <button
             onClick={() => onStatusChange(order.id, nextStatus)}
-            className={`w-full text-white font-bold py-2 px-4 rounded transition-all duration-200 flex items-center justify-center space-x-2 ${
+            className={`w-full text-white font-bold py-2 px-4 rounded-[8px] transition-all duration-200 flex items-center justify-center space-x-2 ${
               order.status === 'new' 
                 ? 'bg-red-500 hover:bg-red-600' 
                 : order.status === 'in-preparation'
@@ -537,14 +537,14 @@ export function KitchenDashboard() {
         <div className="grid grid-cols-2 lg:flex lg:justify-center gap-3 lg:gap-4 mb-6 lg:mb-8">
           <div className="w-full lg:w-48">
             <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-red-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '0ms', backdropFilter: 'blur(10px)' }}>
+              <div className="bg-red-100 backdrop-blur-sm rounded-[8px] px-2 py-2 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-red-300 h-20 lg:h-24 xl:h-28 flex flex-col justify-between config-font-medium" style={{ animationDelay: '0ms', backdropFilter: 'blur(10px)' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                 <div className="relative z-10 flex flex-col justify-between h-full">
                   <h3 className="font-medium text-black text-sm lg:text-base leading-tight">Nuevas Órdenes</h3>
                   <div className="flex flex-col items-center justify-center flex-1">
                     <p className="text-2xl lg:text-3xl xl:text-4xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{newOrders.length}</p>
                   </div>
-                  <p className="text-xs lg:text-sm font-normal text-black leading-tight">por preparar</p>
+                  <p className="text-sm lg:text-base font-normal text-black leading-tight">por preparar</p>
                 </div>
               </div>
             </SpotlightCard>
@@ -552,14 +552,14 @@ export function KitchenDashboard() {
 
           <div className="w-full lg:w-48">
             <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-yellow-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '100ms', backdropFilter: 'blur(10px)' }}>
+              <div className="bg-yellow-100 backdrop-blur-sm rounded-[8px] px-2 py-2 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-yellow-300 h-20 lg:h-24 xl:h-28 flex flex-col justify-between config-font-medium" style={{ animationDelay: '100ms', backdropFilter: 'blur(10px)' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                 <div className="relative z-10 flex flex-col justify-between h-full">
                   <h3 className="font-medium text-black text-sm lg:text-base leading-tight">En Preparación</h3>
                   <div className="flex flex-col items-center justify-center flex-1">
                     <p className="text-2xl lg:text-3xl xl:text-4xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{inPreparationOrders.length}</p>
                   </div>
-                  <p className="text-xs lg:text-sm font-normal text-black leading-tight">en proceso</p>
+                  <p className="text-sm lg:text-base font-normal text-black leading-tight">en proceso</p>
                 </div>
               </div>
             </SpotlightCard>
@@ -567,14 +567,14 @@ export function KitchenDashboard() {
 
           <div className="w-full lg:w-48">
             <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-green-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '200ms', backdropFilter: 'blur(10px)' }}>
+              <div className="bg-green-100 backdrop-blur-sm rounded-[8px] px-2 py-2 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-green-400 h-20 lg:h-24 xl:h-28 flex flex-col justify-between config-font-medium" style={{ animationDelay: '200ms', backdropFilter: 'blur(10px)' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                 <div className="relative z-10 flex flex-col justify-between h-full">
                   <h3 className="font-medium text-black text-sm lg:text-base leading-tight">Listas para Servir</h3>
                   <div className="flex flex-col items-center justify-center flex-1">
                     <p className="text-2xl lg:text-3xl xl:text-4xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{readyOrders.length}</p>
                   </div>
-                  <p className="text-xs lg:text-sm font-normal text-black leading-tight">completadas</p>
+                  <p className="text-sm lg:text-base font-normal text-black leading-tight">completadas</p>
                 </div>
               </div>
             </SpotlightCard>
@@ -582,14 +582,14 @@ export function KitchenDashboard() {
 
           <div className="w-full lg:w-48">
             <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-blue-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '300ms', backdropFilter: 'blur(10px)' }}>
+              <div className="bg-blue-100 backdrop-blur-sm rounded-[8px] px-2 py-2 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-blue-400 h-20 lg:h-24 xl:h-28 flex flex-col justify-between config-font-medium" style={{ animationDelay: '300ms', backdropFilter: 'blur(10px)' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                 <div className="relative z-10 flex flex-col justify-between h-full">
                   <h3 className="font-medium text-black text-sm lg:text-base leading-tight">Total Órdenes</h3>
                   <div className="flex flex-col items-center justify-center flex-1">
                     <p className="text-2xl lg:text-3xl xl:text-4xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{newOrders.length + inPreparationOrders.length + readyOrders.length}</p>
                   </div>
-                  <p className="text-xs lg:text-sm font-normal text-black leading-tight">activas hoy</p>
+                  <p className="text-sm lg:text-base font-normal text-black leading-tight">activas hoy</p>
                 </div>
               </div>
             </SpotlightCard>
@@ -600,7 +600,7 @@ export function KitchenDashboard() {
         <div className="flex flex-col xl:flex-row gap-4 lg:gap-6 justify-center mx-auto">
           
           {/* Nuevas Órdenes */}
-          <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp w-full xl:w-80 xl:min-w-[320px]" style={{ animationDelay: '400ms' }}>
+          <div className="bg-white rounded-[8px] border border-gray-100 shadow-sm animate-slideInUp w-full xl:w-80 xl:min-w-[320px]" style={{ animationDelay: '400ms' }}>
             <div className="p-3 lg:p-4 border-b border-gray-100">
               <div className="flex items-center justify-between">
                 <div className="flex items-center min-w-0 flex-1">
@@ -635,7 +635,7 @@ export function KitchenDashboard() {
           </div>
 
           {/* En Preparación */}
-          <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp w-full xl:w-80 xl:min-w-[320px]" style={{ animationDelay: '500ms' }}>
+          <div className="bg-white rounded-[8px] border border-gray-100 shadow-sm animate-slideInUp w-full xl:w-80 xl:min-w-[320px]" style={{ animationDelay: '500ms' }}>
             <div className="p-3 lg:p-4 border-b border-gray-100">
               <div className="flex items-center justify-between">
                 <div className="flex items-center min-w-0 flex-1">
@@ -670,7 +670,7 @@ export function KitchenDashboard() {
           </div>
 
           {/* Listas para Servir */}
-          <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp w-full xl:w-80 xl:min-w-[320px]" style={{ animationDelay: '600ms' }}>
+          <div className="bg-white rounded-[8px] border border-gray-100 shadow-sm animate-slideInUp w-full xl:w-80 xl:min-w-[320px]" style={{ animationDelay: '600ms' }}>
             <div className="p-3 lg:p-4 border-b border-gray-100">
               <div className="flex items-center justify-between">
                 <div className="flex items-center min-w-0 flex-1">

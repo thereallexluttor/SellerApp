@@ -46,7 +46,7 @@ interface Table {
 // Componente para el ícono de check personalizado
 const CheckIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
   <img 
-    src="/src/public/Wavy_Check.png" 
+    src="./Wavy_Check.png" 
     alt="Check" 
     width={size} 
     height={size} 
@@ -58,7 +58,7 @@ const CheckIcon = ({ size = 16, className = "" }: { size?: number, className?: s
 // Componente para el ícono de cocina personalizado
 const CocinaIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
   <img 
-    src="/src/public/cocina.png" 
+    src="./cocina.png" 
     alt="Cocina" 
     width={size} 
     height={size} 
@@ -69,7 +69,7 @@ const CocinaIcon = ({ size = 16, className = "" }: { size?: number, className?: 
 // Componente para el ícono de tarjeta de crédito personalizado
 const CreditCardCustomIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
   <img 
-    src="/src/public/Credit_Card_01.png" 
+    src="./Credit_Card_01.png" 
     alt="Tarjeta de Crédito" 
     width={size} 
     height={size} 
@@ -80,7 +80,7 @@ const CreditCardCustomIcon = ({ size = 16, className = "" }: { size?: number, cl
 // Componente para el ícono de trending up personalizado
 const TrendingUpCustomIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
   <img 
-    src="/src/public/Trending_Up.png" 
+    src="./Trending_Up.png" 
     alt="Trending Up" 
     width={size} 
     height={size} 
@@ -536,7 +536,7 @@ export function Dashboard() {
   const renderOrderCard = (order: Order, index: number) => (
     <div
       key={order.id}
-      className={`group relative p-3 rounded border-2 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] animate-slideInUp cursor-pointer ${getStatusColor(order.status)}`}
+      className={`group relative p-3 rounded-[8px] border-2 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] animate-slideInUp cursor-pointer ${getStatusColor(order.status)}`}
       style={{ 
         animationDelay: `${index * 50}ms`,
         backdropFilter: 'blur(8px)',
@@ -658,7 +658,7 @@ export function Dashboard() {
   const renderTableCard = (table: Table, index: number) => (
     <div
       key={table.number}
-      className={`group relative p-3 rounded border-2 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] animate-slideInUp cursor-pointer ${
+      className={`group relative p-3 rounded-[8px] border-2 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] animate-slideInUp cursor-pointer ${
         table.status === 'payment_pending' 
           ? 'border-orange-200 bg-gradient-to-br from-orange-50 to-orange-100/50' 
           : 'border-gray-200 bg-gradient-to-br from-gray-50 to-gray-100/50'
@@ -787,7 +787,7 @@ export function Dashboard() {
           <div className="w-full lg:w-48">
             {/* Listas para Servir - Verde */}
             <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-green-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '0ms', backdropFilter: 'blur(10px)' }}>
+              <div className="bg-green-100 backdrop-blur-sm rounded-[8px] px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border-2 border-green-400 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '0ms', backdropFilter: 'blur(10px)' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                 <div className="relative z-10 flex flex-col justify-between h-full">
                   <h3 className="font-medium text-black text-sm lg:text-base leading-tight">{t('readyToServe')}</h3>
@@ -803,7 +803,7 @@ export function Dashboard() {
           <div className="w-full lg:w-48">
             {/* En Cocina - Amarillo */}
             <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-yellow-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '100ms', backdropFilter: 'blur(10px)' }}>
+              <div className="bg-yellow-100 backdrop-blur-sm rounded-[8px] px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border-2 border-yellow-400 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '100ms', backdropFilter: 'blur(10px)' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                 <div className="relative z-10 flex flex-col justify-between h-full">
                   <h3 className="font-medium text-black text-sm lg:text-base leading-tight">{t('inKitchen')}</h3>
@@ -819,7 +819,7 @@ export function Dashboard() {
           <div className="w-full lg:w-48">
             {/* Por Pagar - Naranja */}
             <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-orange-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '200ms', backdropFilter: 'blur(10px)' }}>
+              <div className="bg-orange-100 backdrop-blur-sm rounded-[8px] px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border-2 border-orange-400 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '200ms', backdropFilter: 'blur(10px)' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                 <div className="relative z-10 flex flex-col justify-between h-full">
                   <h3 className="font-medium text-black text-sm lg:text-base leading-tight">{t('pendingPayment')}</h3>
@@ -835,7 +835,7 @@ export function Dashboard() {
           <div className="w-full lg:w-48">
             {/* Ocupación - Azul */}
             <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-blue-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '300ms', backdropFilter: 'blur(10px)' }}>
+              <div className="bg-blue-100 backdrop-blur-sm rounded-[8px] px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border-2 border-blue-400 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '300ms', backdropFilter: 'blur(10px)' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                 <div className="relative z-10 flex flex-col justify-between h-full">
                   <h3 className="font-medium text-black text-sm lg:text-base leading-tight">{t('occupancy')}</h3>
@@ -850,7 +850,7 @@ export function Dashboard() {
         </div>
 
         {/* Estado de Mesas */}
-        <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp mb-6 lg:mb-8 max-w-full lg:max-w-[820px] mx-auto" style={{ animationDelay: '350ms' }}>
+        <div className="bg-white rounded-[8px] border border-gray-100 shadow-sm animate-slideInUp mb-6 lg:mb-8 max-w-full lg:max-w-[820px] mx-auto" style={{ animationDelay: '350ms' }}>
           <div className="p-3 lg:p-4">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
               <div className="flex items-center">
@@ -884,7 +884,7 @@ export function Dashboard() {
         {/* Main Grid */}
         <div className="flex flex-col xl:flex-row gap-4 lg:gap-6 mb-6 lg:mb-8 justify-center mx-auto">
           {/* Órdenes Listas para Servir */}
-          <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp w-full xl:w-80 xl:min-w-[320px]" style={{ animationDelay: '400ms' }}>
+          <div className="bg-white rounded-[8px] border border-gray-100 shadow-sm animate-slideInUp w-full xl:w-80 xl:min-w-[320px]" style={{ animationDelay: '400ms' }}>
             <div className="p-3 lg:p-4 border-b border-gray-100">
               <div className="flex items-center justify-between">
                 <div className="flex items-center min-w-0 flex-1">
@@ -912,7 +912,7 @@ export function Dashboard() {
           </div>
 
           {/* Órdenes en Cocina */}
-          <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp w-full xl:w-[680px] xl:min-w-[680px]" style={{ animationDelay: '500ms' }}>
+          <div className="bg-white rounded-[8px] border border-gray-100 shadow-sm animate-slideInUp w-full xl:w-[680px] xl:min-w-[680px]" style={{ animationDelay: '500ms' }}>
             <div className="p-3 lg:p-4 border-b border-gray-100">
               <div className="flex items-center justify-between">
                 <div className="flex items-center min-w-0 flex-1">
@@ -965,7 +965,7 @@ export function Dashboard() {
           </div>
 
           {/* Mesas por Pagar */}
-          <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp w-full xl:w-80 xl:min-w-[320px]" style={{ animationDelay: '600ms' }}>
+          <div className="bg-white rounded-[8px] border border-gray-100 shadow-sm animate-slideInUp w-full xl:w-80 xl:min-w-[320px]" style={{ animationDelay: '600ms' }}>
             <div className="p-3 lg:p-4 border-b border-gray-100">
               <div className="flex items-center justify-between">
                 <div className="flex items-center min-w-0 flex-1">

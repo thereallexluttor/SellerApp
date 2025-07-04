@@ -13,6 +13,7 @@
     "build": "npm run build:vite && npm run build:electron",
     "build:vite": "tsc && vite build",
     "build:electron": "tsc -p electron",
+    "build:win": "npm run build && electron-builder --win",
     "dist": "npm run build && electron-builder",
     "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -28,7 +29,7 @@
     "autoprefixer": "^10.4.16",
     "concurrently": "^8.2.2",
     "electron": "^28.1.0",
-    "electron-builder": "^24.9.1",
+    "electron-builder": "^24.13.3",
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
@@ -53,16 +54,35 @@
     "files": [
       "dist/**/*",
       "dist-electron/**/*",
-      "node_modules/**/*"
+      "node_modules/**/*",
+      "src/public/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "src/public",
+        "to": "public"
+      }
     ],
     "mac": {
       "category": "public.app-category.business"
     },
     "win": {
-      "target": "nsis"
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "src/public/icon.ico"
     },
     "linux": {
       "target": "AppImage"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
     }
   }
 }

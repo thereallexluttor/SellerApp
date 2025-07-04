@@ -40,7 +40,7 @@ interface PaymentRecord {
 // Componentes para iconos mejorados de métodos de pago - mantenemos consistencia con Dashboard
 const CashIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
   <img 
-    src="/src/public/Credit_Card_01.png" 
+    src="./Credit_Card_01.png" 
     alt="Efectivo" 
     width={size} 
     height={size} 
@@ -50,7 +50,7 @@ const CashIcon = ({ size = 16, className = "" }: { size?: number, className?: st
 
 const CardIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
   <img 
-    src="/src/public/Credit_Card_01.png" 
+    src="./Credit_Card_01.png" 
     alt="Tarjeta" 
     width={size} 
     height={size} 
@@ -60,7 +60,7 @@ const CardIcon = ({ size = 16, className = "" }: { size?: number, className?: st
 
 const TransferIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
   <img 
-    src="/src/public/Trending_Up.png" 
+    src="./Trending_Up.png" 
     alt="Transferencia" 
     width={size} 
     height={size} 
@@ -71,7 +71,7 @@ const TransferIcon = ({ size = 16, className = "" }: { size?: number, className?
 // Componente para el ícono de historial personalizado - siguiendo el patrón de Dashboard
 const HistoryIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
   <img 
-    src="/src/public/Credit_Card_01.png" 
+    src="./Credit_Card_01.png" 
     alt="Historial" 
     width={size} 
     height={size} 
@@ -332,7 +332,7 @@ export function PaymentHistory() {
         <div className="grid grid-cols-2 lg:flex lg:justify-center gap-3 lg:gap-4 mb-6 lg:mb-8">
           <div className="w-full lg:w-48">
             <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-green-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '0ms', backdropFilter: 'blur(10px)' }}>
+              <div className="bg-green-100 backdrop-blur-sm rounded-[8px] px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border-2 border-green-400 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '0ms', backdropFilter: 'blur(10px)' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                 <div className="relative z-10 flex flex-col justify-between h-full">
                   <h3 className="font-medium text-black text-sm lg:text-base leading-tight">{t('totalRevenue')}</h3>
@@ -347,7 +347,7 @@ export function PaymentHistory() {
 
           <div className="w-full lg:w-48">
             <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-blue-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '100ms', backdropFilter: 'blur(10px)' }}>
+              <div className="bg-blue-100 backdrop-blur-sm rounded-[8px] px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border-2 border-blue-400 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '100ms', backdropFilter: 'blur(10px)' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                 <div className="relative z-10 flex flex-col justify-between h-full">
                   <h3 className="font-medium text-black text-sm lg:text-base leading-tight">{t('totalTips')}</h3>
@@ -362,7 +362,7 @@ export function PaymentHistory() {
 
           <div className="w-full lg:w-48">
             <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-purple-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '200ms', backdropFilter: 'blur(10px)' }}>
+              <div className="bg-purple-100 backdrop-blur-sm rounded-[8px] px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border-2 border-purple-400 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '200ms', backdropFilter: 'blur(10px)' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                 <div className="relative z-10 flex flex-col justify-between h-full">
                   <h3 className="font-medium text-black text-sm lg:text-base leading-tight">{t('averageTicket')}</h3>
@@ -377,7 +377,7 @@ export function PaymentHistory() {
 
           <div className="w-full lg:w-48">
             <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-orange-100 backdrop-blur-sm rounded px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-gray-200 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '300ms', backdropFilter: 'blur(10px)' }}>
+              <div className="bg-orange-100 backdrop-blur-sm rounded-[8px] px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border-2 border-orange-400 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '300ms', backdropFilter: 'blur(10px)' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
                 <div className="relative z-10 flex flex-col justify-between h-full">
                   <h3 className="font-medium text-black text-sm lg:text-base leading-tight">{t('transactions')}</h3>
@@ -392,7 +392,7 @@ export function PaymentHistory() {
         </div>
 
         {/* Filters and Search - Homogeneizado con Dashboard */}
-        <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp mb-6 lg:mb-8 max-w-full lg:max-w-[820px] mx-auto" style={{ animationDelay: '350ms' }}>
+        <div className="bg-white rounded-[8px] border border-gray-100 shadow-sm animate-slideInUp mb-6 lg:mb-8 max-w-full lg:max-w-[820px] mx-auto" style={{ animationDelay: '350ms' }}>
           <div className="p-3 lg:p-4">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center">
@@ -441,7 +441,7 @@ export function PaymentHistory() {
         </div>
 
         {/* Payment History Table - Mejorado con el estilo de Dashboard */}
-        <div className="bg-white rounded border border-gray-100 shadow-sm animate-slideInUp" style={{ animationDelay: '500ms' }}>
+        <div className="bg-white rounded-[8px] border border-gray-100 shadow-sm animate-slideInUp" style={{ animationDelay: '500ms' }}>
           <div className="p-4 border-b border-gray-100">
             <div className="flex items-center justify-between">
               <div className="flex items-center">
@@ -542,7 +542,7 @@ export function PaymentHistory() {
       {isModalOpen && selectedPayment && (
         <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50 p-8">
           <div 
-            className="bg-white rounded border border-gray-100 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden transform transition-all duration-300 ease-out"
+            className="bg-white rounded-[8px] border border-gray-100 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden transform transition-all duration-300 ease-out"
             style={{ 
               boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05)' 
             }}
