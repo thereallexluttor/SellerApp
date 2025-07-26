@@ -331,76 +331,81 @@ export function PaymentHistory() {
         {/* Statistics Cards - Usando SpotlightCard como Dashboard */}
         <div className="grid grid-cols-2 lg:flex lg:justify-center gap-3 lg:gap-4 mb-6 lg:mb-8">
           <div className="w-full lg:w-48">
-            <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-green-100 backdrop-blur-sm rounded-[8px] px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border-2 border-green-400 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '0ms', backdropFilter: 'blur(10px)' }}>
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
-                <div className="relative z-10 flex flex-col justify-between h-full">
-                  <h3 className="font-medium text-black text-sm lg:text-base leading-tight">{t('totalRevenue')}</h3>
+            <SpotlightCard spotlightColor="rgba(0, 0, 0, 0.08)">
+              <div className="rounded-2xl px-4 py-6 shadow-2xl animate-slideInUp relative overflow-hidden h-32 xl:h-36 flex flex-col justify-between config-font-medium metallic-bg" style={{ animationDelay: '0ms', boxShadow: '0 4px 16px 0 rgba(34,197,94,0.15)' }}>
+                <div className="absolute inset-0 pointer-events-none metallic-shine" />
+                <div className="flex flex-col justify-between h-full">
+                  <h3 className="font-semibold text-black text-sm lg:text-base mb-2 tracking-wide uppercase opacity-80 text-center w-full">{t('totalRevenue')}</h3>
                   <div className="flex flex-col items-center justify-center flex-1">
-                    <p className="text-xl lg:text-2xl xl:text-3xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{formatCurrency(totalRevenue)}</p>
+                    <p className="text-2xl lg:text-3xl xl:text-4xl font-extrabold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{formatCurrency(totalRevenue)}</p>
                   </div>
-                  <p className="text-xs lg:text-sm font-normal text-black leading-tight">{t('totalCollected')}</p>
+                  <p className="text-xs lg:text-sm font-normal text-black/70 leading-tight">{t('totalCollected')}</p>
                 </div>
               </div>
             </SpotlightCard>
           </div>
 
           <div className="w-full lg:w-48">
-            <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-blue-100 backdrop-blur-sm rounded-[8px] px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border-2 border-blue-400 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '100ms', backdropFilter: 'blur(10px)' }}>
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
-                <div className="relative z-10 flex flex-col justify-between h-full">
-                  <h3 className="font-medium text-black text-sm lg:text-base leading-tight">{t('totalTips')}</h3>
+            <SpotlightCard spotlightColor="rgba(0, 0, 0, 0.08)">
+              <div className="rounded-2xl px-4 py-6 shadow-2xl animate-slideInUp relative overflow-hidden h-32 xl:h-36 flex flex-col justify-between config-font-medium metallic-bg" style={{ animationDelay: '100ms', boxShadow: '0 4px 16px 0 rgba(59,130,246,0.15)' }}>
+                <div className="absolute inset-0 pointer-events-none metallic-shine" />
+                <div className="flex flex-col justify-between h-full">
+                  <h3 className="font-semibold text-black text-sm lg:text-base mb-2 tracking-wide uppercase opacity-80 text-center w-full">{t('totalTips')}</h3>
                   <div className="flex flex-col items-center justify-center flex-1">
-                    <p className="text-xl lg:text-2xl xl:text-3xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{formatCurrency(totalTips)}</p>
+                    <p className="text-2xl lg:text-3xl xl:text-4xl font-extrabold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{formatCurrency(totalTips)}</p>
                   </div>
-                  <p className="text-xs lg:text-sm font-normal text-black leading-tight">{t('inTips')}</p>
+                  <p className="text-xs lg:text-sm font-normal text-black/70 leading-tight">{t('inTips')}</p>
                 </div>
               </div>
             </SpotlightCard>
           </div>
 
           <div className="w-full lg:w-48">
-            <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-purple-100 backdrop-blur-sm rounded-[8px] px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border-2 border-purple-400 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '200ms', backdropFilter: 'blur(10px)' }}>
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
-                <div className="relative z-10 flex flex-col justify-between h-full">
-                  <h3 className="font-medium text-black text-sm lg:text-base leading-tight">{t('averageTicket')}</h3>
+            <SpotlightCard spotlightColor="rgba(0, 0, 0, 0.08)">
+              <div className="rounded-2xl px-4 py-6 shadow-2xl animate-slideInUp relative overflow-hidden h-32 xl:h-36 flex flex-col justify-between config-font-medium metallic-bg" style={{ animationDelay: '200ms', boxShadow: '0 4px 16px 0 rgba(168,85,247,0.15)' }}>
+                <div className="absolute inset-0 pointer-events-none metallic-shine" />
+                <div className="flex flex-col justify-between h-full">
+                  <h3 className="font-semibold text-black text-sm lg:text-base mb-2 tracking-wide uppercase opacity-80 text-center w-full">{t('averageTicket')}</h3>
                   <div className="flex flex-col items-center justify-center flex-1">
-                    <p className="text-xl lg:text-2xl xl:text-3xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{formatCurrency(averageTicket)}</p>
+                    <p className="text-2xl lg:text-3xl xl:text-4xl font-extrabold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{formatCurrency(averageTicket)}</p>
                   </div>
-                  <p className="text-xs lg:text-sm font-normal text-black leading-tight">{t('perTransaction')}</p>
+                  <p className="text-xs lg:text-sm font-normal text-black/70 leading-tight">{t('perTransaction')}</p>
                 </div>
               </div>
             </SpotlightCard>
           </div>
 
           <div className="w-full lg:w-48">
-            <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-orange-100 backdrop-blur-sm rounded-[8px] px-3 py-4 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border-2 border-orange-400 h-28 lg:h-32 xl:h-36 flex flex-col justify-between config-font-medium" style={{ animationDelay: '300ms', backdropFilter: 'blur(10px)' }}>
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
-                <div className="relative z-10 flex flex-col justify-between h-full">
-                  <h3 className="font-medium text-black text-sm lg:text-base leading-tight">{t('transactions')}</h3>
+            <SpotlightCard spotlightColor="rgba(0, 0, 0, 0.08)">
+              <div className="rounded-2xl px-4 py-6 shadow-2xl animate-slideInUp relative overflow-hidden h-32 xl:h-36 flex flex-col justify-between config-font-medium metallic-bg" style={{ animationDelay: '300ms', boxShadow: '0 4px 16px 0 rgba(251,146,60,0.15)' }}>
+                <div className="absolute inset-0 pointer-events-none metallic-shine" />
+                <div className="flex flex-col justify-between h-full">
+                  <h3 className="font-semibold text-black text-sm lg:text-base mb-2 tracking-wide uppercase opacity-80 text-center w-full">{t('transactions')}</h3>
                   <div className="flex flex-col items-center justify-center flex-1">
-                    <p className="text-xl lg:text-2xl xl:text-3xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{filteredPayments.length}</p>
+                    <p className="text-2xl lg:text-3xl xl:text-4xl font-extrabold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{filteredPayments.length}</p>
                   </div>
-                  <p className="text-xs lg:text-sm font-normal text-black leading-tight">{t('completed')}</p>
+                  <p className="text-xs lg:text-sm font-normal text-black/70 leading-tight">{t('completed')}</p>
                 </div>
               </div>
             </SpotlightCard>
           </div>
         </div>
 
-        {/* Filters and Search - Homogeneizado con Dashboard */}
-        <div className="bg-white rounded-[8px] border border-gray-100 shadow-sm animate-slideInUp mb-6 lg:mb-8 max-w-full lg:max-w-[820px] mx-auto" style={{ animationDelay: '350ms' }}>
-          <div className="p-3 lg:p-4">
-            <div className="flex items-center justify-between mb-3">
+        {/* Payment History Table - Fullscreen */}
+        <div className="bg-white rounded-[15px] border border-gray-100 shadow-sm animate-slideInUp w-full flex flex-col" style={{ animationDelay: '500ms', margin: 0, maxWidth: '100vw', maxHeight: '60vh', minHeight: '300px' }}>
+          <div className="p-4 border-b border-gray-100">
+            <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <FilterIcon size={18} className="text-blue-600 mr-2 flex-shrink-0" />
-                <h3 className="font-semibold text-gray-800">{t('searchFilters')}</h3>
+                <HistoryIcon size={18} className="text-blue-600 mr-2" />
+                <h3 className="font-semibold text-gray-800 text-sm">{t('transactionHistory')}</h3>
               </div>
+              <span className="bg-blue-50 text-blue-800 px-2 py-1 rounded text-xs font-medium border border-blue-100">
+                {filteredPayments.length} {t('found')}
+              </span>
             </div>
-            <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 lg:gap-4">
+            <p className="text-xs text-gray-600 mt-1">{t('completePaymentRecord')}</p>
+            {/* Filtros integrados */}
+            <div className="mt-4 flex flex-col lg:flex-row items-stretch lg:items-center gap-3 lg:gap-4">
               {/* Search */}
               <div className="flex-1 relative">
                 <SearchIcon size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -438,25 +443,9 @@ export function PaymentHistory() {
               </select>
             </div>
           </div>
-        </div>
 
-        {/* Payment History Table - Mejorado con el estilo de Dashboard */}
-        <div className="bg-white rounded-[8px] border border-gray-100 shadow-sm animate-slideInUp" style={{ animationDelay: '500ms' }}>
-          <div className="p-4 border-b border-gray-100">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <HistoryIcon size={18} className="text-blue-600 mr-2" />
-                <h3 className="font-semibold text-gray-800 text-sm">{t('transactionHistory')}</h3>
-              </div>
-              <span className="bg-blue-50 text-blue-800 px-2 py-1 rounded text-xs font-medium border border-blue-100">
-                {filteredPayments.length} {t('found')}
-              </span>
-            </div>
-            <p className="text-xs text-gray-600 mt-1">{t('completePaymentRecord')}</p>
-          </div>
-
-          <div className="overflow-x-auto max-h-[600px] overflow-y-auto kitchen-scrollbar">
-            <table className="w-full min-w-[800px]">
+          <div className="overflow-x-auto flex-1 overflow-y-auto kitchen-scrollbar" style={{ maxHeight: 'calc(60vh - 80px)' }}>
+            <table className="w-full min-w-[800px] table-fixed">
               <thead className="bg-gray-50 sticky top-0 z-10">
                 <tr>
                   <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider min-w-[120px]">{t('table')}</th>
@@ -472,49 +461,47 @@ export function PaymentHistory() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredPayments.map((payment, index) => (
                   <tr key={payment.id} className="hover:bg-gray-50 transition-colors duration-150 animate-slideInUp" style={{ animationDelay: `${(index * 50) + 600}ms` }}>
-                    <td className="px-4 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="w-8 h-8 bg-gradient-to-br from-gray-800 to-black text-white rounded-lg flex items-center justify-center text-sm font-bold shadow-md">
+                    {/* TABLE: Only table number and guests */}
+                    <td className="px-4 py-4 whitespace-nowrap text-center align-middle">
+                      <div className="flex flex-col items-center">
+                        <div className="w-8 h-8 bg-gradient-to-br from-gray-800 to-black text-white rounded-lg flex items-center justify-center text-sm font-bold shadow-md mb-1">
                           {payment.tableNumber}
                         </div>
-                        <div className="ml-3">
-                          <div className="text-sm font-medium text-gray-900">{t('tableNumber', { number: payment.tableNumber })}</div>
-                          <div className="text-sm text-gray-500">{payment.guests} {t('guests')}</div>
-                        </div>
+                        <div className="text-xs text-gray-500">{payment.guests} {t('guests')}</div>
                       </div>
                     </td>
-                    
-                    <td className="px-4 py-4 whitespace-nowrap">
+                    {/* DATETIME: Only date and time */}
+                    <td className="px-4 py-4 whitespace-nowrap text-center align-middle">
                       <div className="text-sm text-gray-900">{payment.date}</div>
-                      <div className="text-sm text-gray-500">{payment.time}</div>
+                      <div className="text-xs text-gray-500">{payment.time}</div>
                     </td>
-                    
-                    <td className="px-4 py-4">
+                    {/* TOTAL */}
+                    <td className="px-4 py-4 text-center align-middle">
                       <div className="text-sm font-bold text-green-600 break-all leading-tight">{formatCurrency(payment.total)}</div>
                     </td>
-                    
-                    <td className="px-4 py-4 whitespace-nowrap">
+                    {/* METHOD */}
+                    <td className="px-4 py-4 whitespace-nowrap text-center align-middle">
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium border ${getPaymentMethodColor(payment.paymentMethod)}`}>
                         <span className="mr-1">{getPaymentMethodIcon(payment.paymentMethod)}</span>
                         {getPaymentMethodName(payment.paymentMethod)}
                       </span>
                     </td>
-                    
-                    <td className="px-4 py-4 whitespace-nowrap">
+                    {/* WAITER */}
+                    <td className="px-4 py-4 whitespace-nowrap text-center align-middle">
                       <div className="text-sm text-gray-900">{payment.waiter}</div>
                     </td>
-                    
-                    <td className="px-4 py-4">
+                    {/* TIP */}
+                    <td className="px-4 py-4 text-center align-middle">
                       <div className="text-sm font-medium text-green-600 break-all leading-tight">
                         {payment.tip ? formatCurrency(payment.tip) : '-'}
                       </div>
                     </td>
-                    
-                    <td className="px-4 py-4 whitespace-nowrap">
+                    {/* DURATION */}
+                    <td className="px-4 py-4 whitespace-nowrap text-center align-middle">
                       <div className="text-sm text-gray-900">{payment.duration}</div>
                     </td>
-                    
-                    <td className="px-4 py-4 whitespace-nowrap">
+                    {/* DETAIL */}
+                    <td className="px-4 py-4 whitespace-nowrap text-center align-middle">
                       <button 
                         onClick={() => openOrderDetail(payment)}
                         className="bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold py-1.5 px-2 rounded transition-all duration-200 active:scale-95 shadow-sm hover:shadow-md"
@@ -538,134 +525,97 @@ export function PaymentHistory() {
         </div>
       </div>
 
-      {/* Modal de Detalle de Orden - Rediseñado para mantener consistencia */}
+      {/* Modal de Detalle de Orden - Rediseño aún más impactante y alineado, ahora más compacto */}
       {isModalOpen && selectedPayment && (
-        <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50 p-8">
+        <div className="fixed inset-0 z-50 p-2 sm:p-4 flex justify-center items-start" style={{ minHeight: 0, overflow: 'auto' }}>
+          {/* Blur overlay */}
+          <div className="fixed inset-0 bg-white/20 backdrop-blur-[2px] z-0 transition-all duration-300" />
+          {/* Modal centrado */}
           <div 
-            className="bg-white rounded-[8px] border border-gray-100 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden transform transition-all duration-300 ease-out"
-            style={{ 
-              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05)' 
-            }}
+            className="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[70vh] overflow-hidden border border-gray-100 flex flex-col mt-[10vh] mb-[10vh] z-10 relative"
+            style={{ boxShadow: '0 25px 50px -12px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.04)' }}
           >
-            {/* Header */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-4">
-              <div className="flex items-start justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">{selectedPayment.tableNumber}</span>
-                  </div>
+            {/* Header ultra minimalista y elegante, compacto */}
+            <div className="px-6 pt-6 pb-4 border-b border-gray-100 bg-white">
+              <div className="flex flex-col gap-2">
+                <div className="flex items-end justify-between">
                   <div>
-                    <h2 className="text-xl font-bold text-white">
-                      {t('tableNumber', { number: selectedPayment.tableNumber })}
-                    </h2>
-                    <p className="text-blue-100 text-sm">
-                      {selectedPayment.date} • {selectedPayment.time}
-                    </p>
+                    <div className="text-3xl font-black text-gray-900 tracking-tight leading-tight">{formatCurrency(selectedPayment.total)}</div>
+                    <div className="text-base font-semibold text-gray-700 mt-1 uppercase tracking-wider">{t('tableNumber', { number: selectedPayment.tableNumber })}</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-base text-gray-500 font-medium">{selectedPayment.date}</div>
+                    <div className="text-sm text-gray-400">{selectedPayment.time}</div>
                   </div>
                 </div>
-                <button
-                  onClick={closeOrderDetail}
-                  className="w-8 h-8 rounded hover:bg-white/20 flex items-center justify-center transition-colors duration-200 text-white/80 hover:text-white"
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M18 6L6 18M6 6L18 18" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </button>
+                <div className="flex gap-4 mt-4 text-center justify-between">
+                  <div className="flex-1">
+                    <div className="text-lg font-bold text-gray-900 mb-1">{selectedPayment.guests}</div>
+                    <div className="text-xs uppercase tracking-wider text-gray-400 font-medium">{t('guests')}</div>
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-lg font-bold text-gray-900 mb-1">{selectedPayment.duration}</div>
+                    <div className="text-xs uppercase tracking-wider text-gray-400 font-medium">{t('duration')}</div>
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-lg font-bold text-gray-900 mb-1">{selectedPayment.waiter}</div>
+                    <div className="text-xs uppercase tracking-wider text-gray-400 font-medium">{t('waiter')}</div>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Contenido Principal */}
-            <div className="overflow-y-auto max-h-[calc(90vh-200px)] kitchen-scrollbar">
-              {/* Información de Servicio */}
-              <div className="p-6 border-b border-gray-100">
-                <div className="grid grid-cols-3 gap-6 text-center">
-                  <div>
-                    <div className="text-2xl font-bold text-gray-900 mb-1">{selectedPayment.guests}</div>
-                    <div className="text-xs uppercase tracking-wider text-gray-500 font-medium">{t('guests')}</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-gray-900 mb-1">{selectedPayment.duration}</div>
-                    <div className="text-xs uppercase tracking-wider text-gray-500 font-medium">{t('duration')}</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-gray-900 mb-1">{selectedPayment.waiter}</div>
-                    <div className="text-xs uppercase tracking-wider text-gray-500 font-medium">{t('waiter')}</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Items de la Orden - Enhanced for responsive prices */}
-              <div className="p-6">
-                <h3 className="font-semibold text-gray-800 mb-4 text-sm">{t('orderDetail')}</h3>
-                <div className="space-y-3">
-                  {selectedPayment.orderDetails.map((item, index) => (
-                    <div key={index} className="flex items-start justify-between group py-2 border-b border-gray-50 last:border-b-0 gap-4">
-                      <div className="flex items-start space-x-3 flex-1 min-w-0">
-                        <div className="w-6 h-6 rounded bg-gray-100 flex items-center justify-center text-gray-600 text-xs font-bold flex-shrink-0 mt-0.5">
-                          {item.quantity}
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <h4 className="font-medium text-gray-900 text-sm line-clamp-2">{item.name}</h4>
-                          {item.notes && (
-                            <p className="text-xs text-gray-500 italic mt-1">{item.notes}</p>
-                          )}
-                        </div>
-                      </div>
-                      <div className="text-right flex-shrink-0">
-                        <div className="text-sm font-bold text-gray-900 break-all leading-tight">{formatCurrency(item.price * item.quantity)}</div>
-                        <div className="text-xs text-gray-500 break-all leading-tight">{formatCurrency(item.price)} {t('each')}</div>
-                      </div>
+            {/* Lista de productos tipo recibo de lujo, compacta */}
+            <div className="px-6 py-5 flex-1 overflow-y-auto bg-white apple-scrollbar">
+              <h3 className="font-semibold text-gray-800 mb-4 text-base border-b border-gray-100 pb-2 tracking-wide uppercase">{t('orderDetail')}</h3>
+              <div className="divide-y divide-gray-50">
+                {selectedPayment.orderDetails.map((item, index) => (
+                  <div key={index} className="grid grid-cols-12 items-center py-2 text-sm">
+                    <div className="col-span-6 sm:col-span-7 font-medium text-gray-900 truncate text-left">
+                      {item.name}
+                      {item.notes && (
+                        <span className="ml-2 text-xs text-gray-400 italic">{item.notes}</span>
+                      )}
                     </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Resumen de Pago - Enhanced for responsive prices */}
-              <div className="bg-gray-50 p-6">
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center text-sm gap-4">
-                    <span className="text-gray-600">{t('subtotal')}</span>
-                    <span className="font-medium text-gray-900 break-all leading-tight">{formatCurrency(selectedPayment.total - (selectedPayment.tip || 0))}</span>
+                    <div className="col-span-2 sm:col-span-2 text-gray-500 font-mono text-xs text-center">x{item.quantity}</div>
+                    <div className="col-span-4 sm:col-span-3 font-semibold text-gray-900 text-right">{formatCurrency(item.price * item.quantity)}</div>
                   </div>
-                  
+                ))}
+              </div>
+            </div>
+
+            {/* Resumen de Pago - caja especial, compacta */}
+            <div className="px-6 pt-5 pb-6 bg-gray-50 border-t border-gray-100">
+              <div className="max-w-md mx-auto">
+                <div className="flex flex-col gap-2 text-base">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-500 font-normal">{t('subtotal')}</span>
+                    <span className="font-semibold text-gray-900">{formatCurrency(selectedPayment.total - (selectedPayment.tip || 0))}</span>
+                  </div>
                   {selectedPayment.tip && (
-                    <div className="flex justify-between items-center text-sm gap-4">
-                      <span className="text-gray-600">{t('tip')}</span>
-                      <span className="font-medium text-green-600 break-all leading-tight">{formatCurrency(selectedPayment.tip)}</span>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-500 font-normal">{t('tip')}</span>
+                      <span className="font-semibold text-green-600">{formatCurrency(selectedPayment.tip)}</span>
                     </div>
                   )}
-                  
-                  <div className="border-t border-gray-200 pt-3">
-                    <div className="flex justify-between items-center gap-4">
-                      <span className="text-lg font-bold text-gray-900">{t('total')}</span>
-                      <span className="text-xl font-bold text-green-600 break-all leading-tight">{formatCurrency(selectedPayment.total)}</span>
-                    </div>
+                  <div className="border-t border-gray-200 my-2"></div>
+                  <div className="flex justify-between items-center text-xl font-black">
+                    <span className="text-gray-900">{t('total')}</span>
+                    <span className="text-green-600">{formatCurrency(selectedPayment.total)}</span>
                   </div>
-                  
-                  <div className="flex justify-between items-center pt-2">
-                    <span className="text-sm text-gray-500">{t('paymentMethod')}</span>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-4 h-4 text-gray-600">
-                        {getPaymentMethodIcon(selectedPayment.paymentMethod)}
-                      </div>
-                      <span className="text-sm font-medium text-gray-700">
-                        {getPaymentMethodName(selectedPayment.paymentMethod)}
-                      </span>
-                    </div>
+                  <div className="flex justify-between items-center pt-1">
+                    <span className="text-sm text-gray-400">{t('paymentMethod')}</span>
+                    <span className="text-sm font-medium text-gray-700 capitalize">{getPaymentMethodName(selectedPayment.paymentMethod)}</span>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            {/* Footer */}
-            <div className="px-6 py-4 border-t border-gray-100 bg-gray-50">
-              <div className="flex justify-end">
-                <button
-                  onClick={closeOrderDetail}
-                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-all duration-200 active:scale-95 shadow-sm hover:shadow-md"
-                >
-                  {t('close')}
-                </button>
+                <div className="flex justify-end mt-6">
+                  <button
+                    onClick={closeOrderDetail}
+                    className="px-6 py-2 rounded-lg bg-gray-900 text-white font-bold text-base shadow-sm hover:bg-gray-800 transition-all duration-200"
+                  >
+                    {t('close')}
+                  </button>
+                </div>
               </div>
             </div>
           </div>

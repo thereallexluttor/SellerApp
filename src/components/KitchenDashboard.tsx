@@ -160,22 +160,15 @@ function OrderCard({ order, onStatusChange }: OrderCardProps) {
 
   return (
     <div 
-      className={`group relative p-3 rounded-[8px] border-2 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] cursor-pointer ${colors.bg}`}
+      className={
+        `group relative p-3 rounded-[8px] border-2 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] animate-slideInUp cursor-pointer border-gray-200 bg-white`
+      }
       style={{ 
         maxWidth: '320px',
-        backdropFilter: 'blur(8px)'
+        animationDelay: `${order.timestamp ? (new Date().getTime() - new Date(order.timestamp).getTime()) / 1000 : 0}ms`
       }}
     >
-      {/* Glow effect */}
-      <div className="absolute inset-0 rounded bg-gradient-to-r opacity-0 group-hover:opacity-20 transition-opacity duration-300"
-           style={{
-             background: `linear-gradient(45deg, ${
-               order.status === 'ready' ? '#10b981, #34d399' :
-               order.status === 'in-preparation' ? '#f59e0b, #fbbf24' :
-               '#ef4444, #f87171'
-             })`
-           }}></div>
-      
+      {/* Glow effect eliminado para unificar estilo */}
       <div className="relative z-10">
         {/* Header */}
         <div className="flex items-start justify-between mb-3">
@@ -208,7 +201,7 @@ function OrderCard({ order, onStatusChange }: OrderCardProps) {
         {/* Items por categoría */}
         <div className="space-y-3 mb-4">
           {Object.entries(itemsByCategory).map(([category, items]) => (
-            <div key={category} className="bg-white/60 rounded-[8px] p-3">
+            <div key={category} className="bg-white rounded-[8px] border border-gray-200 shadow-sm px-3 py-2">
               <div className="flex items-center mb-2">
                 <span className="text-lg mr-2">{getCategoryIcon(category)}</span>
                 <h4 className="font-semibold text-gray-800 text-sm">{getCategoryName(category)}</h4>
@@ -218,18 +211,16 @@ function OrderCard({ order, onStatusChange }: OrderCardProps) {
               </div>
               <div className="space-y-1">
                 {items.map((item, index) => (
-                  <div key={`${item.id}-${index}`} className="flex items-center justify-between text-sm">
-                    <div className="flex-1 min-w-0">
-                      <span className="text-gray-900 font-medium truncate block">{item.name}</span>
-                      {item.notes && (
-                        <span className="text-gray-500 text-xs italic block">Nota: {item.notes}</span>
-                      )}
-                    </div>
-                    <div className="ml-2 flex-shrink-0">
-                      <span className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs font-bold">
+                  <div key={`${item.id}-${index}`} className="flex items-center justify-between text-sm gap-2">
+                    <div className="flex items-start space-x-2 flex-1 min-w-0">
+                      <span className="w-4 h-4 bg-gray-500 text-white rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
                         {item.quantity}
                       </span>
+                      <span className="text-gray-900 font-medium truncate block flex-1">{item.name}</span>
                     </div>
+                    {item.notes && (
+                      <span className="text-gray-500 text-xs italic block ml-2 truncate max-w-[80px]">Nota: {item.notes}</span>
+                    )}
                   </div>
                 ))}
               </div>
@@ -536,60 +527,60 @@ export function KitchenDashboard() {
         {/* Stats Cards */}
         <div className="grid grid-cols-2 lg:flex lg:justify-center gap-3 lg:gap-4 mb-6 lg:mb-8">
           <div className="w-full lg:w-48">
-            <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-red-100 backdrop-blur-sm rounded-[8px] px-2 py-2 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-red-300 h-20 lg:h-24 xl:h-28 flex flex-col justify-between config-font-medium" style={{ animationDelay: '0ms', backdropFilter: 'blur(10px)' }}>
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
-                <div className="relative z-10 flex flex-col justify-between h-full">
-                  <h3 className="font-medium text-black text-sm lg:text-base leading-tight">Nuevas Órdenes</h3>
+            <SpotlightCard spotlightColor="rgba(0, 0, 0, 0.08)">
+              <div className="rounded-2xl px-4 py-6 shadow-2xl animate-slideInUp relative overflow-hidden h-32 xl:h-36 flex flex-col justify-between config-font-medium metallic-bg" style={{ animationDelay: '0ms', boxShadow: '0 4px 16px 0 rgba(239,68,68,0.15)' }}>
+                <div className="absolute inset-0 pointer-events-none metallic-shine" />
+                <div className="flex flex-col justify-between h-full">
+                  <h3 className="font-semibold text-black text-sm lg:text-base mb-2 tracking-wide uppercase opacity-80 text-center w-full">Nuevas Órdenes</h3>
                   <div className="flex flex-col items-center justify-center flex-1">
-                    <p className="text-2xl lg:text-3xl xl:text-4xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{newOrders.length}</p>
+                    <p className="text-4xl lg:text-5xl xl:text-6xl font-extrabold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{newOrders.length}</p>
                   </div>
-                  <p className="text-sm lg:text-base font-normal text-black leading-tight">por preparar</p>
+                  <p className="text-xs lg:text-sm font-normal text-black/70 leading-tight">por preparar</p>
                 </div>
               </div>
             </SpotlightCard>
           </div>
 
           <div className="w-full lg:w-48">
-            <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-yellow-100 backdrop-blur-sm rounded-[8px] px-2 py-2 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-yellow-300 h-20 lg:h-24 xl:h-28 flex flex-col justify-between config-font-medium" style={{ animationDelay: '100ms', backdropFilter: 'blur(10px)' }}>
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
-                <div className="relative z-10 flex flex-col justify-between h-full">
-                  <h3 className="font-medium text-black text-sm lg:text-base leading-tight">En Preparación</h3>
+            <SpotlightCard spotlightColor="rgba(0, 0, 0, 0.08)">
+              <div className="rounded-2xl px-4 py-6 shadow-2xl animate-slideInUp relative overflow-hidden h-32 xl:h-36 flex flex-col justify-between config-font-medium metallic-bg" style={{ animationDelay: '100ms', boxShadow: '0 4px 16px 0 rgba(250,204,21,0.15)' }}>
+                <div className="absolute inset-0 pointer-events-none metallic-shine" />
+                <div className="flex flex-col justify-between h-full">
+                  <h3 className="font-semibold text-black text-sm lg:text-base mb-2 tracking-wide uppercase opacity-80 text-center w-full">En Preparación</h3>
                   <div className="flex flex-col items-center justify-center flex-1">
-                    <p className="text-2xl lg:text-3xl xl:text-4xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{inPreparationOrders.length}</p>
+                    <p className="text-4xl lg:text-5xl xl:text-6xl font-extrabold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{inPreparationOrders.length}</p>
                   </div>
-                  <p className="text-sm lg:text-base font-normal text-black leading-tight">en proceso</p>
+                  <p className="text-xs lg:text-sm font-normal text-black/70 leading-tight">en proceso</p>
                 </div>
               </div>
             </SpotlightCard>
           </div>
 
           <div className="w-full lg:w-48">
-            <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-green-100 backdrop-blur-sm rounded-[8px] px-2 py-2 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-green-400 h-20 lg:h-24 xl:h-28 flex flex-col justify-between config-font-medium" style={{ animationDelay: '200ms', backdropFilter: 'blur(10px)' }}>
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
-                <div className="relative z-10 flex flex-col justify-between h-full">
-                  <h3 className="font-medium text-black text-sm lg:text-base leading-tight">Listas para Servir</h3>
+            <SpotlightCard spotlightColor="rgba(0, 0, 0, 0.08)">
+              <div className="rounded-2xl px-4 py-6 shadow-2xl animate-slideInUp relative overflow-hidden h-32 xl:h-36 flex flex-col justify-between config-font-medium metallic-bg" style={{ animationDelay: '200ms', boxShadow: '0 4px 16px 0 rgba(34,197,94,0.15)' }}>
+                <div className="absolute inset-0 pointer-events-none metallic-shine" />
+                <div className="flex flex-col justify-between h-full">
+                  <h3 className="font-semibold text-black text-sm lg:text-base mb-2 tracking-wide uppercase opacity-80 text-center w-full">Listas para Servir</h3>
                   <div className="flex flex-col items-center justify-center flex-1">
-                    <p className="text-2xl lg:text-3xl xl:text-4xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{readyOrders.length}</p>
+                    <p className="text-4xl lg:text-5xl xl:text-6xl font-extrabold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{readyOrders.length}</p>
                   </div>
-                  <p className="text-sm lg:text-base font-normal text-black leading-tight">completadas</p>
+                  <p className="text-xs lg:text-sm font-normal text-black/70 leading-tight">completadas</p>
                 </div>
               </div>
             </SpotlightCard>
           </div>
 
           <div className="w-full lg:w-48">
-            <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-              <div className="bg-blue-100 backdrop-blur-sm rounded-[8px] px-2 py-2 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border border-blue-400 h-20 lg:h-24 xl:h-28 flex flex-col justify-between config-font-medium" style={{ animationDelay: '300ms', backdropFilter: 'blur(10px)' }}>
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
-                <div className="relative z-10 flex flex-col justify-between h-full">
-                  <h3 className="font-medium text-black text-sm lg:text-base leading-tight">Total Órdenes</h3>
+            <SpotlightCard spotlightColor="rgba(0, 0, 0, 0.08)">
+              <div className="rounded-2xl px-4 py-6 shadow-2xl animate-slideInUp relative overflow-hidden h-32 xl:h-36 flex flex-col justify-between config-font-medium metallic-bg" style={{ animationDelay: '300ms', boxShadow: '0 4px 16px 0 rgba(59,130,246,0.15)' }}>
+                <div className="absolute inset-0 pointer-events-none metallic-shine" />
+                <div className="flex flex-col justify-between h-full">
+                  <h3 className="font-semibold text-black text-sm lg:text-base mb-2 tracking-wide uppercase opacity-80 text-center w-full">Total Órdenes</h3>
                   <div className="flex flex-col items-center justify-center flex-1">
-                    <p className="text-2xl lg:text-3xl xl:text-4xl font-bold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{newOrders.length + inPreparationOrders.length + readyOrders.length}</p>
+                    <p className="text-4xl lg:text-5xl xl:text-6xl font-extrabold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{newOrders.length + inPreparationOrders.length + readyOrders.length}</p>
                   </div>
-                  <p className="text-sm lg:text-base font-normal text-black leading-tight">activas hoy</p>
+                  <p className="text-xs lg:text-sm font-normal text-black/70 leading-tight">activas hoy</p>
                 </div>
               </div>
             </SpotlightCard>

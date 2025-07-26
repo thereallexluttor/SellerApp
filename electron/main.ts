@@ -17,6 +17,9 @@ function createWindow(): void {
     },
     show: false,
     autoHideMenuBar: true,
+    backgroundColor: '#ffffff', // Cambiar a fondo blanco
+    title: 'Orderly', // Cambiar el título de la ventana
+    icon: join(__dirname, '../public/applogo.ico'), // Agregar el icono
   })
 
   // Load the app

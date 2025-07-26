@@ -1,10 +1,15 @@
 .card-spotlight {
   position: relative;
-  border-radius: 0.375rem;
+  border-radius: 1.25rem; /* More rounded */
   overflow: hidden;
   --mouse-x: 50%;
   --mouse-y: 50%;
   --spotlight-color: rgba(255, 255, 255, 0.05);
+  background: #fff;
+  color: #18181b;
+  border: 1.5px solid #e5e7eb; /* Tailwind gray-200 */
+  padding-top: 0;
+  padding-bottom: 8px;
 }
 
 .card-spotlight::before {
@@ -23,4 +28,22 @@
 .card-spotlight:hover::before,
 .card-spotlight:focus-within::before {
   opacity: 0.6;
+} 
+
+.metallic-shine {
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 1.25rem;
+  /* Metallic shine effect: multi-gradient overlay */
+  background:
+    linear-gradient(120deg, rgba(255,255,255,0.35) 10%, rgba(255,255,255,0.05) 30%, rgba(255,255,255,0.18) 60%, rgba(255,255,255,0.45) 90%),
+    repeating-linear-gradient(135deg, rgba(255,255,255,0.12) 0 2px, transparent 2px 8px),
+    linear-gradient(90deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.00) 100%);
+  mix-blend-mode: lighten;
+  opacity: 0.65;
+}
+
+.metallic-bg {
+  position: relative;
+  z-index: 0;
 } 

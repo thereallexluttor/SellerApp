@@ -1,4 +1,6 @@
-import { useState } from 'react'
+// Add this at the top of the file to ensure TypeScript recognizes import.meta.env
+/// <reference types="vite/client" />
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { useConfig } from '../contexts/ConfigContext'
 import {
@@ -10,6 +12,7 @@ import {
   AlertTriangleIcon,
   SettingsIcon
 } from './icons'
+import Galaxy from './Galaxy'
 import './animations.css'
 
 export function Login() {
@@ -17,27 +20,45 @@ export function Login() {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
-  const [selectedRole, setSelectedRole] = useState<'frontman' | 'kitchen' | 'admin' | null>(null)
+  const [selectedRole, setSelectedRole] = useState<'frontman' | 'kitchen' | 'admin'>('frontman')
+  
+  // Ensure username/password are set for default role on mount
+  useEffect(() => {
+    if (selectedRole === 'frontman') {
+      setUsername('mesero')
+      setPassword('123')
+    } else if (selectedRole === 'kitchen') {
+      setUsername('cocina')
+      setPassword('123')
+    } else if (selectedRole === 'admin') {
+      setUsername('admin')
+      setPassword('admin123')
+    }
+    // eslint-disable-next-line
+  }, [])
   
   const { login, isLoading } = useAuth()
   const { t, getFontSizeClass } = useConfig()
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Memoize font size class
+  const fontSizeClass = useMemo(() => getFontSizeClass(), [getFontSizeClass])
+
+  // Memoize handleSubmit
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
-    
     if (!username || !password) {
       setError('Por favor completa todos los campos')
       return
     }
-
     const success = await login(username, password)
     if (!success) {
       setError('Usuario o contraseña incorrectos')
     }
-  }
+  }, [username, password, login])
 
-  const handleRoleQuickSelect = (role: 'frontman' | 'kitchen' | 'admin') => {
+  // Memoize handleRoleQuickSelect
+  const handleRoleQuickSelect = useCallback((role: 'frontman' | 'kitchen' | 'admin') => {
     setSelectedRole(role)
     if (role === 'frontman') {
       setUsername('mesero')
@@ -49,88 +70,169 @@ export function Login() {
       setUsername('admin')
       setPassword('admin123')
     }
-  }
+  }, [])
 
   return (
     <div 
-      className={`min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4 ${getFontSizeClass()}`}
-      style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}
+      className={`min-h-screen w-full flex flex-col ${fontSizeClass}`}
+      style={{ fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif' }}
     >
-      <div className="w-full max-w-md">
-        {/* Header */}
-        <div className="text-center mb-8 animate-fadeInSlide">
-          
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Acceso al Sistema</h1>
-          <p className="text-gray-600">Inicia sesión para continuar</p>
+      {/* Header with Logo */}
+      <div className="w-full bg-white border-b border-gray-200 p-4">
+        <div className="w-full flex items-center justify-center">
+          <img 
+            src={`${import.meta.env.BASE_URL}applogo.png`} 
+            alt="Orderly Logo" 
+            style={{
+              width: 80,
+              height: 80,
+              objectFit: 'contain'
+            }}
+          />
         </div>
+      </div>
 
-        {/* Quick Role Selection */}
-        <div className="mb-6 animate-slideInUp" style={{ animationDelay: '200ms' }}>
-          <p className="text-sm font-medium text-gray-700 mb-3 text-center">Acceso rápido por puesto:</p>
-          <div className="grid grid-cols-3 gap-3">
-            <button
-              onClick={() => handleRoleQuickSelect('frontman')}
-              className={`p-4 rounded border-2 transition-all duration-300 ${
-                selectedRole === 'frontman'
-                  ? 'border-blue-500 bg-blue-50 text-blue-700'
-                  : 'border-gray-200 bg-white text-gray-700 hover:border-blue-300 hover:bg-blue-50'
-              }`}
-            >
-              <div className="text-center">
-                <div className="w-8 h-8 mx-auto mb-2 bg-blue-100 rounded flex items-center justify-center">
-                  <UserIcon size={16} className="text-blue-600" />
-                </div>
-                <div className="font-medium text-sm">Mesero/Frontman</div>
-                <div className="text-xs text-gray-500 mt-1">Tomar órdenes</div>
-              </div>
-            </button>
-            
-            <button
-              onClick={() => handleRoleQuickSelect('kitchen')}
-              className={`p-4 rounded border-2 transition-all duration-300 ${
-                selectedRole === 'kitchen'
-                  ? 'border-orange-500 bg-orange-50 text-orange-700'
-                  : 'border-gray-200 bg-white text-gray-700 hover:border-orange-300 hover:bg-orange-50'
-              }`}
-            >
-              <div className="text-center">
-                <div className="w-8 h-8 mx-auto mb-2 bg-orange-100 rounded flex items-center justify-center">
-                  <img src="./cocina.png" alt="Chef" width={16} height={16} />
-                </div>
-                <div className="font-medium text-sm">Cocina</div>
-                <div className="text-xs text-gray-500 mt-1">Gestionar órdenes</div>
-              </div>
-            </button>
-            
-            <button
-              onClick={() => handleRoleQuickSelect('admin')}
-              className={`p-4 rounded border-2 transition-all duration-300 ${
-                selectedRole === 'admin'
-                  ? 'border-purple-500 bg-purple-50 text-purple-700'
-                  : 'border-gray-200 bg-white text-gray-700 hover:border-purple-300 hover:bg-purple-50'
-              }`}
-            >
-              <div className="text-center">
-                <div className="w-8 h-8 mx-auto mb-2 bg-purple-100 rounded flex items-center justify-center">
-                  <SettingsIcon size={16} className="text-purple-600" />
-                </div>
-                <div className="font-medium text-sm">Administrador</div>
-                <div className="text-xs text-gray-500 mt-1">Panel de control</div>
-              </div>
-            </button>
+      {/* Login Form */}
+      <div className="w-full flex items-center justify-center bg-white p-4 flex-1">
+        <div
+          className="w-full max-w-md bg-white border border-gray-200"
+          style={{
+            borderRadius: 9,
+            padding: '24px 20px',
+            boxShadow: 'none',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 20,
+          }}
+        >
+        {/* Header */}
+          <div className="text-center" style={{marginBottom: 0}}>
+            <h1 className="text-2xl font-bold text-gray-900" style={{fontWeight: 700, marginBottom: 4}}>Acceso al Sistema</h1>
           </div>
-        </div>
+
+          {/* Quick Role Selection as Underline Tabs */}
+          <div>
+            <p className="text-sm font-medium text-gray-700 mb-3 text-center">Acceso rápido por puesto:</p>
+            <div
+              role="tablist"
+              aria-label="Acceso rápido por puesto"
+              style={{
+                display: 'flex',
+                background: 'none',
+                borderRadius: 0,
+                border: 'none',
+                padding: 0,
+                gap: 0,
+                justifyContent: 'flex-end',
+                marginBottom: 8,
+                minHeight: 44,
+                alignItems: 'flex-end',
+                position: 'relative',
+              }}
+            >
+              {/* Mesero */}
+              <button
+                type="button"
+                role="tab"
+                aria-selected={selectedRole === 'frontman'}
+                tabIndex={0}
+                onClick={() => handleRoleQuickSelect('frontman')}
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 6,
+                  padding: '0 0 6px 0',
+                  background: 'none',
+                  border: 'none',
+                  color: selectedRole === 'frontman' ? '#111' : '#888',
+                  fontWeight: selectedRole === 'frontman' ? 500 : 300,
+                  fontSize: 15,
+                  borderBottom: selectedRole === 'frontman' ? '3px solid #111' : '3px solid transparent',
+                  outline: 'none',
+                  cursor: 'pointer',
+                  transition: 'color 0.2s, border-bottom 0.3s cubic-bezier(.4,1.2,.4,1)',
+                  minWidth: 0,
+                  zIndex: 2,
+                  backgroundClip: 'padding-box',
+                }}
+              >
+                <span>Mesero</span>
+              </button>
+              {/* Cocina */}
+              <button
+                type="button"
+                role="tab"
+                aria-selected={selectedRole === 'kitchen'}
+                tabIndex={0}
+                onClick={() => handleRoleQuickSelect('kitchen')}
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 6,
+                  padding: '0 0 6px 0',
+                  background: 'none',
+                  border: 'none',
+                  color: selectedRole === 'kitchen' ? '#111' : '#888',
+                  fontWeight: selectedRole === 'kitchen' ? 500 : 300,
+                  fontSize: 15,
+                  borderBottom: selectedRole === 'kitchen' ? '3px solid #111' : '3px solid transparent',
+                  outline: 'none',
+                  cursor: 'pointer',
+                  transition: 'color 0.2s, border-bottom 0.3s cubic-bezier(.4,1.2,.4,1)',
+                  minWidth: 0,
+                  zIndex: 2,
+                  backgroundClip: 'padding-box',
+                }}
+              >
+                <span>Cocina</span>
+              </button>
+              {/* Administrador */}
+              <button
+                type="button"
+                role="tab"
+                aria-selected={selectedRole === 'admin'}
+                tabIndex={0}
+                onClick={() => handleRoleQuickSelect('admin')}
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 6,
+                  padding: '0 0 6px 0',
+                  background: 'none',
+                  border: 'none',
+                  color: selectedRole === 'admin' ? '#111' : '#888',
+                  fontWeight: selectedRole === 'admin' ? 500 : 300,
+                  fontSize: 15,
+                  borderBottom: selectedRole === 'admin' ? '3px solid #111' : '3px solid transparent',
+                  outline: 'none',
+                  cursor: 'pointer',
+                  transition: 'color 0.2s, border-bottom 0.3s cubic-bezier(.4,1.2,.4,1)',
+                  minWidth: 0,
+                  zIndex: 2,
+                  backgroundClip: 'padding-box',
+                }}
+              >
+                <span>Admin</span>
+              </button>
+            </div>
+          </div>
 
         {/* Login Form */}
-        <div className="bg-white rounded shadow-xl border border-gray-200 p-8 animate-slideInUp" style={{ animationDelay: '300ms' }}>
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column', gap: 14}}>
             {/* Username Field */}
-            <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
-                Usuario
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <div style={{display: 'flex', flexDirection: 'column', gap: 4}}>
+              <label htmlFor="username" className="text-sm font-medium text-gray-700" style={{marginBottom: 2}}>Usuario</label>
+              <div style={{position: 'relative'}}>
+                <div style={{position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none'}}>
                   <UserIcon size={20} className="text-gray-400" />
                 </div>
                 <input
@@ -138,7 +240,19 @@ export function Login() {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white text-gray-900"
+                  className="text-gray-900"
+                  style={{
+                    width: '100%',
+                    padding: '10px 10px 10px 38px',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: 9,
+                    background: '#fff',
+                    outline: 'none',
+                    fontSize: 15,
+                    fontWeight: 400,
+                    boxShadow: 'none',
+                    transition: 'border 0.2s',
+                  }}
                   placeholder=""
                   disabled={isLoading}
                 />
@@ -146,12 +260,10 @@ export function Login() {
             </div>
 
             {/* Password Field */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                Contraseña
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <div style={{display: 'flex', flexDirection: 'column', gap: 4}}>
+              <label htmlFor="password" className="text-sm font-medium text-gray-700" style={{marginBottom: 2}}>Contraseña</label>
+              <div style={{position: 'relative'}}>
+                <div style={{position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none'}}>
                   <LockIcon size={20} className="text-gray-400" />
                 </div>
                 <input
@@ -159,14 +271,26 @@ export function Login() {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full pl-10 pr-12 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white text-gray-900"
+                  className="text-gray-900"
+                  style={{
+                    width: '100%',
+                    padding: '10px 38px 10px 38px',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: 9,
+                    background: '#fff',
+                    outline: 'none',
+                    fontSize: 15,
+                    fontWeight: 400,
+                    boxShadow: 'none',
+                    transition: 'border 0.2s',
+                  }}
                   placeholder=""
                   disabled={isLoading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+                  style={{position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: '#9ca3af'}}
                   disabled={isLoading}
                 >
                   {showPassword ? <EyeOffIcon size={20} /> : <EyeIcon size={20} />}
@@ -176,9 +300,9 @@ export function Login() {
 
             {/* Error Message */}
             {error && (
-              <div className="bg-red-50 border border-red-200 rounded p-3 flex items-center space-x-2 animate-shake">
-                <AlertTriangleIcon size={20} className="text-red-500 flex-shrink-0" />
-                <span className="text-red-700 text-sm">{error}</span>
+              <div style={{background: '#fff1f2', border: '1px solid #fecaca', borderRadius: 9, padding: '10px 14px', color: '#b91c1c', fontSize: 14, display: 'flex', alignItems: 'center', gap: 8}}>
+                <AlertTriangleIcon size={18} className="text-red-500 flex-shrink-0" />
+                <span>{error}</span>
               </div>
             )}
 
@@ -186,45 +310,39 @@ export function Login() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-3 px-4 rounded font-medium hover:from-blue-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+              style={{
+                width: '100%',
+                background: '#111',
+                color: '#fff',
+                border: '1.5px solid #111',
+                borderRadius: 9,
+                padding: '10px 0',
+                fontWeight: 700,
+                fontSize: 16,
+                cursor: isLoading ? 'not-allowed' : 'pointer',
+                opacity: isLoading ? 0.6 : 1,
+                boxShadow: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8,
+                transition: 'background 0.2s, color 0.2s',
+              }}
             >
               {isLoading ? (
                 <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <div style={{width: 20, height: 20, border: '2px solid #fff', borderTop: '2px solid #111', borderRadius: '50%', animation: 'spin 1s linear infinite'}} />
                   <span>Verificando...</span>
                 </>
               ) : (
                 <>
-                  <LogInIcon size={20} />
+                  <LogInIcon size={20} className="text-white" />
                   <span>Iniciar Sesión</span>
                 </>
               )}
             </button>
           </form>
 
-          {/* Demo Info */}
-          <div className="mt-6 pt-6 border-t border-gray-200">
-            <div className="text-xs text-gray-500 space-y-1">
-              <p className="font-medium text-gray-600 mb-2">Usuarios de prueba:</p>
-              <div className="grid grid-cols-3 gap-3 text-xs">
-                <div className="bg-blue-50 p-2 rounded">
-                  <p className="font-medium text-blue-700">Mesero/Frontman</p>
-                  <p>Usuario: <span className="font-mono">mesero</span></p>
-                  <p>Contraseña: <span className="font-mono">123</span></p>
-                </div>
-                <div className="bg-orange-50 p-2 rounded">
-                  <p className="font-medium text-orange-700">Cocina</p>
-                  <p>Usuario: <span className="font-mono">cocina</span></p>
-                  <p>Contraseña: <span className="font-mono">123</span></p>
-                </div>
-                <div className="bg-purple-50 p-2 rounded">
-                  <p className="font-medium text-purple-700">Administrador</p>
-                  <p>Usuario: <span className="font-mono">admin</span></p>
-                  <p>Contraseña: <span className="font-mono">admin123</span></p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

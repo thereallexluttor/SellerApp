@@ -3,6 +3,7 @@ import { useConfig } from '../contexts/ConfigContext'
 import { UserIcon, EditIcon, TrashIcon, PlusIcon, SearchIcon, FilterIcon } from './icons'
 import './animations.css'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, AreaChart, Area } from 'recharts'
+import SpotlightCard from './SpotlightCard'
 
 interface Employee {
   id: string
@@ -252,101 +253,120 @@ export function AdminEmployees() {
         </p>
       </div>
 
-      {/* Controls */}
-      <div className="mb-6 bg-white rounded-[8px] border border-gray-300 shadow-sm p-4 max-w-4xl mx-auto">
-        <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
-          {/* Search */}
-          <div className="flex-1 max-w-md">
-            <div className="relative">
-              <SearchIcon size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Buscar empleados..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-white text-black border border-gray-200 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              />
-            </div>
-          </div>
-
-          {/* Filters */}
-          <div className="flex gap-3">
-            <select
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value as any)}
-              className="px-3 py-2 bg-white text-black border border-gray-200 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-            >
-              <option value="todos">Todos los estados</option>
-              <option value="activo">Activos</option>
-              <option value="inactivo">Inactivos</option>
-            </select>
-
-            <select
-              value={filterPosition}
-              onChange={(e) => setFilterPosition(e.target.value)}
-              className="px-3 py-2 bg-white text-black border border-gray-200 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-            >
-              <option value="todos">Todas las posiciones</option>
-              {uniquePositions.map(position => (
-                <option key={position} value={position}>{position}</option>
-              ))}
-            </select>
-
-            <button
-              onClick={() => setIsAddingEmployee(true)}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors flex items-center gap-2"
-            >
-              <PlusIcon size={16} />
-              Agregar Empleado
-            </button>
-          </div>
-        </div>
-      </div>
-
       {/* Stats Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 max-w-4xl mx-auto">
-        <div className="bg-white rounded-[8px] border border-gray-300 shadow-sm p-4">
-          <div className="text-center">
-            <p className="text-sm font-medium text-gray-600">Total Empleados</p>
-            <p className="text-2xl font-bold text-purple-600 mt-2">{employees.length}</p>
-          </div>
+      <div className="grid grid-cols-2 lg:flex lg:justify-center gap-3 lg:gap-4 mb-6 lg:mb-8 max-w-4xl mx-auto">
+        <div className="w-full lg:w-48">
+          <SpotlightCard spotlightColor="rgba(139, 92, 246, 0.08)">
+            <div className="rounded-2xl px-4 py-6 shadow-2xl animate-slideInUp relative overflow-hidden h-32 xl:h-36 flex flex-col justify-between metallic-bg" style={{ animationDelay: '0ms', boxShadow: '0 4px 16px 0 rgba(139,92,246,0.15)' }}>
+              <div className="absolute inset-0 pointer-events-none metallic-shine" />
+              <div className="flex flex-col justify-between h-full">
+                <h3 className="font-semibold text-black text-xs lg:text-sm mb-2 tracking-wide uppercase opacity-80 text-center w-full">Empleados</h3>
+                <div className="flex flex-col items-center justify-center flex-1">
+                  <p className="text-lg lg:text-xl xl:text-2xl font-extrabold text-black">{employees.length}</p>
+                </div>
+                <p className="text-xs lg:text-sm font-normal text-black/70 leading-tight">Empleados registrados</p>
+              </div>
+            </div>
+          </SpotlightCard>
         </div>
-
-        <div className="bg-white rounded-[8px] border border-gray-300 shadow-sm p-4">
-          <div className="text-center">
-            <p className="text-sm font-medium text-gray-600">Activos</p>
-            <p className="text-2xl font-bold text-green-600 mt-2">
-              {employees.filter(emp => emp.status === 'activo').length}
-            </p>
-          </div>
+        <div className="w-full lg:w-48">
+          <SpotlightCard spotlightColor="rgba(34, 197, 94, 0.08)">
+            <div className="rounded-2xl px-4 py-6 shadow-2xl animate-slideInUp relative overflow-hidden h-32 xl:h-36 flex flex-col justify-between metallic-bg" style={{ animationDelay: '100ms', boxShadow: '0 4px 16px 0 rgba(34,197,94,0.15)' }}>
+              <div className="absolute inset-0 pointer-events-none metallic-shine" />
+              <div className="flex flex-col justify-between h-full">
+                <h3 className="font-semibold text-black text-xs lg:text-sm mb-2 tracking-wide uppercase opacity-80 text-center w-full">Activos</h3>
+                <div className="flex flex-col items-center justify-center flex-1">
+                  <p className="text-lg lg:text-xl xl:text-2xl font-extrabold text-black">{employees.filter(emp => emp.status === 'activo').length}</p>
+                </div>
+                <p className="text-xs lg:text-sm font-normal text-black/70 leading-tight">Empleados activos</p>
+              </div>
+            </div>
+          </SpotlightCard>
         </div>
-
-        <div className="bg-white rounded-[8px] border border-gray-300 shadow-sm p-4">
-          <div className="text-center">
-            <p className="text-sm font-medium text-gray-600">Nómina Total</p>
-            <p className="text-2xl font-bold text-blue-600 mt-2">
-              {formatCurrency(employees.reduce((sum, emp) => sum + emp.salary, 0))}
-            </p>
-          </div>
+        <div className="w-full lg:w-48">
+          <SpotlightCard spotlightColor="rgba(59, 130, 246, 0.08)">
+            <div className="rounded-2xl px-4 py-6 shadow-2xl animate-slideInUp relative overflow-hidden h-32 xl:h-36 flex flex-col justify-between metallic-bg" style={{ animationDelay: '200ms', boxShadow: '0 4px 16px 0 rgba(59,130,246,0.15)' }}>
+              <div className="absolute inset-0 pointer-events-none metallic-shine" />
+              <div className="flex flex-col justify-between h-full">
+                <h3 className="font-semibold text-black text-xs lg:text-sm mb-2 tracking-wide uppercase opacity-80 text-center w-full">Nómina Total</h3>
+                <div className="flex flex-col items-center justify-center flex-1">
+                  <p className="text-lg lg:text-xl xl:text-2xl font-extrabold text-black">{formatCurrency(employees.reduce((sum, emp) => sum + emp.salary, 0))}</p>
+                </div>
+                <p className="text-xs lg:text-sm font-normal text-black/70 leading-tight">Suma de salarios</p>
+              </div>
+            </div>
+          </SpotlightCard>
         </div>
-
-        <div className="bg-white rounded-[8px] border border-gray-300 shadow-sm p-4">
-          <div className="text-center">
-            <p className="text-sm font-medium text-gray-600">Departamentos</p>
-            <p className="text-2xl font-bold text-orange-600 mt-2">
-              {Array.from(new Set(employees.map(emp => emp.department))).length}
-            </p>
-          </div>
+        <div className="w-full lg:w-48">
+          <SpotlightCard spotlightColor="rgba(251, 146, 60, 0.08)">
+            <div className="rounded-2xl px-4 py-6 shadow-2xl animate-slideInUp relative overflow-hidden h-32 xl:h-36 flex flex-col justify-between metallic-bg" style={{ animationDelay: '300ms', boxShadow: '0 4px 16px 0 rgba(251,146,60,0.15)' }}>
+              <div className="absolute inset-0 pointer-events-none metallic-shine" />
+              <div className="flex flex-col justify-between h-full">
+                <h3 className="font-semibold text-black text-xs lg:text-sm mb-2 tracking-wide uppercase opacity-80 text-center w-full">Departamentos</h3>
+                <div className="flex flex-col items-center justify-center flex-1">
+                  <p className="text-lg lg:text-xl xl:text-2xl font-extrabold text-black">{Array.from(new Set(employees.map(emp => emp.department))).length}</p>
+                </div>
+                <p className="text-xs lg:text-sm font-normal text-black/70 leading-tight">Departamentos únicos</p>
+              </div>
+            </div>
+          </SpotlightCard>
         </div>
       </div>
 
       {/* Employees Table */}
       <div className="bg-white rounded-[8px] border border-gray-300 shadow-sm overflow-hidden">
+        {/* Header and Controls */}
         <div className="p-4 border-b border-gray-100">
-          <h3 className="font-semibold text-gray-800">Lista de Empleados</h3>
-          <p className="text-sm text-gray-600 mt-1">
-            {filteredEmployees.length} de {employees.length} empleados
-          </p>
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <div>
+              <h3 className="font-semibold text-gray-800">Lista de Empleados</h3>
+              <p className="text-sm text-gray-600 mt-1">
+                {filteredEmployees.length} de {employees.length} empleados
+              </p>
+            </div>
+            {/* Controls: Search, Filters, Add */}
+            <div className="flex flex-col lg:flex-row gap-2 items-start lg:items-center">
+              {/* Search */}
+              <div className="relative w-full lg:w-56">
+                <SearchIcon size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Buscar empleados..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 bg-white text-black border border-gray-200 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                />
+              </div>
+              {/* Filters */}
+              <select
+                value={filterStatus}
+                onChange={(e) => setFilterStatus(e.target.value as any)}
+                className="px-3 py-2 bg-white text-black border border-gray-200 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              >
+                <option value="todos">Todos los estados</option>
+                <option value="activo">Activos</option>
+                <option value="inactivo">Inactivos</option>
+              </select>
+              <select
+                value={filterPosition}
+                onChange={(e) => setFilterPosition(e.target.value)}
+                className="px-3 py-2 bg-white text-black border border-gray-200 rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              >
+                <option value="todos">Todas las posiciones</option>
+                {uniquePositions.map(position => (
+                  <option key={position} value={position}>{position}</option>
+                ))}
+              </select>
+              {/* Add Employee */}
+              <button
+                onClick={() => setIsAddingEmployee(true)}
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors flex items-center gap-2"
+              >
+                <PlusIcon size={16} />
+                Agregar Empleado
+              </button>
+            </div>
+          </div>
         </div>
 
         <div className="overflow-x-auto">
@@ -464,11 +484,11 @@ export function AdminEmployees() {
       {/* Employee Dashboard Modal */}
       {selectedEmployee && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+          className="fixed inset-0 w-full h-full bg-black bg-opacity-40 backdrop-blur-md flex items-center justify-center z-50"
           onClick={() => setSelectedEmployee(null)}
         >
           <div 
-            className="bg-white rounded max-w-4xl w-full max-h-[90vh] overflow-y-auto apple-scrollbar-dark"
+            className="bg-white rounded-[15px] max-w-4xl w-full max-h-[90vh] overflow-y-auto apple-scrollbar-dark"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="p-6">
@@ -483,7 +503,7 @@ export function AdminEmployees() {
                 </button>
 
                 {/* Employee Card */}
-                <div className="bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded p-4 shadow-sm">
+                <div className="bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-[15px] p-4 shadow-sm">
                   <div className="flex items-center gap-4">
                     {/* Avatar */}
                     <div className="relative flex-shrink-0">
@@ -533,7 +553,7 @@ export function AdminEmployees() {
 
                              {/* Employee Info */}
                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                                  <div className="bg-white border border-gray-300 rounded p-4">
+                                  <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                    <h3 className="font-semibold text-black mb-2">Información General</h3>
                    <div className="space-y-2 text-sm text-black text-left">
                      <p><span className="font-medium">Salario:</span> {formatCurrency(selectedEmployee.salary)}</p>
@@ -549,7 +569,7 @@ export function AdminEmployees() {
                    </div>
                  </div>
 
-                 <div className="bg-white border border-gray-300 rounded p-4">
+                 <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                    <h3 className="font-semibold text-black mb-2">Horarios</h3>
                    <div className="space-y-2 text-sm text-black text-left">
                      {selectedEmployee.shifts.map((shift, index) => (
@@ -561,7 +581,7 @@ export function AdminEmployees() {
                    </div>
                  </div>
 
-                 <div className="bg-white border border-gray-300 rounded p-4">
+                 <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                    <h3 className="font-semibold text-black mb-2">Contacto</h3>
                    <div className="space-y-2 text-sm text-black text-left">
                      <p><span className="font-medium">Teléfono:</span> {selectedEmployee.phone}</p>
@@ -576,19 +596,19 @@ export function AdminEmployees() {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   {selectedEmployee.position.toLowerCase().includes('mesero') && (
                     <>
-                      <div className="bg-white border border-gray-300 rounded p-4 text-center">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4 text-center">
                         <p className="text-sm text-gray-600">Mesas Atendidas (Mes)</p>
                         <p className="text-2xl font-bold text-purple-600 mt-1">{Math.floor(Math.random() * 150) + 50}</p>
                       </div>
-                      <div className="bg-white border border-gray-300 rounded p-4 text-center">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4 text-center">
                         <p className="text-sm text-gray-600">Propinas Promedio</p>
                         <p className="text-2xl font-bold text-green-600 mt-1">{formatCurrency(Math.floor(Math.random() * 50) + 10)}</p>
                       </div>
-                      <div className="bg-white border border-gray-300 rounded p-4 text-center">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4 text-center">
                         <p className="text-sm text-gray-600">Satisfacción Cliente</p>
                         <p className="text-2xl font-bold text-blue-600 mt-1">{(Math.random() * 2 + 3).toFixed(1)}/5</p>
                       </div>
-                      <div className="bg-white border border-gray-300 rounded p-4 text-center">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4 text-center">
                         <p className="text-sm text-gray-600">Órdenes Servidas</p>
                         <p className="text-2xl font-bold text-orange-600 mt-1">{Math.floor(Math.random() * 300) + 100}</p>
                       </div>
@@ -597,19 +617,19 @@ export function AdminEmployees() {
 
                   {selectedEmployee.position.toLowerCase().includes('chef') && (
                     <>
-                      <div className="bg-white border border-gray-300 rounded p-4 text-center">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4 text-center">
                         <p className="text-sm text-gray-600">Platos Preparados</p>
                         <p className="text-2xl font-bold text-purple-600 mt-1">{Math.floor(Math.random() * 200) + 100}</p>
                       </div>
-                      <div className="bg-white border border-gray-300 rounded p-4 text-center">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4 text-center">
                         <p className="text-sm text-gray-600">Tiempo Prep. Promedio</p>
                         <p className="text-2xl font-bold text-green-600 mt-1">{Math.floor(Math.random() * 10) + 8}min</p>
                       </div>
-                      <div className="bg-white border border-gray-300 rounded p-4 text-center">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4 text-center">
                         <p className="text-sm text-gray-600">Calificación Platos</p>
                         <p className="text-2xl font-bold text-blue-600 mt-1">{(Math.random() * 1.5 + 3.5).toFixed(1)}/5</p>
                       </div>
-                      <div className="bg-white border border-gray-300 rounded p-4 text-center">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4 text-center">
                         <p className="text-sm text-gray-600">Ingredientes Usados</p>
                         <p className="text-2xl font-bold text-orange-600 mt-1">{Math.floor(Math.random() * 50) + 20}</p>
                       </div>
@@ -618,19 +638,19 @@ export function AdminEmployees() {
 
                   {selectedEmployee.position.toLowerCase().includes('cajera') && (
                     <>
-                      <div className="bg-white border border-gray-300 rounded p-4 text-center">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4 text-center">
                         <p className="text-sm text-gray-600">Transacciones</p>
                         <p className="text-2xl font-bold text-purple-600 mt-1">{Math.floor(Math.random() * 100) + 50}</p>
                       </div>
-                      <div className="bg-white border border-gray-300 rounded p-4 text-center">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4 text-center">
                         <p className="text-sm text-gray-600">Tiempo Promedio</p>
                         <p className="text-2xl font-bold text-green-600 mt-1">{Math.floor(Math.random() * 3) + 2}min</p>
                       </div>
-                      <div className="bg-white border border-gray-300 rounded p-4 text-center">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4 text-center">
                         <p className="text-sm text-gray-600">Precisión</p>
                         <p className="text-2xl font-bold text-blue-600 mt-1">{(Math.random() * 5 + 95).toFixed(1)}%</p>
                       </div>
-                      <div className="bg-white border border-gray-300 rounded p-4 text-center">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4 text-center">
                         <p className="text-sm text-gray-600">Ventas Totales</p>
                         <p className="text-2xl font-bold text-orange-600 mt-1">{formatCurrency(Math.floor(Math.random() * 5000) + 2000)}</p>
                       </div>
@@ -639,19 +659,19 @@ export function AdminEmployees() {
 
                   {selectedEmployee.position.toLowerCase().includes('supervisor') && (
                     <>
-                      <div className="bg-white border border-gray-300 rounded p-4 text-center">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4 text-center">
                         <p className="text-sm text-gray-600">Empleados a Cargo</p>
                         <p className="text-2xl font-bold text-purple-600 mt-1">{Math.floor(Math.random() * 10) + 5}</p>
                       </div>
-                      <div className="bg-white border border-gray-300 rounded p-4 text-center">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4 text-center">
                         <p className="text-sm text-gray-600">Evaluaciones</p>
                         <p className="text-2xl font-bold text-green-600 mt-1">{Math.floor(Math.random() * 20) + 10}</p>
                       </div>
-                      <div className="bg-white border border-gray-300 rounded p-4 text-center">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4 text-center">
                         <p className="text-sm text-gray-600">Incidentes Resueltos</p>
                         <p className="text-2xl font-bold text-blue-600 mt-1">{Math.floor(Math.random() * 15) + 5}</p>
                       </div>
-                      <div className="bg-white border border-gray-300 rounded p-4 text-center">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4 text-center">
                         <p className="text-sm text-gray-600">Eficiencia Equipo</p>
                         <p className="text-2xl font-bold text-orange-600 mt-1">{(Math.random() * 10 + 85).toFixed(1)}%</p>
                       </div>
@@ -660,19 +680,19 @@ export function AdminEmployees() {
 
                   {!['mesero', 'chef', 'cajera', 'supervisor'].some(role => selectedEmployee.position.toLowerCase().includes(role)) && (
                     <>
-                      <div className="bg-white border border-gray-300 rounded p-4 text-center">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4 text-center">
                         <p className="text-sm text-gray-600">Tareas Completadas</p>
                         <p className="text-2xl font-bold text-purple-600 mt-1">{Math.floor(Math.random() * 50) + 20}</p>
                       </div>
-                      <div className="bg-white border border-gray-300 rounded p-4 text-center">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4 text-center">
                         <p className="text-sm text-gray-600">Eficiencia</p>
                         <p className="text-2xl font-bold text-green-600 mt-1">{(Math.random() * 20 + 75).toFixed(1)}%</p>
                       </div>
-                      <div className="bg-white border border-gray-300 rounded p-4 text-center">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4 text-center">
                         <p className="text-sm text-gray-600">Horas Trabajadas</p>
                         <p className="text-2xl font-bold text-blue-600 mt-1">{Math.floor(Math.random() * 40) + 30}h</p>
                       </div>
-                      <div className="bg-white border border-gray-300 rounded p-4 text-center">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4 text-center">
                         <p className="text-sm text-gray-600">Calificación</p>
                         <p className="text-2xl font-bold text-orange-600 mt-1">{(Math.random() * 2 + 3).toFixed(1)}/5</p>
                       </div>
@@ -688,7 +708,7 @@ export function AdminEmployees() {
                   {selectedEmployee.position.toLowerCase().includes('mesero') && (
                     <>
                       {/* Mesas Atendidas */}
-                      <div className="bg-white border border-gray-300 rounded p-4">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                         <h4 className="text-sm font-semibold text-gray-700 mb-3">Mesas Atendidas por Mes</h4>
                         <ResponsiveContainer width="100%" height={200}>
                           <LineChart data={generateChartData(selectedEmployee.position)}>
@@ -702,7 +722,7 @@ export function AdminEmployees() {
                       </div>
 
                       {/* Propinas */}
-                      <div className="bg-white border border-gray-300 rounded p-4">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                         <h4 className="text-sm font-semibold text-gray-700 mb-3">Propinas Promedio por Mes</h4>
                         <ResponsiveContainer width="100%" height={200}>
                           <AreaChart data={generateChartData(selectedEmployee.position)}>
@@ -716,7 +736,7 @@ export function AdminEmployees() {
                       </div>
 
                       {/* Satisfacción Cliente */}
-                      <div className="bg-white border border-gray-300 rounded p-4">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                         <h4 className="text-sm font-semibold text-gray-700 mb-3">Satisfacción del Cliente</h4>
                         <ResponsiveContainer width="100%" height={200}>
                           <LineChart data={generateChartData(selectedEmployee.position)}>
@@ -730,7 +750,7 @@ export function AdminEmployees() {
                       </div>
 
                       {/* Órdenes Servidas */}
-                      <div className="bg-white border border-gray-300 rounded p-4">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                         <h4 className="text-sm font-semibold text-gray-700 mb-3">Órdenes Servidas por Mes</h4>
                         <ResponsiveContainer width="100%" height={200}>
                           <BarChart data={generateChartData(selectedEmployee.position)}>
@@ -748,7 +768,7 @@ export function AdminEmployees() {
                   {selectedEmployee.position.toLowerCase().includes('chef') && (
                     <>
                       {/* Platos Preparados */}
-                      <div className="bg-white border border-gray-300 rounded p-4">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                         <h4 className="text-sm font-semibold text-gray-700 mb-3">Platos Preparados por Mes</h4>
                         <ResponsiveContainer width="100%" height={200}>
                           <BarChart data={generateChartData(selectedEmployee.position)}>
@@ -762,7 +782,7 @@ export function AdminEmployees() {
                       </div>
 
                       {/* Tiempo de Preparación */}
-                      <div className="bg-white border border-gray-300 rounded p-4">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                         <h4 className="text-sm font-semibold text-gray-700 mb-3">Tiempo de Preparación Promedio</h4>
                         <ResponsiveContainer width="100%" height={200}>
                           <LineChart data={generateChartData(selectedEmployee.position)}>
@@ -776,7 +796,7 @@ export function AdminEmployees() {
                       </div>
 
                       {/* Calificación */}
-                      <div className="bg-white border border-gray-300 rounded p-4">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                         <h4 className="text-sm font-semibold text-gray-700 mb-3">Calificación de Platos</h4>
                         <ResponsiveContainer width="100%" height={200}>
                           <AreaChart data={generateChartData(selectedEmployee.position)}>
@@ -790,7 +810,7 @@ export function AdminEmployees() {
                       </div>
 
                       {/* Ingredientes Usados */}
-                      <div className="bg-white border border-gray-300 rounded p-4">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                         <h4 className="text-sm font-semibold text-gray-700 mb-3">Ingredientes Utilizados por Mes</h4>
                         <ResponsiveContainer width="100%" height={200}>
                           <BarChart data={generateChartData(selectedEmployee.position)}>
@@ -808,7 +828,7 @@ export function AdminEmployees() {
                   {selectedEmployee.position.toLowerCase().includes('cajera') && (
                     <>
                       {/* Transacciones */}
-                      <div className="bg-white border border-gray-300 rounded p-4">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                         <h4 className="text-sm font-semibold text-gray-700 mb-3">Transacciones por Mes</h4>
                         <ResponsiveContainer width="100%" height={200}>
                           <BarChart data={generateChartData(selectedEmployee.position)}>
@@ -822,7 +842,7 @@ export function AdminEmployees() {
                       </div>
 
                       {/* Tiempo Promedio */}
-                      <div className="bg-white border border-gray-300 rounded p-4">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                         <h4 className="text-sm font-semibold text-gray-700 mb-3">Tiempo Promedio por Transacción</h4>
                         <ResponsiveContainer width="100%" height={200}>
                           <LineChart data={generateChartData(selectedEmployee.position)}>
@@ -836,7 +856,7 @@ export function AdminEmployees() {
                       </div>
 
                       {/* Precisión */}
-                      <div className="bg-white border border-gray-300 rounded p-4">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                         <h4 className="text-sm font-semibold text-gray-700 mb-3">Precisión en Transacciones</h4>
                         <ResponsiveContainer width="100%" height={200}>
                           <AreaChart data={generateChartData(selectedEmployee.position)}>
@@ -850,7 +870,7 @@ export function AdminEmployees() {
                       </div>
 
                       {/* Ventas */}
-                      <div className="bg-white border border-gray-300 rounded p-4">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                         <h4 className="text-sm font-semibold text-gray-700 mb-3">Ventas Totales por Mes</h4>
                         <ResponsiveContainer width="100%" height={200}>
                           <AreaChart data={generateChartData(selectedEmployee.position)}>
@@ -868,7 +888,7 @@ export function AdminEmployees() {
                   {selectedEmployee.position.toLowerCase().includes('supervisor') && (
                     <>
                       {/* Empleados a Cargo */}
-                      <div className="bg-white border border-gray-300 rounded p-4">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                         <h4 className="text-sm font-semibold text-gray-700 mb-3">Empleados a Cargo</h4>
                         <ResponsiveContainer width="100%" height={200}>
                           <LineChart data={generateChartData(selectedEmployee.position)}>
@@ -882,7 +902,7 @@ export function AdminEmployees() {
                       </div>
 
                       {/* Evaluaciones */}
-                      <div className="bg-white border border-gray-300 rounded p-4">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                         <h4 className="text-sm font-semibold text-gray-700 mb-3">Evaluaciones Realizadas</h4>
                         <ResponsiveContainer width="100%" height={200}>
                           <BarChart data={generateChartData(selectedEmployee.position)}>
@@ -896,7 +916,7 @@ export function AdminEmployees() {
                       </div>
 
                       {/* Incidentes Resueltos */}
-                      <div className="bg-white border border-gray-300 rounded p-4">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                         <h4 className="text-sm font-semibold text-gray-700 mb-3">Incidentes Resueltos</h4>
                         <ResponsiveContainer width="100%" height={200}>
                           <AreaChart data={generateChartData(selectedEmployee.position)}>
@@ -910,7 +930,7 @@ export function AdminEmployees() {
                       </div>
 
                       {/* Eficiencia del Equipo */}
-                      <div className="bg-white border border-gray-300 rounded p-4">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                         <h4 className="text-sm font-semibold text-gray-700 mb-3">Eficiencia del Equipo</h4>
                         <ResponsiveContainer width="100%" height={200}>
                           <LineChart data={generateChartData(selectedEmployee.position)}>
@@ -928,7 +948,7 @@ export function AdminEmployees() {
                   {!['mesero', 'chef', 'cajera', 'supervisor'].some(role => selectedEmployee.position.toLowerCase().includes(role)) && (
                     <>
                       {/* Tareas Completadas */}
-                      <div className="bg-white border border-gray-300 rounded p-4">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                         <h4 className="text-sm font-semibold text-gray-700 mb-3">Tareas Completadas por Mes</h4>
                         <ResponsiveContainer width="100%" height={200}>
                           <BarChart data={generateChartData(selectedEmployee.position)}>
@@ -942,7 +962,7 @@ export function AdminEmployees() {
                       </div>
 
                       {/* Eficiencia */}
-                      <div className="bg-white border border-gray-300 rounded p-4">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                         <h4 className="text-sm font-semibold text-gray-700 mb-3">Eficiencia en el Trabajo</h4>
                         <ResponsiveContainer width="100%" height={200}>
                           <AreaChart data={generateChartData(selectedEmployee.position)}>
@@ -956,7 +976,7 @@ export function AdminEmployees() {
                       </div>
 
                       {/* Horas Trabajadas */}
-                      <div className="bg-white border border-gray-300 rounded p-4">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                         <h4 className="text-sm font-semibold text-gray-700 mb-3">Horas Trabajadas por Mes</h4>
                         <ResponsiveContainer width="100%" height={200}>
                           <LineChart data={generateChartData(selectedEmployee.position)}>
@@ -970,7 +990,7 @@ export function AdminEmployees() {
                       </div>
 
                       {/* Calificación */}
-                      <div className="bg-white border border-gray-300 rounded p-4">
+                      <div className="bg-white border border-gray-300 rounded-[15px] p-4">
                         <h4 className="text-sm font-semibold text-gray-700 mb-3">Calificación General</h4>
                         <ResponsiveContainer width="100%" height={200}>
                           <AreaChart data={generateChartData(selectedEmployee.position)}>

@@ -345,22 +345,21 @@ export function TakeOrder() {
                 <div className="flex items-center justify-center">
                   {/* Quick Selection Buttons */}
                   <div>
-                                         <div className="grid grid-cols-8 gap-3 max-w-4xl mx-auto">
+                    <div className="grid grid-cols-8 gap-3 max-w-4xl mx-auto">
                       {[1, 2, 3, 4, 5, 6, 7, 8].map((num, index) => (
-                                               <button
+                        <button
                           key={num}
                           onClick={() => setGuests(num)}
-                          className={`group relative overflow-hidden rounded-2xl aspect-square transition-all duration-300 transform hover:scale-105 w-20 h-20 ${
-                            guests === num
-                              ? 'bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-lg ring-4 ring-blue-200'
-                              : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-blue-300 hover:shadow-md'
-                          }`}
+                          className={`group relative overflow-hidden rounded-2xl aspect-square transition-all duration-300 transform hover:scale-105 w-20 h-20
+                            ${guests === num
+                              ? 'bg-black text-white border-2 border-black shadow-lg ring-2 ring-black'
+                              : 'bg-white border-2 border-black text-black hover:bg-gray-100 hover:shadow-md'}
+                          `}
                           style={{ animationDelay: `${index * 100}ms` }}
                         >
-                         {/* Shine effect */}
-                         <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                         
-                                                   {/* Selection indicator */}
+                          {/* Shine effect */}
+                          <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                          {/* Selection indicator */}
                           {guests === num && (
                             <div className="absolute top-2 right-2">
                               <div className="w-6 h-6 bg-white/30 rounded-full flex items-center justify-center">
@@ -368,47 +367,29 @@ export function TakeOrder() {
                               </div>
                             </div>
                           )}
-                         
-                         {/* Content */}
-                         <div className="relative z-10 flex flex-col items-center justify-center h-full p-2">
-                           {/* Person icons visualization */}
-                           <div className="flex flex-wrap items-center justify-center gap-0.5 mb-1">
-                                                           {Array.from({ length: Math.min(num, 4) }, (_, i) => (
+                          {/* Content */}
+                          <div className="relative z-10 flex flex-col items-center justify-center h-full p-2">
+                            {/* Person icons visualization */}
+                            <div className="flex flex-wrap items-center justify-center gap-0.5 mb-1">
+                              {Array.from({ length: Math.min(num, 4) }, (_, i) => (
                                 <div
                                   key={i}
-                                  className={`w-2 h-2 rounded-full ${
-                                    guests === num ? 'bg-white/80' : 'bg-blue-400'
-                                  }`}
+                                  className={`w-2 h-2 rounded-full ${guests === num ? 'bg-white/80' : 'bg-black'}`}
                                 />
                               ))}
-                             {num > 4 && (
-                               <span className={`text-xs font-bold ml-0.5 ${
-                                 guests === num ? 'text-white' : 'text-blue-500'
-                               }`}>
-                                 +
-                               </span>
-                             )}
-                           </div>
-                           
-                                                       {/* Number */}
-                            <div className={`text-3xl font-bold transition-colors ${
-                              guests === num ? 'text-white' : 'text-gray-800'
-                            }`}>
-                              {num}
+                              {num > 4 && (
+                                <span className={`text-xs font-bold ml-0.5 ${guests === num ? 'text-white' : 'text-black'}`}>+</span>
+                              )}
                             </div>
-                           
-                           {/* Label */}
-                           <div className={`text-xs font-medium transition-colors ${
-                             guests === num ? 'text-white/90' : 'text-gray-500'
-                           }`}>
-                             {num === 1 ? t('person') : t('people')}
-                           </div>
-                         </div>
-                         
-                         {/* Ripple effect */}
-                         <div className="absolute inset-0 bg-blue-400/20 rounded-2xl scale-0 group-active:scale-100 transition-transform duration-150"></div>
-                       </button>
-                     ))}
+                            {/* Number */}
+                            <div className={`text-3xl font-bold transition-colors ${guests === num ? 'text-white' : 'text-black'}`}>{num}</div>
+                            {/* Label */}
+                            <div className={`text-xs font-medium transition-colors ${guests === num ? 'text-white/90' : 'text-black/60'}`}>{num === 1 ? t('person') : t('people')}</div>
+                          </div>
+                          {/* Ripple effect */}
+                          <div className="absolute inset-0 bg-black/10 rounded-2xl scale-0 group-active:scale-100 transition-transform duration-150"></div>
+                        </button>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -417,16 +398,16 @@ export function TakeOrder() {
 
 
               <div className="bg-white rounded-[8px] border border-gray-200 overflow-hidden">
-                <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-2 sm:p-3">
+                <div className="bg-white border-b border-gray-200 p-2 sm:p-3">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <div className="flex items-center space-x-2">
                       <div className="text-left">
-                        <h3 className="font-bold text-white text-sm sm:text-base text-left">{t('availableTables')}</h3>
-                        <p className="text-blue-100 text-xs text-left">{t('selectPreferredTable')}</p>
+                        <h3 className="font-bold text-black text-sm sm:text-base text-left">{t('availableTables')}</h3>
+                        <p className="text-gray-600 text-xs text-left">{t('selectPreferredTable')}</p>
                       </div>
                     </div>
-                    <div className="bg-white/20 backdrop-blur-sm px-2 py-1 rounded">
-                      <span className="text-white font-bold text-xs">
+                    <div className="bg-white px-2 py-1 rounded border border-gray-200">
+                      <span className="text-black font-bold text-xs">
                         {availableTables.length} {t('availableText')}
                       </span>
                     </div>
@@ -450,26 +431,36 @@ export function TakeOrder() {
                           style={{ animationDelay: `${index * 50}ms` }}
                         >
                           <button
-                            onClick={() => setSelectedTable(table.number)}
+                            onClick={() => !isTooSmall && setSelectedTable(table.number)}
+                            disabled={isTooSmall}
                             className={`
-                              relative w-full aspect-square rounded border-2 transition-all duration-300 
+                              relative w-full aspect-square rounded-2xl transition-all duration-300 
                               transform-gpu hover:scale-105 hover:-translate-y-1 hover:rotate-1
-                              ${selectedTable === table.number
-                                ? 'border-emerald-400 bg-gradient-to-br from-emerald-50 to-emerald-100'
-                                : isPerfectMatch
-                                ? 'border-blue-400 bg-gradient-to-br from-blue-50 to-blue-100 ring-2 ring-blue-200'
+                              ${selectedTable === table.number && !isTooSmall
+                                ? 'border-4 border-green-400'
+                                : 'border-2 border-gray-200'}
+                              ${isTooSmall ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}
+                              ${isPerfectMatch
+                                ? 'bg-gradient-to-br from-blue-200 to-blue-400'
                                 : isRecommended
-                                ? 'border-blue-300 bg-gradient-to-br from-blue-25 to-blue-50'
+                                ? 'bg-gradient-to-br from-blue-100 to-blue-300'
                                 : isTooSmall
-                                ? 'border-red-200 bg-gradient-to-br from-red-25 to-red-50 opacity-60'
-                                : 'border-slate-200 bg-gradient-to-br from-white to-gray-50 hover:border-blue-300'
-                              }
+                                ? 'bg-gradient-to-br from-red-200 to-red-400'
+                                : 'bg-gradient-to-br from-white to-gray-100 hover:border-blue-400'}
                             `}
                           >
                             {/* Recommendation Badge */}
                             {isPerfectMatch && selectedTable !== table.number && (
                               <div className="absolute -top-0.5 -right-0.5 z-10">
-                                <div className="bg-blue-500 text-white text-xs px-1 py-0.5 rounded font-bold animate-pulse">
+                                <div className="bg-blue-500 text-white text-xs px-1 py-0.5 rounded font-bold">
+                                  ⭐
+                                </div>
+                              </div>
+                            )}
+                            {/* Show star even if selected and perfect match */}
+                            {isPerfectMatch && selectedTable === table.number && (
+                              <div className="absolute -top-0.5 -right-0.5 z-10">
+                                <div className="bg-blue-500 text-white text-xs px-1 py-0.5 rounded font-bold">
                                   ⭐
                                 </div>
                               </div>
@@ -484,40 +475,19 @@ export function TakeOrder() {
                             )}
 
                             {/* Background Pattern */}
-                            <div className="absolute inset-0 rounded overflow-hidden">
-                              <div className={`absolute inset-0 opacity-5 ${
+                            <div className="absolute inset-0 rounded-2xl overflow-hidden">
+                              <div className={`absolute inset-0 opacity-10 ${
                                 selectedTable === table.number 
-                                  ? 'bg-emerald-500' 
+                                  ? 'bg-emerald-600' 
                                   : isPerfectMatch 
-                                  ? 'bg-blue-500'
+                                  ? 'bg-blue-600'
                                   : isRecommended
                                   ? 'bg-blue-400'
                                   : isTooSmall
-                                  ? 'bg-red-400'
+                                  ? 'bg-red-600'
                                   : 'bg-slate-500'
-                              }`}>
-                                <svg className="w-full h-full" viewBox="0 0 40 40">
-                                  <defs>
-                                    <pattern id={`dots-${table.number}`} x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
-                                      <circle cx="2" cy="2" r="1" fill="currentColor"/>
-                                    </pattern>
-                                  </defs>
-                                  <rect width="100%" height="100%" fill={`url(#dots-${table.number})`}/>
-                                </svg>
-                              </div>
+                              }`}></div>
                             </div>
-
-                            {/* Selection Ring */}
-                            {selectedTable === table.number && (
-                              <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-400 to-emerald-500 rounded opacity-75 blur-sm animate-pulse"></div>
-                            )}
-
-                            {/* Perfect Match Ring */}
-                            {isPerfectMatch && selectedTable !== table.number && (
-                              <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-400 to-blue-500 rounded opacity-50 blur-sm animate-pulse"></div>
-                            )}
-
-
 
                             {/* Selection Check */}
                             {selectedTable === table.number && (
@@ -531,54 +501,31 @@ export function TakeOrder() {
                             {/* Mesa Number - Prominent Display */}
                             <div className="relative flex flex-col items-center justify-center h-full">
                               <div className={`
-                                text-lg sm:text-xl md:text-2xl font-black tracking-tight mb-0.5
-                                ${selectedTable === table.number 
-                                  ? 'text-emerald-600' 
-                                  : isPerfectMatch
-                                  ? 'text-blue-600'
-                                  : isRecommended
-                                  ? 'text-blue-500'
-                                  : isTooSmall
-                                  ? 'text-red-500'
-                                  : 'text-slate-700 group-hover:text-blue-600'
-                                }
+                                text-lg sm:text-xl md:text-2xl font-black tracking-tight mb-0.5 text-black
                                 transition-all duration-300 transform group-hover:scale-105
                               `}>
                                 {table.number}
                               </div>
                               
                               {/* Capacity Badge */}
-                              <div className={`
-                                px-1 py-0.5 rounded text-xs font-semibold
-                                ${selectedTable === table.number
-                                  ? 'bg-emerald-200 text-emerald-800'
-                                  : isPerfectMatch
-                                  ? 'bg-blue-200 text-blue-800'
-                                  : isRecommended
-                                  ? 'bg-blue-100 text-blue-700'
-                                  : isTooSmall
-                                  ? 'bg-red-100 text-red-700'
-                                  : 'bg-slate-200 text-slate-600 group-hover:bg-blue-200 group-hover:text-blue-800'
-                                }
-                                transition-all duration-300
-                              `}>
-                                <UserIcon size={6} className="inline mr-0.5" />
+                              <div className="px-1 py-0.5 rounded text-xs font-semibold bg-white/80 text-black transition-all duration-300">
+                                <UserIcon size={6} className="inline mr-0.5 text-black" />
                                 {table.capacity}
                               </div>
                               
                               {/* Status Text */}
                               {isPerfectMatch && selectedTable !== table.number && (
-                                <div className="text-xs text-blue-600 font-bold mt-0.5">
+                                <div className="text-xs font-bold mt-0.5 text-black">
                                   {t('ideal')}
                                 </div>
                               )}
                               {isRecommended && !isPerfectMatch && selectedTable !== table.number && (
-                                <div className="text-xs text-blue-500 font-medium mt-0.5">
+                                <div className="text-xs font-medium mt-0.5 text-black">
                                   {t('good')}
                                 </div>
                               )}
                               {isTooSmall && (
-                                <div className="text-xs text-red-500 font-medium mt-0.5">
+                                <div className="text-xs font-medium mt-0.5 text-black">
                                   {t('smallTable')}
                                 </div>
                               )}
@@ -668,16 +615,16 @@ export function TakeOrder() {
               </div>
 
               <div className="bg-white rounded-[8px] border border-gray-200 overflow-hidden">
-                <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-2 sm:p-3">
+                <div className="bg-white border-b border-gray-200 p-2 sm:p-3">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <div className="flex items-center space-x-2">
                       <div>
-                        <h3 className="font-bold text-white text-sm sm:text-base">{t('menuTitle')}</h3>
-                        <p className="text-blue-100 text-xs">{t('selectPreferredTable')}</p>
+                        <h3 className="font-bold text-black text-sm sm:text-base">{t('menuTitle')}</h3>
+                        <p className="text-gray-600 text-xs">{t('selectPreferredTable')}</p>
                       </div>
                     </div>
-                    <div className="bg-white/20 backdrop-blur-sm px-2 py-1 rounded">
-                      <span className="text-white font-bold text-xs">
+                    <div className="bg-white px-2 py-1 rounded border border-gray-200">
+                      <span className="text-black font-bold text-xs">
                         {filteredItems.length} {t('availableText')}
                       </span>
                     </div>
@@ -719,11 +666,11 @@ export function TakeOrder() {
                       <button
                         key={category.id}
                         onClick={() => setSelectedCategory(category.id)}
-                        className={`px-4 py-2 rounded text-xs font-semibold transition-all duration-300 transform hover:scale-105 ${
-                          selectedCategory === category.id
-                            ? 'bg-blue-500 text-white'
-                            : 'bg-white text-blue-600 border border-blue-300 hover:bg-blue-100'
-                        }`}
+                        className={`px-4 py-2 rounded text-xs font-semibold transition-all duration-300 transform hover:scale-105
+                          ${selectedCategory === category.id
+                            ? 'bg-black text-white border border-black'
+                            : 'bg-white text-black border border-black hover:bg-gray-100'}
+                        `}
                       >
                         <span className="mr-1">{category.icon}</span>
                         {category.name}
@@ -864,51 +811,55 @@ export function TakeOrder() {
 
               
 
-              {/* Order Summary Cards - Dashboard Style */}
-              <div className="flex gap-4 mb-8 justify-center">
-                
+              {/* Order Summary Cards - Dashboard Style, ahora en una sola línea */}
+              <div className="flex gap-4 mb-8 justify-center flex-wrap">
                 {/* Table Info */}
-                <div className="w-48">
-                  <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-                    <div className="bg-blue-100 backdrop-blur-sm rounded-[8px] px-2 py-3 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border-2 border-blue-400" style={{ animationDelay: '0ms', backdropFilter: 'blur(10px)' }}>
-                      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
-                      <div className="relative z-10">
-                        <h3 className="text-sm font-medium text-black mb-1">{t('table')}</h3>
-                        <p className="text-3xl font-normal text-black mb-1" style={{ fontFamily: 'Helvetica Neue', fontWeight: 'bold' }}>{selectedTable}</p>
-                        <p className="text-xs font-normal text-black">{guests} {guests === 1 ? t('person') : t('people')}</p>
+                <div className="w-full max-w-[180px]">
+                  <SpotlightCard spotlightColor="rgba(0, 0, 0, 0.08)">
+                    <div className="rounded-2xl px-4 py-6 shadow-2xl animate-slideInUp relative overflow-hidden h-32 flex flex-col justify-between metallic-bg" style={{ animationDelay: '0ms', boxShadow: '0 4px 16px 0 rgba(59,130,246,0.15)' }}>
+                      <div className="absolute inset-0 pointer-events-none metallic-shine" />
+                      <div className="flex flex-col justify-between h-full">
+                        <h3 className="font-semibold text-black text-sm mb-2 tracking-wide uppercase opacity-80 text-center w-full">{t('table')}</h3>
+                        <div className="flex flex-col items-center justify-center flex-1">
+                          <p className="text-4xl font-extrabold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{selectedTable}</p>
+                        </div>
+                        <p className="text-xs font-normal text-black/70 leading-tight text-center">{guests} {guests === 1 ? t('person') : t('people')}</p>
                       </div>
                     </div>
                   </SpotlightCard>
                 </div>
 
-                {/* Products Info */}
-                <div className="w-48">
-                  <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-                    <div className="bg-purple-100 backdrop-blur-sm rounded-[8px] px-2 py-3 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border-2 border-purple-400" style={{ animationDelay: '100ms', backdropFilter: 'blur(10px)' }}>
-                      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
-                      <div className="relative z-10">
-                        <h3 className="text-sm font-medium text-black mb-1">{t('products')}</h3>
-                        <p className="text-3xl font-normal text-black mb-1" style={{ fontFamily: 'Helvetica Neue', fontWeight: 'bold' }}>{getTotalItems()}</p>
-                        <p className="text-xs font-normal text-black">{cart.length} {cart.length === 1 ? t('type') : t('types')}</p>
+                {/* Total Info - más ancha, ahora en el centro */}
+                <div className="w-full max-w-[340px]">
+                  <SpotlightCard spotlightColor="rgba(0, 0, 0, 0.08)">
+                    <div className="rounded-2xl px-4 py-6 shadow-2xl animate-slideInUp relative overflow-hidden h-32 flex flex-col justify-between metallic-bg" style={{ animationDelay: '200ms', boxShadow: '0 4px 16px 0 rgba(34,197,94,0.15)' }}>
+                      <div className="absolute inset-0 pointer-events-none metallic-shine" />
+                      <div className="flex flex-col justify-between h-full">
+                        <h3 className="font-semibold text-black text-sm mb-2 tracking-wide uppercase opacity-80 text-center w-full">{t('total')}</h3>
+                        <div className="flex flex-col items-center justify-center flex-1">
+                          <p className="text-4xl font-extrabold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{formatCurrency(getTotalPrice())}</p>
+                        </div>
+                        <p className="text-xs font-normal text-black/70 leading-tight text-center">{t('including')} {t('taxes')}</p>
                       </div>
                     </div>
                   </SpotlightCard>
                 </div>
 
-                {/* Total Info */}
-                <div className="w-48">
-                  <SpotlightCard spotlightColor="rgba(255, 255, 255, 0.2)">
-                    <div className="bg-green-100 backdrop-blur-sm rounded-[8px] px-2 py-3 text-gray-800 shadow-lg animate-slideInUp relative overflow-hidden border-2 border-green-400" style={{ animationDelay: '200ms', backdropFilter: 'blur(10px)' }}>
-                      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
-                      <div className="relative z-10">
-                        <h3 className="text-sm font-medium text-black mb-1">{t('total')}</h3>
-                        <p className="text-3xl font-normal text-black mb-1" style={{ fontFamily: 'Helvetica Neue', fontWeight: 'bold' }}>{formatCurrency(getTotalPrice())}</p>
-                        <p className="text-xs font-normal text-black">{t('including')} {t('taxes')}</p>
+                {/* Products Info - ahora a la derecha */}
+                <div className="w-full max-w-[180px]">
+                  <SpotlightCard spotlightColor="rgba(0, 0, 0, 0.08)">
+                    <div className="rounded-2xl px-4 py-6 shadow-2xl animate-slideInUp relative overflow-hidden h-32 flex flex-col justify-between metallic-bg" style={{ animationDelay: '100ms', boxShadow: '0 4px 16px 0 rgba(168,85,247,0.15)' }}>
+                      <div className="absolute inset-0 pointer-events-none metallic-shine" />
+                      <div className="flex flex-col justify-between h-full">
+                        <h3 className="font-semibold text-black text-sm mb-2 tracking-wide uppercase opacity-80 text-center w-full">{t('products')}</h3>
+                        <div className="flex flex-col items-center justify-center flex-1">
+                          <p className="text-4xl font-extrabold text-black" style={{ fontFamily: 'Helvetica Neue' }}>{getTotalItems()}</p>
+                        </div>
+                        <p className="text-xs font-normal text-black/70 leading-tight text-center">{cart.length} {cart.length === 1 ? t('type') : t('types')}</p>
                       </div>
                     </div>
                   </SpotlightCard>
                 </div>
-                
               </div>
 
               {cart.length > 0 ? (
